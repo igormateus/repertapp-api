@@ -1,0 +1,26 @@
+server:
+  error:
+    include-stacktrace: on-param #?trace=true
+
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/repertapp
+        username: repertapp
+        password: teste_repertapp
+    jpa:
+        hibernate:
+            ddl-auto: update
+        # show-sql: true
+    
+
+logging:
+    level:
+        org:
+            springframework: ERROR
+            hibernate:
+                SQL: DEBUG
+                # type: trace
+
+
+
+    
