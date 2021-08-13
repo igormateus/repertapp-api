@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_USER: repertapp
       POSTGRES_PASSWORD: teste_repertapp
-      # POSTGRES_DB: repertapp
+      POSTGRES_DB: repertapp
     ports: 
     - "5432:5432"
     volumes: 
@@ -27,9 +27,9 @@ services:
   #   networks:
   #     - postgres-network
 
-networks: 
-  postgres-network:
-    driver: bridge
+# networks: 
+#   postgres-network:
+#     driver: bridge
 
 volumes:
   repertapp_data:

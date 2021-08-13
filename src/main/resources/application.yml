@@ -12,7 +12,6 @@ spring:
             ddl-auto: update
         # show-sql: true
     
-
 logging:
     level:
         org:
@@ -20,7 +19,5 @@ logging:
             hibernate:
                 SQL: DEBUG
                 # type: trace
-
-
 
     
