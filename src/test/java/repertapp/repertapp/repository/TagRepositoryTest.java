@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.domain.Tag;
+import repertapp.repertapp.util.SongCreator;
 import repertapp.repertapp.util.TagCreator;
 
 @DataJpaTest
@@ -20,8 +22,11 @@ public class TagRepositoryTest {
     @Autowired
     private TagRepository tagRepository;
 
+    @Autowired
+    private SongRepository songRepository;
+
     @Test
-    @DisplayName("Save persists tags when Successful")
+    @DisplayName("save persists tags when Successful")
     public void save_PersistTag_WhenSuccessful() {
         Tag tagToBeSaved = TagCreator.createToBeSaved();
 
@@ -37,7 +42,7 @@ public class TagRepositoryTest {
     }
 
     @Test
-    @DisplayName("Save update tag when Sucessful")
+    @DisplayName("save update tag when Sucessful")
     public void save_UpdatesTag_WhenSuccessful() {
         Tag tagToBeSaved = TagCreator.createToBeSaved();
 
@@ -55,7 +60,7 @@ public class TagRepositoryTest {
     }
 
     @Test
-    @DisplayName("Delete removes tag when Sucessful")
+    @DisplayName("delete removes tag when Sucessful")
     public void delete_RemovesAnime_WhenSuccessful() {
         Tag tagToBeSaved = TagCreator.createToBeSaved();
 
@@ -69,7 +74,7 @@ public class TagRepositoryTest {
     }
 
     @Test
-    @DisplayName("FindByName returns list of tag when Sucessful")
+    @DisplayName("findByName returns list of tag when Sucessful")
     public void findByName_ReturnsListOfTag_WhenSuccessful() {
         Tag tagToBeSaved = TagCreator.createToBeSaved();
 
@@ -77,15 +82,15 @@ public class TagRepositoryTest {
 
         String name = tagSaved.getName();
 
-        List<Tag> animes = this.tagRepository.findByName(name);
+        List<Tag> tags = this.tagRepository.findByName(name);
 
-        Assertions.assertThat(animes)
+        Assertions.assertThat(tags)
                 .isNotEmpty()
                 .contains(tagSaved);
     }
 
     @Test
-    @DisplayName("FindByName returns empty list when no tag is found")
+    @DisplayName("findByName returns empty list when no tag is found")
     public void findByName_ReturnsEmprtyList_WhenTagIsNotFound() {
         List<Tag> animes = this.tagRepository.findByName("Any");
 
@@ -93,11 +98,32 @@ public class TagRepositoryTest {
     }
 
     @Test
-    @DisplayName("Save throw DataIntegrityViolationException when name is empty")
-    public void save_ThrowsDataIntegrityViolationException_WhenNameIsEmpty() {
-        Tag tagToBeSaved = new Tag();
+    @DisplayName("getAllTagsBySongsName returns Tags list when Song name is found")
+    public void getAllTagsBySongsName_ReturnsTagsList_WhenSongNameIsFound() {
+        Tag tagToBeSaved = TagCreator.createToBeSaved();
 
-        Assertions.assertThatThrownBy(() -> this.tagRepository.save(tagToBeSaved))
-                .isInstanceOf(DataIntegrityViolationException.class);
+        Tag tagSaved = this.tagRepository.save(tagToBeSaved);
+
+        Song songToBeSaved = SongCreator.createToBeSaved();
+        
+        songToBeSaved.getTags().add(tagSaved);
+
+        Song songSaved = this.songRepository.save(songToBeSaved);
+
+        List<Tag> tags = this.tagRepository.getAllTagsBySongsName(songSaved.getName());
+        
+        Assertions.assertThat(tags)
+                .isNotEmpty()
+                .contains(tagSaved);
+
     }
+
+    // @Test
+    // @DisplayName("Save throw DataIntegrityViolationException when name is empty")
+    // public void save_ThrowsDataIntegrityViolationException_WhenNameIsEmpty() {
+    //     Tag tagToBeSaved = new Tag();
+
+    //     Assertions.assertThatThrownBy(() -> this.tagRepository.save(tagToBeSaved))
+    //             .isInstanceOf(DataIntegrityViolationException.class);
+    // }
 }

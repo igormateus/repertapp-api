@@ -10,4 +10,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 
     List<Tag> findByName(String name);
 
+    List<Tag> getAllTagsBySongsName(String songName);
+
 }

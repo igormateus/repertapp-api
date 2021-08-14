@@ -30,7 +30,6 @@ public class Song {
 
     @Id
     @GeneratedValue
-    @Column(name = "song_id")
     private Long id;
 
     private String name;
@@ -46,6 +45,7 @@ public class Song {
     @Column(unique = true)
     private String spotify_link;
 
+    @Column(columnDefinition = "DEFAULT 0")
     private int counter_plays;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

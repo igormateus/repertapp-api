@@ -31,6 +31,7 @@ services:
 
   teste-pgadmin-compose:
     image: dpage/pgadmin4
+    container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: "admin@repertapp.com.br"
       PGADMIN_DEFAULT_PASSWORD: "admin"
