@@ -1,10 +1,19 @@
 package repertapp.repertapp.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,22 +21,37 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "songs")
 public class Song {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(name = "song_id")
     private Long id;
 
-    @NotEmpty(message = "The song name cannot be empty")
     private String name;
 
     private String artist;
 
-    private String key;
+    @Enumerated(EnumType.STRING)
+    private Tone tone;
 
-    private String link;
+    @Column(unique = true)
+    private String youtube_link;
+
+    @Column(unique = true)
+    private String spotify_link;
+
+    private int counter_plays;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "songs_tags")
+    private List<Tag> tags = new ArrayList<>();
+
+    // private Version version[];
+
 }
