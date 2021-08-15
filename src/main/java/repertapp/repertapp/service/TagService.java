@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Tag;
+import repertapp.repertapp.exception.BadRequestException;
 import repertapp.repertapp.repository.TagRepository;
 
 @Service
@@ -23,6 +24,19 @@ public class TagService {
     @Transactional
     public Tag save(Tag tag) {
         return tagRepository.save(tag);
+    }
+
+    public void replace(Tag tag) {
+
+        findByIdOrThrowBadRequestException(tag.getId());
+        this.tagRepository.save(tag);
+
+    }
+
+    public Tag findByIdOrThrowBadRequestException(Long id) {
+        
+        return tagRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("Tag not found"));
     }
     
 }

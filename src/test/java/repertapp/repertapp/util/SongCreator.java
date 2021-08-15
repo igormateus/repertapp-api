@@ -1,7 +1,5 @@
 package repertapp.repertapp.util;
 
-import java.util.ArrayList;
-
 import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.domain.Tone;
 
@@ -13,7 +11,6 @@ public class SongCreator {
                 .artist("Casa Worship")
                 .tone(Tone.Gsus)
                 .youtube_link("https://www.youtube.com/watch?v=5QHF5OQeFOs")
-                .tags(new ArrayList<>())
                 .build();
     }
 
@@ -23,7 +20,6 @@ public class SongCreator {
                 .artist("Casa Worship")
                 .tone(Tone.Gsus)
                 .youtube_link("https://www.youtube.com/watch?v=5QHF5OQeFOs")
-                .tags(new ArrayList<>())
                 .id(1L)
                 .build();
     }
@@ -34,7 +30,6 @@ public class SongCreator {
                 .artist("Casa Worship")
                 .tone(Tone.Gsus)
                 .youtube_link("https://www.youtube.com/watch?v=5QHF5OQeFOs")
-                .tags(new ArrayList<>())
                 .id(1L)
                 .build();
     }

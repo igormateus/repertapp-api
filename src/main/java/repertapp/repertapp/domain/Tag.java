@@ -32,6 +32,7 @@ public class Tag {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Builder.Default
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Song> songs = new ArrayList<>();
 }

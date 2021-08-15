@@ -6,9 +6,10 @@ spring:
     jpa:
         hibernate:
             ddl-auto: update #create-drop
+        
         show-sql: true
-        properties:
-            hibernate:
+        # properties:
+        #     hibernate:
                 # dialect: org.hibernate.dialect.postgreSQLDialect
                 # "[format_sql]": true
 
@@ -19,9 +20,9 @@ server:
 logging:
     level:
         org:
-            springframework: ERROR
+            # springframework: ERROR
             hibernate:
                 SQL: DEBUG
-            #     type: trace
+                # type: trace
 
     

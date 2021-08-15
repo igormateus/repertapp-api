@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +33,11 @@ public class TagController {
     @PostMapping
     public ResponseEntity<Tag> save(@RequestBody @Valid Tag tag) {
         return new ResponseEntity<>(tagService.save(tag), HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> replace(@RequestBody Tag tag) {
+        tagService.replace(tag); 
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

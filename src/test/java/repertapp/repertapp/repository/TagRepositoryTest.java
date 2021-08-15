@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.domain.Tag;
@@ -100,9 +99,8 @@ public class TagRepositoryTest {
     @Test
     @DisplayName("getAllTagsBySongsName returns Tags list when Song name is found")
     public void getAllTagsBySongsName_ReturnsTagsList_WhenSongNameIsFound() {
-        Tag tagToBeSaved = TagCreator.createToBeSaved();
 
-        Tag tagSaved = this.tagRepository.save(tagToBeSaved);
+        Tag tagSaved = this.tagRepository.save(TagCreator.createToBeSaved());
 
         Song songToBeSaved = SongCreator.createToBeSaved();
         

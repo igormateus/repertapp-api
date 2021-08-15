@@ -45,9 +45,10 @@ public class Song {
     @Column(unique = true)
     private String spotify_link;
 
-    @Column(columnDefinition = "DEFAULT 0")
+    @Column(columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
     private int counter_plays;
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "songs_tags")
     private List<Tag> tags = new ArrayList<>();
