@@ -1,5 +1,7 @@
 package repertapp.repertapp.domain;
 
+import java.util.stream.Stream;
+
 public enum Tone {
     A("A"), Ab("Ab"), Asus("A#"),
     B("B"), Bb("Bb"),
@@ -20,6 +22,17 @@ public enum Tone {
 
     Tone(String tone) {
         this.tone = tone;
+    }
+
+    public String getTone() {
+        return this.tone;
+    }
+
+    public static Tone of (String tone) {
+        return Stream.of(Tone.values())
+                .filter(t -> t.getTone() == tone)
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
 }

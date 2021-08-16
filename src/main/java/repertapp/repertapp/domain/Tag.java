@@ -10,9 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,28 +21,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "Tag")
-@Table(
-    name = "tags",
-    uniqueConstraints = {
-        @UniqueConstraint(name = "tags_name_unique", columnNames = "name")
-    }
-)
+@Entity
+@Table(name = "TAG")
 public class Tag {
 
     @Id
-    @SequenceGenerator(
-        name = "tags_sequence",
-        sequenceName = "tags_sequence",
-        allocationSize = 1
-    )
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "tags_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
     @Builder.Default
