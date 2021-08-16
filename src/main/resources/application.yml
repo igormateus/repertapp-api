@@ -20,7 +20,7 @@ server:
 logging:
     level:
         org:
-            # springframework: ERROR
+            springframework: ERROR
             # hibernate:
                 # SQL: DEBUG
                 # type: trace

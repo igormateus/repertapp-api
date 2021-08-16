@@ -29,6 +29,11 @@ public class SongController {
         return new ResponseEntity<>(songService.listAll(pageable), HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> list() {
+        return ResponseEntity.ok(songService.listAll());
+    }
+
     @PostMapping
     public ResponseEntity<Song> save(@RequestBody @Valid Song song) {
         return new ResponseEntity<>(songService.save(song), HttpStatus.CREATED);

@@ -8,9 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -27,11 +27,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(
-    name = "SONG",
     uniqueConstraints = {
         @UniqueConstraint(name = "UN_ARTIST_NAME", columnNames = { "ARTIST", "NAME" })
     }
-
 )
 public class Song {
 
@@ -39,28 +37,31 @@ public class Song {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "ARTIST", nullable = false)
+    @Column(nullable = false)
     private String artist;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "TONE", nullable = false)
-    private Tone tone;
-
-    @Column(name = "YOUTUBE_LINK", unique = true)
+    @Column(unique = true)
     private String youtubeLink;
 
-    @Column(name = "SPOTIFY_LINK", unique = true)
+    @Column(unique = true)
     private String spotifyLink;
 
-    @Column(name = "COUNTER_PLAYS", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
+    @Column(columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
     private int counterPlays;
 
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(5)", nullable = false)
+    private Tone tone;
+
     @Builder.Default
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "songs_tags")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "song_tag",
+        joinColumns = { @JoinColumn(name = "song_id") },
+        inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     private List<Tag> tags = new ArrayList<>();
 
     // private Version version[];

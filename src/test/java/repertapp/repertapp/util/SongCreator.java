@@ -10,7 +10,7 @@ public class SongCreator {
                 .name("A casa é sua")
                 .artist("Casa Worship")
                 .tone(Tone.Gsus)
-                .youtube_link("https://www.youtube.com/watch?v=5QHF5OQeFOs")
+                .youtubeLink("https://www.youtube.com/watch?v=5QHF5OQeFOs")
                 .build();
     }
 
@@ -19,7 +19,7 @@ public class SongCreator {
                 .name("A casa é sua")
                 .artist("Casa Worship")
                 .tone(Tone.Gsus)
-                .youtube_link("https://www.youtube.com/watch?v=5QHF5OQeFOs")
+                .youtubeLink("https://www.youtube.com/watch?v=5QHF5OQeFOs")
                 .id(1L)
                 .build();
     }
@@ -29,7 +29,7 @@ public class SongCreator {
                 .name("A casa é sua")
                 .artist("Casa Worship")
                 .tone(Tone.Gsus)
-                .youtube_link("https://www.youtube.com/watch?v=5QHF5OQeFOs")
+                .youtubeLink("https://www.youtube.com/watch?v=5QHF5OQeFOs")
                 .id(1L)
                 .build();
     }

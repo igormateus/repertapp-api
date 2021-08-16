@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.domain.Tag;
@@ -26,7 +27,7 @@ public class TagRepositoryTest {
 
     @Test
     @DisplayName("save persists tags when Successful")
-    public void save_PersistTag_WhenSuccessful() {
+    public void save_PersistsTag_WhenSuccessful() {
         Tag tagToBeSaved = TagCreator.createToBeSaved();
 
         Tag tagSaved = this.tagRepository.save(tagToBeSaved);
@@ -113,15 +114,14 @@ public class TagRepositoryTest {
         Assertions.assertThat(tags)
                 .isNotEmpty()
                 .contains(tagSaved);
-
     }
 
-    // @Test
-    // @DisplayName("Save throw DataIntegrityViolationException when name is empty")
-    // public void save_ThrowsDataIntegrityViolationException_WhenNameIsEmpty() {
-    //     Tag tagToBeSaved = new Tag();
+    @Test
+    @DisplayName("Save throw DataIntegrityViolationException when name is empty")
+    public void save_ThrowsDataIntegrityViolationException_WhenNameIsEmpty() {
+        Tag tagToBeSaved = new Tag();
 
-    //     Assertions.assertThatThrownBy(() -> this.tagRepository.save(tagToBeSaved))
-    //             .isInstanceOf(DataIntegrityViolationException.class);
-    // }
+        Assertions.assertThatThrownBy(() -> this.tagRepository.save(tagToBeSaved))
+                .isInstanceOf(DataIntegrityViolationException.class);
+    }
 }
