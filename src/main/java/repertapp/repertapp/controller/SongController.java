@@ -1,5 +1,7 @@
 package repertapp.repertapp.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Song;
+import repertapp.repertapp.projection.SongProjection;
 import repertapp.repertapp.service.SongService;
 
 @RestController
@@ -25,13 +28,13 @@ public class SongController {
     private final SongService songService;
 
     @GetMapping
-    public ResponseEntity<Page<Song>> list(Pageable pageable) {
-        return new ResponseEntity<>(songService.listAll(pageable), HttpStatus.OK);
+    public ResponseEntity<Page<SongProjection>> list(Pageable pageable) {
+        return ResponseEntity.ok(songService.findAllSongs(pageable));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> list() {
-        return ResponseEntity.ok(songService.listAll());
+    public ResponseEntity<List<SongProjection>> list() {
+        return ResponseEntity.ok(songService.findAllSongs());
     }
 
     @PostMapping

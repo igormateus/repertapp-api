@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.exception.BadRequestException;
+import repertapp.repertapp.projection.SongProjection;
 import repertapp.repertapp.repository.SongRepository;
 
 @Service
@@ -25,6 +26,14 @@ public class SongService {
 
     public List<Song> listAll() {
         return songRepository.findAll();
+    }
+
+    public Page<SongProjection> findAllSongs(Pageable pageable) {
+        return songRepository.findAllSongs(pageable);
+    }
+
+    public List<SongProjection> findAllSongs() {
+        return songRepository.findAllSongs();
     }
 
     @Transactional
