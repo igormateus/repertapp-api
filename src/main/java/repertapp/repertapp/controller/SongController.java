@@ -1,7 +1,5 @@
 package repertapp.repertapp.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -9,42 +7,44 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Song;
-import repertapp.repertapp.projection.SongProjection;
+import repertapp.repertapp.payload.SongRequest;
+import repertapp.repertapp.payload.SongResponse;
 import repertapp.repertapp.service.SongService;
 
-@RestController
-@RequestMapping("songs")
 @RequiredArgsConstructor
+@RestController
+@RequestMapping("/api/songs")
 public class SongController {
-
+    
     private final SongService songService;
 
     @GetMapping
-    public ResponseEntity<Page<SongProjection>> list(Pageable pageable) {
-        return ResponseEntity.ok(songService.findAllSongs(pageable));
+    public ResponseEntity<Page<Song>> getAllSongs(Pageable pageable) {
+        Page<Song> response = songService.getAllSongs(pageable);
+
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<SongProjection>> list() {
-        return ResponseEntity.ok(songService.findAllSongs());
+    @GetMapping("/{id}")
+    public ResponseEntity<Song> getSong(@PathVariable Long id) {
+        Song song = songService.getSong(id);
+
+        return ResponseEntity.ok(song);
     }
 
     @PostMapping
-    public ResponseEntity<Song> save(@RequestBody @Valid Song song) {
-        return new ResponseEntity<>(songService.save(song), HttpStatus.CREATED);
+    public ResponseEntity<SongResponse> addPost(@Valid @RequestBody SongRequest songRequest) {
+        SongResponse songResponse = songService.addSong(songRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(songResponse);
     }
 
-    @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody Song song) {
-        songService.replace(song); 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }
