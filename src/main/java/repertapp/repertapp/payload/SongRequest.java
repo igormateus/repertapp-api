@@ -12,10 +12,10 @@ import repertapp.repertapp.domain.Tone;
 @Data
 public class SongRequest {
     
-    @NotBlank
+    @NotBlank(message = "Name not must be blank")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Artist not must be blank")
     private String artist;
 
     @URL

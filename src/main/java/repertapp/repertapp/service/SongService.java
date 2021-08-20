@@ -1,5 +1,7 @@
 package repertapp.repertapp.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class SongService {
         return songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
     }
 
+    @Transactional
     public SongResponse addSong(SongRequest songRequest) {
         Song song = SongMapper.INSTANCE.toSong(songRequest);
 
@@ -36,5 +39,25 @@ public class SongService {
         SongResponse songResponse = SongMapper.INSTANCE.toSongResponse(newSong);
 
         return songResponse;
+    }
+
+    @Transactional
+    public void updateSong(Long id, SongRequest newSongRequest) {
+        Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
+
+        song.setName(newSongRequest.getName());
+        song.setArtist(newSongRequest.getArtist());
+        song.setYoutubeLink(newSongRequest.getYoutubeLink());
+        song.setSpotifyLink(newSongRequest.getSpotifyLink());
+        song.setTone(newSongRequest.getTone());
+        
+        songRepository.save(song);
+    }
+
+    @Transactional
+    public void deleteSong(Long id) {
+        Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
+
+        songRepository.delete(song);
     }
 }
