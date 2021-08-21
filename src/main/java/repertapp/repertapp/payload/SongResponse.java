@@ -11,7 +11,4 @@ public class SongResponse {
     private String spotifyLink;
     private int counterPlays;
     private Tone tone;
-
-    
-
 }
