@@ -21,6 +21,7 @@ import repertapp.repertapp.payload.SongRequest;
 import repertapp.repertapp.payload.SongResponse;
 import repertapp.repertapp.service.SongService;
 
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/songs")
@@ -63,4 +64,11 @@ public class SongController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/tag/{id}")
+    public ResponseEntity<Page<Song>> getSongsByTag(@PathVariable Long id, Pageable pageable) {
+        Page<Song> response = songService.getSongsByTag(id, pageable);
+
+        return ResponseEntity.ok(response);
+    }
+    
 }

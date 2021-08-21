@@ -1,5 +1,6 @@
 package repertapp.repertapp.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -38,5 +39,5 @@ public class Tag {
         joinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id")
     )
-    private List<Song> songs;
+    private List<Song> songs = new ArrayList<>();
 }

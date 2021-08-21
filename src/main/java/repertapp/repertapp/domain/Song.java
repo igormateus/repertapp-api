@@ -1,11 +1,13 @@
 package repertapp.repertapp.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -50,11 +52,11 @@ public class Song {
     @Column(name = "tone", columnDefinition = "VARCHAR(5)", nullable = false)
     private Tone tone;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "song_tag",
         joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
 
 }

@@ -1,5 +1,7 @@
 package repertapp.repertapp.payload;
 
+import java.util.List;
+
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
@@ -7,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 import lombok.Data;
+import repertapp.repertapp.domain.Tag;
 import repertapp.repertapp.domain.Tone;
 
 @Data
@@ -26,5 +29,7 @@ public class SongRequest {
     
     @Enumerated(EnumType.STRING)
     private Tone tone;
+
+    private List<Tag> tags;
 
 }
