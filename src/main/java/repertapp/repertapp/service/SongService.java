@@ -40,7 +40,7 @@ public class SongService {
     public SongResponse addSong(SongRequest songRequest) {
         Song song = SongMapper.INSTANCE.toSong(songRequest);
 
-        SongRequestUniqueValidation.valide(songRequest, this.songRepository);
+        SongRequestUniqueValidation.validePost(songRequest, this.songRepository);
             
         Song newSong = songRepository.save(song);
         
@@ -52,6 +52,8 @@ public class SongService {
     @Transactional
     public void updateSong(Long id, SongRequest newSongRequest) {
         Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
+
+        SongRequestUniqueValidation.valideUpdate(song, newSongRequest, this.songRepository);
         
         song.setName(newSongRequest.getName());
         song.setArtist(newSongRequest.getArtist());
