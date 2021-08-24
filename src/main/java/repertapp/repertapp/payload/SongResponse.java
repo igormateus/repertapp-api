@@ -5,6 +5,7 @@ import repertapp.repertapp.domain.Tone;
 
 @Data
 public class SongResponse {
+    private Long id;
     private String name;
     private String artist;
     private String youtubeLink;

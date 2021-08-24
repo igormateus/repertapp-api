@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,14 +26,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tag")
+@Table(name = "tag", uniqueConstraints = {
+    @UniqueConstraint(name = "tag_name_unique", columnNames = "name") })
 public class Tag {
     
     @Id
     @GeneratedValue
     private long id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Size(min = 2, max = 255) @NotBlank
+    @Column(name = "name", nullable = false)
     private String name;
 
     @JsonIgnore

@@ -26,7 +26,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "song", uniqueConstraints = {
-        @UniqueConstraint(name = "UN_ARTIST_NAME", columnNames = { "ARTIST", "NAME" }) })
+        @UniqueConstraint(name = "song_artist_name_unique", columnNames = { "ARTIST", "NAME" }),
+        @UniqueConstraint(name = "song_youtube_link_unique", columnNames = "youtube_link"),
+        @UniqueConstraint(name = "song_spotify_link_unique", columnNames = "spotify_link") })
 public class Song {
 
     @Id
@@ -39,10 +41,10 @@ public class Song {
     @Column(name = "artist", nullable = false)
     private String artist;
 
-    @Column(name = "youtube_link", unique = true)
+    @Column(name = "youtube_link")
     private String youtubeLink;
 
-    @Column(name = "spotify_link", unique = true)
+    @Column(name = "spotify_link")
     private String spotifyLink;
 
     @Column(name = "counter_plays", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")

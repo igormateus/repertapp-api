@@ -17,6 +17,7 @@ import repertapp.repertapp.payload.SongRequest;
 import repertapp.repertapp.payload.SongResponse;
 import repertapp.repertapp.repository.SongRepository;
 import repertapp.repertapp.repository.TagRepository;
+import repertapp.repertapp.validation.SongRequestUniqueValidation;
 
 @RequiredArgsConstructor
 @Service
@@ -38,14 +39,16 @@ public class SongService {
     @Transactional
     public SongResponse addSong(SongRequest songRequest) {
         Song song = SongMapper.INSTANCE.toSong(songRequest);
-        
+
+        SongRequestUniqueValidation.valide(songRequest, this.songRepository);
+            
         Song newSong = songRepository.save(song);
         
         SongResponse songResponse = SongMapper.INSTANCE.toSongResponse(newSong);
         
         return songResponse;
     }
-    
+        
     @Transactional
     public void updateSong(Long id, SongRequest newSongRequest) {
         Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
