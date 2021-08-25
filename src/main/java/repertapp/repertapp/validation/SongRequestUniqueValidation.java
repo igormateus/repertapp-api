@@ -23,13 +23,13 @@ public class SongRequestUniqueValidation {
     public static void valideUpdate(Song song, SongRequest newSongRequest, SongRepository songRepository) {
         repository = songRepository;
 
-        if ((song.getArtist() != newSongRequest.getArtist()) || (song.getName() != newSongRequest.getName()))
+        if (!(song.getArtist().equals(newSongRequest.getArtist()) && song.getName().equals(newSongRequest.getName())))
             checkSongArtistNameUnique(newSongRequest.getName(), newSongRequest.getArtist());
 
-        if (song.getYoutubeLink() != newSongRequest.getYoutubeLink())
+        if (newSongRequest.getYoutubeLink() != null && !song.getYoutubeLink().equals(newSongRequest.getYoutubeLink()))
             checkYoutubeLinkUnique(newSongRequest.getYoutubeLink());
         
-        if (song.getSpotifyLink() != newSongRequest.getSpotifyLink())
+        if (newSongRequest.getSpotifyLink() != null && song.getSpotifyLink().equals(newSongRequest.getYoutubeLink()))
             checkSpotifyLinkUnique(newSongRequest.getSpotifyLink());
     }
 

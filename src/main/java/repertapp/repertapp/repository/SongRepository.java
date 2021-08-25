@@ -12,6 +12,7 @@ import repertapp.repertapp.domain.Tag;
 
 @Repository
 public interface SongRepository extends JpaRepository<Song, Long> {
+    Page<Song> findByName(String name, Pageable pageable);
     Page<Song> findByTagsIn(List<Tag> tags, Pageable pageable);
     List<Song> findByNameAndArtist(String name, String artist);
     List<Song> findByYoutubeLink(String youtubeLink);
