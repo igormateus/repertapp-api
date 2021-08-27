@@ -34,17 +34,17 @@ public class SongRequestUniqueValidation {
     }
 
     private static void checkSongArtistNameUnique(String name, String artist) {
-        if (!repository.findByNameAndArtist(name, artist).isEmpty()) 
+        if (repository.findByNameAndArtist(name, artist) != null) 
             throw new ResourceAlreadyExists("Song", "name", name, "artist", artist);
     }
 
     private static void checkYoutubeLinkUnique(String youtubeLink) {
-        if (!isNullOrEmpty(youtubeLink) && (!youtubeLink.isEmpty()) && (!repository.findByYoutubeLink(youtubeLink).isEmpty())) 
+        if (!isNullOrEmpty(youtubeLink) && (!youtubeLink.isEmpty()) && (repository.findByYoutubeLink(youtubeLink) != null)) 
             throw new ResourceAlreadyExists("Song", "Youtube Link", youtubeLink);
     }
 
     private static void checkSpotifyLinkUnique(String spotifyLink) {
-        if (!isNullOrEmpty(spotifyLink) && (!spotifyLink.isEmpty()) && (!repository.findByYoutubeLink(spotifyLink).isEmpty())) 
+        if (!isNullOrEmpty(spotifyLink) && (!spotifyLink.isEmpty()) && (repository.findByYoutubeLink(spotifyLink) != null)) 
             throw new ResourceAlreadyExists("Song", "Spotify Link", spotifyLink);
     }
 

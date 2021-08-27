@@ -5,7 +5,7 @@ import repertapp.repertapp.domain.Tone;
 
 public class SongCreator {
     
-    public static Song createSongToBeSaved() {
+    public static Song createToBeSaved() {
         Song song = new Song();
 
         song.setArtist("artist_test");
@@ -13,6 +13,18 @@ public class SongCreator {
         song.setSpotifyLink("https://www.spotify.com/br/test");
         song.setTone(Tone.A);
         song.setYoutubeLink("https://www.youtube.com/test");
+        
+        return song;
+    }
+
+    public static Song createToBeSaved(String number) {
+        Song song = new Song();
+
+        song.setArtist("artist_test_" + number);
+        song.setName("name_test_" + number);
+        song.setSpotifyLink("https://www.spotify.com/br/test_" + number);
+        song.setTone(Tone.A);
+        song.setYoutubeLink("https://www.youtube.com/test_" + number);
         
         return song;
     }

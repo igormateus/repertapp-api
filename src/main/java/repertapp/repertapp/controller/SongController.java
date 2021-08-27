@@ -1,5 +1,7 @@
 package repertapp.repertapp.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Song;
+import repertapp.repertapp.domain.Tag;
 import repertapp.repertapp.payload.SongRequest;
 import repertapp.repertapp.payload.SongResponse;
 import repertapp.repertapp.service.SongService;
@@ -64,9 +67,9 @@ public class SongController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/tag/{id}")
-    public ResponseEntity<Page<Song>> getSongsByTag(@PathVariable Long id, Pageable pageable) {
-        Page<Song> response = songService.getSongsByTag(id, pageable);
+    @GetMapping("/tag")
+    public ResponseEntity<Page<Song>> getSongsByTag(@Valid @RequestBody List<Tag> tags, Pageable pageable) {
+        Page<Song> response = songService.getSongsByTag(tags, pageable);
 
         return ResponseEntity.ok(response);
     }

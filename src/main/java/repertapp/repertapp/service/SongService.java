@@ -1,6 +1,6 @@
 package repertapp.repertapp.service;
 
-import java.util.Collections;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -72,10 +72,10 @@ public class SongService {
         songRepository.delete(song);
     }
     
-    public Page<Song> getSongsByTag(Long id, Pageable pageable) {
-        Tag tag = tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", id));
+    public Page<Song> getSongsByTag(List<Tag> tags, Pageable pageable) {
+        tags.stream().forEach(tag -> tagRepository.findById(tag.getId()).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", tag.getId())));
     
-        Page<Song> songs = songRepository.findByTagsIn(Collections.singletonList(tag), pageable);
+        Page<Song> songs = songRepository.findDistinctSongsByTagsIn(tags, pageable);
     
         return songs;
     }
