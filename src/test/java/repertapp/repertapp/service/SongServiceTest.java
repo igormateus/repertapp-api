@@ -134,7 +134,7 @@ public class SongServiceTest {
     @Test
     @DisplayName("getSongsByTag returns a list of songs inside page object when successful")
     void getSongsByTag() {
-        Page<Song> songPage = songService.getSongsByTag(List.of(TagCreator.createValid()), PageRequest.of(1, 1));
+        Page<Song> songPage = songService.getSongsByTags(List.of(TagCreator.createValid()), PageRequest.of(1, 1));
         
         Assertions.assertThat(songPage).isNotNull();
         Assertions.assertThat(songPage.toList())

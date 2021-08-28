@@ -72,7 +72,7 @@ public class SongService {
         songRepository.delete(song);
     }
     
-    public Page<Song> getSongsByTag(List<Tag> tags, Pageable pageable) {
+    public Page<Song> getSongsByTags(List<Tag> tags, Pageable pageable) {
         tags.stream().forEach(tag -> tagRepository.findById(tag.getId()).orElseThrow(
             () -> new ResourceNotFoundException("Tag", "id", tag.getId())));
     

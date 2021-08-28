@@ -67,9 +67,9 @@ public class SongController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/tag")
-    public ResponseEntity<Page<Song>> getSongsByTag(@Valid @RequestBody List<Tag> tags, Pageable pageable) {
-        Page<Song> response = songService.getSongsByTag(tags, pageable);
+    @GetMapping("/tags")
+    public ResponseEntity<Page<Song>> getSongsByTags(@Valid @RequestBody List<Tag> tags, Pageable pageable) {
+        Page<Song> response = songService.getSongsByTags(tags, pageable);
 
         return ResponseEntity.ok(response);
     }
