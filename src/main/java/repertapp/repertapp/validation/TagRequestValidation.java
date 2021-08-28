@@ -22,7 +22,7 @@ public class TagRequestValidation {
     }
 
     private static void checkTagNameUnique(String name) {
-        if (repository.existsByName(name))
+        if (!repository.existsByName(name))
             throw new ResourceAlreadyExists("Tag", "name", name);
     }
 

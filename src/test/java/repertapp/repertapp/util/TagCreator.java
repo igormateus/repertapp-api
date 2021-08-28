@@ -19,5 +19,14 @@ public class TagCreator {
         
         return tag;
     }
+
+    public static Tag createValid() {
+        Tag tag = new Tag();
+
+        tag.setId(1L);
+        tag.setName("name_test");
+        
+        return tag;
+    }
     
 }
