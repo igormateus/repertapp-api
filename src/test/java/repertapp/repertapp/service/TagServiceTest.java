@@ -96,7 +96,7 @@ public class TagServiceTest {
     }
 
     @Test
-    @DisplayName("delete removes tag when successful")
+    @DisplayName("deleteTag removes tag when successful")
     void deleteTag_removesTag_whenSuccessful() {
         Assertions.assertThatCode(() -> tagService.deleteTag(TagCreator.createValid().getId()))
                 .doesNotThrowAnyException();

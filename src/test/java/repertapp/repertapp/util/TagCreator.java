@@ -21,10 +21,9 @@ public class TagCreator {
     }
 
     public static Tag createValid() {
-        Tag tag = new Tag();
+        Tag tag = createToBeSaved();
 
         tag.setId(1L);
-        tag.setName("name_test");
         
         return tag;
     }

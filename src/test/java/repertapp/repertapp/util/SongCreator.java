@@ -28,4 +28,12 @@ public class SongCreator {
         
         return song;
     }
+
+    public static Song createValid() {
+        Song song = createToBeSaved();
+        
+        song.setId(1L);
+        
+        return song;
+    }
 }
