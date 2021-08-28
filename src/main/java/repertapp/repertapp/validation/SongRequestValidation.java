@@ -5,7 +5,7 @@ import repertapp.repertapp.exception.ResourceAlreadyExists;
 import repertapp.repertapp.payload.SongRequest;
 import repertapp.repertapp.repository.SongRepository;
 
-public class SongRequestUniqueValidation {
+public class SongRequestValidation {
 
     private static SongRepository repository;
 
@@ -16,8 +16,7 @@ public class SongRequestUniqueValidation {
         
         checkYoutubeLinkUnique(songRequest.getYoutubeLink());
 
-        checkSpotifyLinkUnique(songRequest.getSpotifyLink());      
-        
+        checkSpotifyLinkUnique(songRequest.getSpotifyLink());
     }
 
     public static void valideUpdate(Song song, SongRequest newSongRequest, SongRepository songRepository) {
@@ -34,27 +33,30 @@ public class SongRequestUniqueValidation {
     }
 
     private static void checkSongArtistNameUnique(String name, String artist) {
-        if (repository.findByNameAndArtist(name, artist) != null) 
+        if (repository.existsByNameAndArtist(name, artist))
             throw new ResourceAlreadyExists("Song", "name", name, "artist", artist);
     }
 
     private static void checkYoutubeLinkUnique(String youtubeLink) {
-        if (!isNullOrEmpty(youtubeLink) && (!youtubeLink.isEmpty()) && (repository.findByYoutubeLink(youtubeLink) != null)) 
+        if (!isNullOrEmpty(youtubeLink) && repository.existsByYoutubeLink(youtubeLink))
             throw new ResourceAlreadyExists("Song", "Youtube Link", youtubeLink);
     }
 
     private static void checkSpotifyLinkUnique(String spotifyLink) {
-        if (!isNullOrEmpty(spotifyLink) && (!spotifyLink.isEmpty()) && (repository.findByYoutubeLink(spotifyLink) != null)) 
+        if (!isNullOrEmpty(spotifyLink) && repository.existsBySpotifyLink(spotifyLink)) 
             throw new ResourceAlreadyExists("Song", "Spotify Link", spotifyLink);
     }
 
+    /**
+     * Check if the string is null or empty
+     * @param value
+     * @return
+     */
     private static boolean isNullOrEmpty(String value) {
-        if ((value != null) && (!value.isEmpty()))
+        if (value != null && !value.isEmpty())
             return false;
 
         return true;
-    }
-
-    
+    } 
     
 }

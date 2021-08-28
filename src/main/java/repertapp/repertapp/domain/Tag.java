@@ -34,7 +34,7 @@ public class Tag {
     @GeneratedValue
     private long id;
 
-    @Size(min = 2, max = 255) @NotBlank
+    @NotBlank @Size(min = 2, max = 255)
     @Column(name = "name", nullable = false)
     private String name;
 

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Tag;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.repository.TagRepository;
+import repertapp.repertapp.validation.TagRequestValidation;
 
 @RequiredArgsConstructor
 @Service
@@ -29,12 +30,16 @@ public class TagService {
 
     @Transactional
     public Tag addTag(Tag tag) {
+        TagRequestValidation.validePost(tag, tagRepository);
+
         return tagRepository.save(tag);
     }
 
     @Transactional
     public void updateTag(Long id, Tag newTag) {
         Tag tag = tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", id));
+
+        TagRequestValidation.valideUpdate(tag, newTag, tagRepository);
 
         tag.setName(newTag.getName());
 

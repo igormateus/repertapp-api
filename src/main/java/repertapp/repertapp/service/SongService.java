@@ -17,7 +17,7 @@ import repertapp.repertapp.payload.SongRequest;
 import repertapp.repertapp.payload.SongResponse;
 import repertapp.repertapp.repository.SongRepository;
 import repertapp.repertapp.repository.TagRepository;
-import repertapp.repertapp.validation.SongRequestUniqueValidation;
+import repertapp.repertapp.validation.SongRequestValidation;
 
 @RequiredArgsConstructor
 @Service
@@ -38,9 +38,9 @@ public class SongService {
     
     @Transactional
     public SongResponse addSong(SongRequest songRequest) {
-        Song song = SongMapper.INSTANCE.toSong(songRequest);
+        SongRequestValidation.validePost(songRequest, songRepository);
 
-        SongRequestUniqueValidation.validePost(songRequest, this.songRepository);
+        Song song = SongMapper.INSTANCE.toSong(songRequest);
             
         Song newSong = songRepository.save(song);
         
@@ -53,7 +53,7 @@ public class SongService {
     public void updateSong(Long id, SongRequest newSongRequest) {
         Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
 
-        SongRequestUniqueValidation.valideUpdate(song, newSongRequest, this.songRepository);
+        SongRequestValidation.valideUpdate(song, newSongRequest, songRepository);
         
         song.setName(newSongRequest.getName());
         song.setArtist(newSongRequest.getArtist());
@@ -73,7 +73,8 @@ public class SongService {
     }
     
     public Page<Song> getSongsByTag(List<Tag> tags, Pageable pageable) {
-        tags.stream().forEach(tag -> tagRepository.findById(tag.getId()).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", tag.getId())));
+        tags.stream().forEach(tag -> tagRepository.findById(tag.getId()).orElseThrow(
+            () -> new ResourceNotFoundException("Tag", "id", tag.getId())));
     
         Page<Song> songs = songRepository.findDistinctSongsByTagsIn(tags, pageable);
     

@@ -15,6 +15,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.URL;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,22 +40,26 @@ public class Song {
     @GeneratedValue
     private Long id;
 
+    @NotBlank @Size(min = 2, max = 255)
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotBlank @Size(min = 2, max = 255)
     @Column(name = "artist", nullable = false)
     private String artist;
 
+    @URL
     @Column(name = "youtube_link")
     private String youtubeLink;
 
+    @URL
     @Column(name = "spotify_link")
     private String spotifyLink;
 
     @Column(name = "counter_plays", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
     private int counterPlays;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) @NotNull
     @Column(name = "tone", columnDefinition = "VARCHAR(5)", nullable = false)
     private Tone tone;
 

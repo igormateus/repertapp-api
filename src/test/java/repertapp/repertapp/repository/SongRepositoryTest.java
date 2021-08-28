@@ -142,15 +142,15 @@ public class SongRepositoryTest {
 
         Song songSaved = songRepository.save(songToBeSaved);
 
-        Song songFound = songRepository.findByNameAndArtist(songSaved.getName(), songSaved.getArtist());
+        Optional<Song> optionalSong = songRepository.findByNameAndArtist(songSaved.getName(), songSaved.getArtist());
 
-        Assertions.assertThat(songFound).isNotNull();
-        Assertions.assertThat(songFound.getId()).isEqualTo(songSaved.getId());
-        Assertions.assertThat(songFound.getArtist()).isEqualTo(songSaved.getArtist());
-        Assertions.assertThat(songFound.getName()).isEqualTo(songSaved.getName());
-        Assertions.assertThat(songFound.getSpotifyLink()).isEqualTo(songSaved.getSpotifyLink());
-        Assertions.assertThat(songFound.getYoutubeLink()).isEqualTo(songSaved.getYoutubeLink());
-        Assertions.assertThat(songFound.getTone()).isEqualTo(songSaved.getTone());
+        Assertions.assertThat(optionalSong.get()).isNotNull();
+        Assertions.assertThat(optionalSong.get().getId()).isEqualTo(songSaved.getId());
+        Assertions.assertThat(optionalSong.get().getArtist()).isEqualTo(songSaved.getArtist());
+        Assertions.assertThat(optionalSong.get().getName()).isEqualTo(songSaved.getName());
+        Assertions.assertThat(optionalSong.get().getSpotifyLink()).isEqualTo(songSaved.getSpotifyLink());
+        Assertions.assertThat(optionalSong.get().getYoutubeLink()).isEqualTo(songSaved.getYoutubeLink());
+        Assertions.assertThat(optionalSong.get().getTone()).isEqualTo(songSaved.getTone());
     }
     
     @Test
@@ -160,15 +160,15 @@ public class SongRepositoryTest {
 
         Song songSaved = songRepository.save(songToBeSaved);
 
-        Song songFound = songRepository.findByYoutubeLink(songSaved.getYoutubeLink());
+        Optional<Song> optionalSong = songRepository.findByYoutubeLink(songSaved.getYoutubeLink());
 
-        Assertions.assertThat(songFound).isNotNull();
-        Assertions.assertThat(songFound.getId()).isEqualTo(songSaved.getId());
-        Assertions.assertThat(songFound.getArtist()).isEqualTo(songSaved.getArtist());
-        Assertions.assertThat(songFound.getName()).isEqualTo(songSaved.getName());
-        Assertions.assertThat(songFound.getSpotifyLink()).isEqualTo(songSaved.getSpotifyLink());
-        Assertions.assertThat(songFound.getYoutubeLink()).isEqualTo(songSaved.getYoutubeLink());
-        Assertions.assertThat(songFound.getTone()).isEqualTo(songSaved.getTone());
+        Assertions.assertThat(optionalSong.get()).isNotNull();
+        Assertions.assertThat(optionalSong.get().getId()).isEqualTo(songSaved.getId());
+        Assertions.assertThat(optionalSong.get().getArtist()).isEqualTo(songSaved.getArtist());
+        Assertions.assertThat(optionalSong.get().getName()).isEqualTo(songSaved.getName());
+        Assertions.assertThat(optionalSong.get().getSpotifyLink()).isEqualTo(songSaved.getSpotifyLink());
+        Assertions.assertThat(optionalSong.get().getYoutubeLink()).isEqualTo(songSaved.getYoutubeLink());
+        Assertions.assertThat(optionalSong.get().getTone()).isEqualTo(songSaved.getTone());
     }
 
     @Test
@@ -178,14 +178,50 @@ public class SongRepositoryTest {
 
         Song songSaved = songRepository.save(songToBeSaved);
 
-        Song songFound = songRepository.findBySpotifyLink(songSaved.getSpotifyLink());
+        Optional<Song> optionalSong = songRepository.findBySpotifyLink(songSaved.getSpotifyLink());
 
-        Assertions.assertThat(songFound).isNotNull();
-        Assertions.assertThat(songFound.getId()).isEqualTo(songSaved.getId());
-        Assertions.assertThat(songFound.getArtist()).isEqualTo(songSaved.getArtist());
-        Assertions.assertThat(songFound.getName()).isEqualTo(songSaved.getName());
-        Assertions.assertThat(songFound.getSpotifyLink()).isEqualTo(songSaved.getSpotifyLink());
-        Assertions.assertThat(songFound.getYoutubeLink()).isEqualTo(songSaved.getYoutubeLink());
-        Assertions.assertThat(songFound.getTone()).isEqualTo(songSaved.getTone());
+        Assertions.assertThat(optionalSong.get()).isNotNull();
+        Assertions.assertThat(optionalSong.get().getId()).isEqualTo(songSaved.getId());
+        Assertions.assertThat(optionalSong.get().getArtist()).isEqualTo(songSaved.getArtist());
+        Assertions.assertThat(optionalSong.get().getName()).isEqualTo(songSaved.getName());
+        Assertions.assertThat(optionalSong.get().getSpotifyLink()).isEqualTo(songSaved.getSpotifyLink());
+        Assertions.assertThat(optionalSong.get().getYoutubeLink()).isEqualTo(songSaved.getYoutubeLink());
+        Assertions.assertThat(optionalSong.get().getTone()).isEqualTo(songSaved.getTone());
+    }
+
+    @Test
+    @DisplayName("existsByNameAndArtist return true when sound exist")
+    public void existsByNameAndArtist_returnTrue_whenSoundExists() {
+        Song songToBeSaved = SongCreator.createToBeSaved();
+
+        Song songSaved = songRepository.save(songToBeSaved);
+
+        Boolean exist = songRepository.existsByNameAndArtist(songSaved.getName(), songSaved.getArtist());
+
+        Assertions.assertThat(exist).isTrue();
+    }
+
+    @Test
+    @DisplayName("existsByYoutubeLink return true when youtube link exist")
+    public void existsByYoutubeLink_returnTrue_whenYoutubeLinkExists() {
+        Song songToBeSaved = SongCreator.createToBeSaved();
+
+        Song songSaved = songRepository.save(songToBeSaved);
+
+        Boolean exist = songRepository.existsByYoutubeLink(songSaved.getYoutubeLink());
+
+        Assertions.assertThat(exist).isTrue();
+    }
+
+    @Test
+    @DisplayName("existsBySpotifyLink return true when spotify link exist")
+    public void existsBySpotifyLink_returnTrue_whenSpotifyLinkExists() {
+        Song songToBeSaved = SongCreator.createToBeSaved();
+
+        Song songSaved = songRepository.save(songToBeSaved);
+
+        Boolean exist = songRepository.existsBySpotifyLink(songSaved.getSpotifyLink());
+
+        Assertions.assertThat(exist).isTrue();
     }
 }
