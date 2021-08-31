@@ -16,53 +16,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import repertapp.repertapp.domain.RepertappUser;
-import repertapp.repertapp.payload.RepertappUserPostRequestBody;
-import repertapp.repertapp.payload.RepertappUserPutRequestBody;
-import repertapp.repertapp.service.RepertappUserService;
-
+import repertapp.repertapp.domain.Version;
+import repertapp.repertapp.payload.VersionPostRequestBody;
+import repertapp.repertapp.payload.VersionPutRequestBody;
+import repertapp.repertapp.service.VersionService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/users")
-public class RepertappUserController {
+@RequestMapping("/api/versions")
+public class VersionController {
     
-    private final RepertappUserService userService;
+    private final VersionService versionService;
 
     @PostMapping
-    public ResponseEntity<RepertappUser> addUser(@Valid @RequestBody RepertappUserPostRequestBody user) {
-        RepertappUser userSaved = userService.addUser(user);
+    public ResponseEntity<Version> addUser(@Valid @RequestBody VersionPostRequestBody version) {
+        Version versionSaved = versionService.addVersion(version);
 
-        return new ResponseEntity<>(userSaved, HttpStatus.CREATED);
+        return new ResponseEntity<>(versionSaved, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateUser(@Valid @RequestBody RepertappUserPutRequestBody user) {
-        userService.updateUser(user);
+    public ResponseEntity<Void> updateUser(@Valid @RequestBody VersionPutRequestBody version) {
+        versionService.updateVersion(version);
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+        versionService.deleteVersion(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<Page<RepertappUser>> getAllUsers(Pageable pageable) {
-        Page<RepertappUser> response = userService.getAllUsers(pageable);
+    public ResponseEntity<Page<Version>> getAllUsers(Pageable pageable) {
+        Page<Version> response = versionService.getAllVersions(pageable);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RepertappUser> getUser(@PathVariable Long id) {
-        RepertappUser user = userService.getUser(id);
+    public ResponseEntity<Version> getVersion(@PathVariable Long id) {
+        Version version = versionService.getVersion(id);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(version);
     }
-    
-
 }

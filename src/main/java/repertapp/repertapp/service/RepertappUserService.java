@@ -50,7 +50,7 @@ public class RepertappUserService {
     }
 
     @Transactional
-    public void deleteSong(Long id) {
+    public void deleteUser(Long id) {
         RepertappUser user = findByIdOrThrowResourceNotFoundException(id);
         
         userRepository.delete(user);
