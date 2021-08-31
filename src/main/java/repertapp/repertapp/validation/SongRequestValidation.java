@@ -4,6 +4,7 @@ import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
 import repertapp.repertapp.payload.SongRequest;
 import repertapp.repertapp.repository.SongRepository;
+import repertapp.repertapp.util.Util;
 
 public class SongRequestValidation {
 
@@ -38,25 +39,13 @@ public class SongRequestValidation {
     }
 
     private static void checkYoutubeLinkUnique(String youtubeLink) {
-        if (!isNullOrEmpty(youtubeLink) && repository.existsByYoutubeLink(youtubeLink))
+        if (!Util.isNullOrEmpty(youtubeLink) && repository.existsByYoutubeLink(youtubeLink))
             throw new ResourceAlreadyExists("Song", "Youtube Link", youtubeLink);
     }
 
     private static void checkSpotifyLinkUnique(String spotifyLink) {
-        if (!isNullOrEmpty(spotifyLink) && repository.existsBySpotifyLink(spotifyLink)) 
+        if (!Util.isNullOrEmpty(spotifyLink) && repository.existsBySpotifyLink(spotifyLink)) 
             throw new ResourceAlreadyExists("Song", "Spotify Link", spotifyLink);
     }
-
-    /**
-     * Check if the string is null or empty
-     * @param value
-     * @return
-     */
-    private static boolean isNullOrEmpty(String value) {
-        if (value != null && !value.isEmpty())
-            return false;
-
-        return true;
-    } 
     
 }

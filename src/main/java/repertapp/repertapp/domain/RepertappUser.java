@@ -3,6 +3,7 @@ package repertapp.repertapp.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -18,13 +19,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "user", uniqueConstraints = {
+@Table(uniqueConstraints = {
+    @UniqueConstraint(name = "user_name_unique", columnNames = "name"),
     @UniqueConstraint(name = "user_username_unique", columnNames = "username"),
     @UniqueConstraint(name = "user_email_unique", columnNames = "email")})
 public class RepertappUser {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank @Size(min = 3, max = 255)

@@ -59,6 +59,9 @@ public class Song {
     @Column(name = "counter_plays", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
     private int counterPlays;
 
+    @Column(name = "score", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
+    private int score;
+
     @Enumerated(EnumType.STRING) @NotNull
     @Column(name = "tone", columnDefinition = "VARCHAR(5)", nullable = false)
     private Tone tone;

@@ -11,5 +11,6 @@ public class SongResponse {
     private String youtubeLink;
     private String spotifyLink;
     private int counterPlays;
+    private int score;
     private Tone tone;
 }
