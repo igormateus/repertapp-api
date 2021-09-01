@@ -2,7 +2,8 @@ package repertapp.repertapp.validation;
 
 import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
-import repertapp.repertapp.payload.SongRequest;
+import repertapp.repertapp.payload.SongPostRequestBody;
+import repertapp.repertapp.payload.SongPutRequestBody;
 import repertapp.repertapp.repository.SongRepository;
 import repertapp.repertapp.util.Util;
 
@@ -10,27 +11,29 @@ public class SongRequestValidation {
 
     private static SongRepository repository;
 
-    public static void validePost(SongRequest songRequest, SongRepository songRepository) {
+    public static void valideAdd(SongPostRequestBody songRequest, SongRepository songRepository) {
         repository = songRepository;
 
         checkSongArtistNameUnique(songRequest.getName(), songRequest.getArtist());
         
-        checkYoutubeLinkUnique(songRequest.getYoutubeLink());
+        if (!Util.isNullOrEmpty(songRequest.getYoutubeLink()))
+            checkYoutubeLinkUnique(songRequest.getYoutubeLink());
 
-        checkSpotifyLinkUnique(songRequest.getSpotifyLink());
+        if (!Util.isNullOrEmpty(songRequest.getSpotifyLink()))
+            checkSpotifyLinkUnique(songRequest.getSpotifyLink());
     }
 
-    public static void valideUpdate(Song song, SongRequest newSongRequest, SongRepository songRepository) {
+    public static void valideUpdate(Song song, SongPutRequestBody songRequest, SongRepository songRepository) {
         repository = songRepository;
 
-        if (!(song.getArtist().equals(newSongRequest.getArtist()) && song.getName().equals(newSongRequest.getName())))
-            checkSongArtistNameUnique(newSongRequest.getName(), newSongRequest.getArtist());
+        if (!(song.getArtist().equals(songRequest.getArtist()) && song.getName().equals(songRequest.getName())))
+            checkSongArtistNameUnique(songRequest.getName(), songRequest.getArtist());
 
-        if (newSongRequest.getYoutubeLink() != null && !song.getYoutubeLink().equals(newSongRequest.getYoutubeLink()))
-            checkYoutubeLinkUnique(newSongRequest.getYoutubeLink());
+        if (!Util.isNullOrEmpty(songRequest.getYoutubeLink()) && !song.getYoutubeLink().equals(songRequest.getYoutubeLink()))
+            checkYoutubeLinkUnique(songRequest.getYoutubeLink());
         
-        if (newSongRequest.getSpotifyLink() != null && song.getSpotifyLink().equals(newSongRequest.getYoutubeLink()))
-            checkSpotifyLinkUnique(newSongRequest.getSpotifyLink());
+        if (!Util.isNullOrEmpty(songRequest.getSpotifyLink()) && song.getSpotifyLink().equals(songRequest.getSpotifyLink()))
+            checkSpotifyLinkUnique(songRequest.getSpotifyLink());
     }
 
     private static void checkSongArtistNameUnique(String name, String artist) {
@@ -39,12 +42,12 @@ public class SongRequestValidation {
     }
 
     private static void checkYoutubeLinkUnique(String youtubeLink) {
-        if (!Util.isNullOrEmpty(youtubeLink) && repository.existsByYoutubeLink(youtubeLink))
+        if (repository.existsByYoutubeLink(youtubeLink))
             throw new ResourceAlreadyExists("Song", "Youtube Link", youtubeLink);
     }
 
     private static void checkSpotifyLinkUnique(String spotifyLink) {
-        if (!Util.isNullOrEmpty(spotifyLink) && repository.existsBySpotifyLink(spotifyLink)) 
+        if (repository.existsBySpotifyLink(spotifyLink)) 
             throw new ResourceAlreadyExists("Song", "Spotify Link", spotifyLink);
     }
     

@@ -2,41 +2,29 @@ package repertapp.repertapp.validation;
 
 import repertapp.repertapp.domain.Tag;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
+import repertapp.repertapp.payload.TagPostRequestBody;
+import repertapp.repertapp.payload.TagPutRequestBody;
 import repertapp.repertapp.repository.TagRepository;
 
 public class TagRequestValidation {
 
     private static TagRepository repository;
 
-    public static void validePost(Tag tag, TagRepository tagRepository) {
+    public static void validePost(TagPostRequestBody tagRequest, TagRepository tagRepository) {
         repository = tagRepository;
 
-        checkTagNameUnique(tag.getName());
+        checkTagNameUnique(tagRequest.getName());
     }
 
-    public static void valideUpdate(Tag tag, Tag tagRequest, TagRepository tagRepository) {
+    public static void valideUpdate(Tag tag, TagPutRequestBody tagRequest, TagRepository tagRepository) {
         repository = tagRepository;
 
-        if (!isNullOrEmpty(tagRequest.getName()) && !tag.getName().equals(tagRequest.getName()))
+        if (!tag.getName().equals(tagRequest.getName()))
             checkTagNameUnique(tagRequest.getName());
     }
 
     private static void checkTagNameUnique(String name) {
         if (!repository.existsByName(name))
             throw new ResourceAlreadyExists("Tag", "name", name);
-    }
-
-    /**
-     * Check if the string is null or empty
-     * @param value
-     * @return
-     */
-    private static boolean isNullOrEmpty(String value) {
-        if (value != null && !value.isEmpty())
-            return false;
-
-        return true;
-    }
-
-    
+    }    
 }
