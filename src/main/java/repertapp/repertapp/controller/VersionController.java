@@ -29,28 +29,28 @@ public class VersionController {
     private final VersionService versionService;
 
     @PostMapping
-    public ResponseEntity<Version> addUser(@Valid @RequestBody VersionPostRequestBody version) {
+    public ResponseEntity<Version> addVersion(@Valid @RequestBody VersionPostRequestBody version) {
         Version versionSaved = versionService.addVersion(version);
 
         return new ResponseEntity<>(versionSaved, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateUser(@Valid @RequestBody VersionPutRequestBody version) {
+    public ResponseEntity<Void> updateVersion(@Valid @RequestBody VersionPutRequestBody version) {
         versionService.updateVersion(version);
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteVersion(@PathVariable Long id) {
         versionService.deleteVersion(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<Page<Version>> getAllUsers(Pageable pageable) {
+    public ResponseEntity<Page<Version>> getAllVersions(Pageable pageable) {
         Page<Version> response = versionService.getAllVersions(pageable);
 
         return ResponseEntity.ok(response);

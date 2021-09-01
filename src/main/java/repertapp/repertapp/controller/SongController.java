@@ -54,17 +54,17 @@ public class SongController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateSong(@PathVariable Long id, @Valid @RequestBody SongPutRequestBody songRequest) {
+    public ResponseEntity<Void> updateSong(@Valid @RequestBody SongPutRequestBody songRequest) {
         songService.updateSong(songRequest);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletSong(@PathVariable Long id) {
         songService.deleteSong(id);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/tags")

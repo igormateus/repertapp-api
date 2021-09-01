@@ -53,13 +53,13 @@ public class TagController {
     public ResponseEntity<Void> updateTag(@Valid @RequestBody TagPutRequestBody tag) {
         tagService.updateTag(tag);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         tagService.deleteTag(id);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

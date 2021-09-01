@@ -56,13 +56,13 @@ public class BandService {
         bandRepository.delete(band);
     }
 
-    public Page<Band> getAllbands(Pageable pageable) {
+    public Page<Band> getAllBands(Pageable pageable) {
         Page<Band> bands = bandRepository.findAll(pageable);
 
         return bands;
     }
 
-    public Band getband(Long id) {
+    public Band getBand(Long id) {
         Band band = findByIdOrThrowResourceNotFoundException(id);
         
         return band;
