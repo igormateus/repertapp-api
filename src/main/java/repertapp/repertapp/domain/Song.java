@@ -64,9 +64,6 @@ public class Song {
     @Column(name = "spotify_link")
     private String spotifyLink;
 
-    @Column(name = "counter_plays", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
-    private int counterPlays;
-
     @Enumerated(EnumType.STRING) @NotNull
     @Column(name = "tone", columnDefinition = "VARCHAR(5)", nullable = false)
     private Tone tone;
@@ -77,10 +74,6 @@ public class Song {
         inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
     private List<Tag> tags = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Version> versions = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)

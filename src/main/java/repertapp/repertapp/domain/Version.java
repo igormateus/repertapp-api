@@ -32,8 +32,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "version", uniqueConstraints = {
-    @UniqueConstraint(name = "version_tone_user_song_unique", 
-            columnNames = { "tone", "repertapp_user_id", "song_id" }) })
+    @UniqueConstraint(name = "version_tone_user_music_unique", 
+            columnNames = { "tone", "repertapp_user_id", "music_id" }) })
 public class Version {
     
     @EqualsAndHashCode.Include
@@ -53,8 +53,8 @@ public class Version {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "song_id")
-    private Song song;
+    @JoinColumn(name = "music_id")
+    private Music music;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)

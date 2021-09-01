@@ -30,9 +30,6 @@ public class SongPutRequestBody {
     private String spotifyLink;
 
     @NotNull
-    private int counterPlays;
-
-    @NotNull
     private Tone tone;
 
     private List<Tag> tags;

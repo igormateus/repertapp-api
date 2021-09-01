@@ -2,8 +2,8 @@ package repertapp.repertapp.validation;
 
 import javax.validation.Valid;
 
+import repertapp.repertapp.domain.Music;
 import repertapp.repertapp.domain.RepertappUser;
-import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.domain.Tone;
 import repertapp.repertapp.domain.Version;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
@@ -18,8 +18,8 @@ public class VersionRequestValidation {
     public static void valideAdd(@Valid VersionPostRequestBody versionRequest, VersionRepository repository) {
         versionRepository = repository;
 
-        checkVersionToneAndRepertappUserAndSongUnique(versionRequest.getTone(), versionRequest.getRepertappUser(),
-                versionRequest.getSong());
+        checkVersionToneAndRepertappUserAndMusicUnique(versionRequest.getTone(), versionRequest.getRepertappUser(),
+                versionRequest.getMusic());
     }
 
     public static void valideUpdate(@Valid VersionPutRequestBody versionRequest, Version version,
@@ -28,15 +28,15 @@ public class VersionRequestValidation {
 
         if (!(version.getTone().equals(versionRequest.getTone())
                 && version.getRepertappUser().equals(versionRequest.getRepertappUser())
-                && version.getSong().equals(versionRequest.getSong())))
-            checkVersionToneAndRepertappUserAndSongUnique(versionRequest.getTone(), versionRequest.getRepertappUser(),
-                    versionRequest.getSong());
+                && version.getMusic().equals(versionRequest.getMusic())))
+            checkVersionToneAndRepertappUserAndMusicUnique(versionRequest.getTone(), versionRequest.getRepertappUser(),
+                    versionRequest.getMusic());
     }
 
-    private static void checkVersionToneAndRepertappUserAndSongUnique(Tone tone, RepertappUser repertappUser,
-            Song song) {
-        if (versionRepository.existsByToneAndRepertappUserAndSong(tone, repertappUser, song))
-            throw new ResourceAlreadyExists("Version", "tone", tone, "user_id", repertappUser.getId(), "song_id",
-                    song.getId());
+    private static void checkVersionToneAndRepertappUserAndMusicUnique(Tone tone, RepertappUser repertappUser,
+            Music music) {
+        if (versionRepository.existsByToneAndRepertappUserAndMusic(tone, repertappUser, music))
+            throw new ResourceAlreadyExists("Version", "tone", tone, "user_id", repertappUser.getId(), "music_id",
+                    music.getId());
     }
 }
