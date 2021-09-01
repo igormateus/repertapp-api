@@ -3,6 +3,8 @@ package repertapp.repertapp.payload;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.URL;
 
@@ -11,12 +13,14 @@ import repertapp.repertapp.domain.Tag;
 import repertapp.repertapp.domain.Tone;
 
 @Data
-public class SongRequest {
-    
-    @NotBlank(message = "Name not must be blank")
+public class SongPutRequestBody {
+    @NotNull
+    private Long id;
+
+    @NotBlank @Size(min = 2, max = 255)
     private String name;
 
-    @NotBlank(message = "Artist not must be blank")
+    @NotBlank @Size(min = 2, max = 255)
     private String artist;
 
     @URL
@@ -24,9 +28,12 @@ public class SongRequest {
 
     @URL
     private String spotifyLink;
-    
+
+    @NotNull
+    private int counterPlays;
+
+    @NotNull
     private Tone tone;
 
     private List<Tag> tags;
-
 }
