@@ -23,7 +23,7 @@ public class SongRequestValidation {
             checkSpotifyLinkUnique(songRequest.getSpotifyLink());
     }
 
-    public static void valideUpdate(Song song, SongPutRequestBody songRequest, SongRepository songRepository) {
+    public static void valideUpdate(SongPutRequestBody songRequest, Song song, SongRepository songRepository) {
         repository = songRepository;
 
         if (!(song.getArtist().equals(songRequest.getArtist()) && song.getName().equals(songRequest.getName())))

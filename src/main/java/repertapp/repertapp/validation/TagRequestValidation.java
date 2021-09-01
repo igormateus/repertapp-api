@@ -10,13 +10,13 @@ public class TagRequestValidation {
 
     private static TagRepository repository;
 
-    public static void validePost(TagPostRequestBody tagRequest, TagRepository tagRepository) {
+    public static void valideAdd(TagPostRequestBody tagRequest, TagRepository tagRepository) {
         repository = tagRepository;
 
         checkTagNameUnique(tagRequest.getName());
     }
 
-    public static void valideUpdate(Tag tag, TagPutRequestBody tagRequest, TagRepository tagRepository) {
+    public static void valideUpdate(TagPutRequestBody tagRequest, Tag tag, TagRepository tagRepository) {
         repository = tagRepository;
 
         if (!tag.getName().equals(tagRequest.getName()))
@@ -24,7 +24,7 @@ public class TagRequestValidation {
     }
 
     private static void checkTagNameUnique(String name) {
-        if (!repository.existsByName(name))
+        if (repository.existsByName(name))
             throw new ResourceAlreadyExists("Tag", "name", name);
     }    
 }
