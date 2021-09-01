@@ -3,6 +3,7 @@ package repertapp.repertapp.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
@@ -24,28 +26,35 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tag", uniqueConstraints = {
-        @UniqueConstraint(name = "tag_name_unique", columnNames = "name") })
-public class Tag {
+@Table(name = "band", uniqueConstraints = {
+        @UniqueConstraint(name = "band_name_unique", columnNames = "name") })
+public class Band {
     
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @NotBlank @Size(min = 2, max = 255)
+    @NotBlank @Size(min = 3, max = 255)
     @Column(name = "name", nullable = false)
     private String name;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "band", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Music> musics = new ArrayList<>(); 
+    
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "song_tag",
-        joinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"))
-    private List<Song> songs = new ArrayList<>();
+    @JoinTable(name = "band_repertapp_user",
+            joinColumns = @JoinColumn(name = "band_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "repertapp_user_id", referencedColumnName = "id"))
+    private List<RepertappUser> members = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "band", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Setlist> setlists = new ArrayList<>();
 }

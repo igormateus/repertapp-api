@@ -10,6 +10,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -27,12 +28,14 @@ import org.hibernate.validator.constraints.URL;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "song", uniqueConstraints = {
         @UniqueConstraint(name = "song_artist_name_unique", columnNames = { "ARTIST", "NAME" }),
@@ -40,8 +43,9 @@ import lombok.NoArgsConstructor;
         @UniqueConstraint(name = "song_spotify_link_unique", columnNames = "spotify_link") })
 public class Song {
 
+    @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank @Size(min = 2, max = 255)
@@ -63,9 +67,6 @@ public class Song {
     @Column(name = "counter_plays", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
     private int counterPlays;
 
-    @Column(name = "score", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
-    private int score;
-
     @Enumerated(EnumType.STRING) @NotNull
     @Column(name = "tone", columnDefinition = "VARCHAR(5)", nullable = false)
     private Tone tone;
@@ -81,4 +82,7 @@ public class Song {
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Version> versions = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Music> musics = new ArrayList<>();
 }

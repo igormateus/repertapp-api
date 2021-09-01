@@ -6,9 +6,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -17,21 +21,22 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(name = "user_name_unique", columnNames = "name"),
-    @UniqueConstraint(name = "user_username_unique", columnNames = "username"),
-    @UniqueConstraint(name = "user_email_unique", columnNames = "email")})
+        @UniqueConstraint(name = "user_name_unique", columnNames = "name"),
+        @UniqueConstraint(name = "user_username_unique", columnNames = "username"),
+        @UniqueConstraint(name = "user_email_unique", columnNames = "email") })
 public class RepertappUser {
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,11 +53,19 @@ public class RepertappUser {
     @Column(name = "username", nullable = false)
     private String username;
 
-    // @Column(name = "password", nullable = false)
-    // private String password;
+    @NotBlank @Size(min = 3, max = 100)
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @JsonIgnore
     @OneToMany(mappedBy = "repertappUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Version> versions = new ArrayList<>();
-    
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "band_repertapp_user",
+            joinColumns = @JoinColumn(name = "repertapp_user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "band_id", referencedColumnName = "id"))
+    private List<Band> bands = new ArrayList<>();
 }
