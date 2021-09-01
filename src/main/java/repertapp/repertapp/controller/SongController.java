@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.domain.Tag;
-import repertapp.repertapp.payload.SongRequest;
-import repertapp.repertapp.payload.SongResponse;
+import repertapp.repertapp.payload.SongPostRequestBody;
+import repertapp.repertapp.payload.SongPutRequestBody;
 import repertapp.repertapp.service.SongService;
 
 
@@ -47,15 +47,15 @@ public class SongController {
     }
 
     @PostMapping
-    public ResponseEntity<SongResponse> addSong(@Valid @RequestBody SongRequest songRequest) {
-        SongResponse songResponse = songService.addSong(songRequest);
+    public ResponseEntity<Song> addSong(@Valid @RequestBody SongPostRequestBody songRequest) {
+        Song songResponse = songService.addSong(songRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(songResponse);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateSong(@PathVariable Long id, @Valid @RequestBody SongRequest newSongRequest) {
-        songService.updateSong(id, newSongRequest);
+    @PutMapping
+    public ResponseEntity<Void> updateSong(@PathVariable Long id, @Valid @RequestBody SongPutRequestBody songRequest) {
+        songService.updateSong(songRequest);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

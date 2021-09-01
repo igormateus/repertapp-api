@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Tag;
+import repertapp.repertapp.payload.TagPostRequestBody;
+import repertapp.repertapp.payload.TagPutRequestBody;
 import repertapp.repertapp.service.TagService;
 
 @RequiredArgsConstructor
@@ -41,15 +43,15 @@ public class TagController {
     }
 
     @PostMapping
-    public ResponseEntity<Tag> addTag(@Valid @RequestBody Tag tag) {
+    public ResponseEntity<Tag> addTag(@Valid @RequestBody TagPostRequestBody tag) {
         Tag newTag = tagService.addTag(tag);
 
         return new ResponseEntity<>(newTag, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateTag(@PathVariable Long id, @Valid @RequestBody Tag tag) {
-        tagService.updateTag(id, tag);
+    @PutMapping
+    public ResponseEntity<Void> updateTag(@Valid @RequestBody TagPutRequestBody tag) {
+        tagService.updateTag(tag);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

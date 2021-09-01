@@ -18,12 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import repertapp.repertapp.domain.Song;
-import repertapp.repertapp.payload.SongResponse;
 import repertapp.repertapp.repository.SongRepository;
 import repertapp.repertapp.repository.TagRepository;
 import repertapp.repertapp.util.SongCreator;
-import repertapp.repertapp.util.SongRequestCreator;
-import repertapp.repertapp.util.SongResponseCreator;
 import repertapp.repertapp.util.TagCreator;
 
 @ExtendWith(SpringExtension.class)
@@ -105,31 +102,31 @@ public class SongServiceTest {
                 .isEqualTo(SongCreator.createValid().getId());
     }
 
-    @Test
-    @DisplayName("addSong returns a list of song inside page object when successful")
-    void addSong_returnsListOfSongsInsidePageObject_whenSuccessful() {
-        SongResponse songResponse = songService.addSong(SongRequestCreator.createToBeSaved());
+//     @Test
+//     @DisplayName("addSong returns a list of song inside page object when successful")
+//     void addSong_returnsListOfSongsInsidePageObject_whenSuccessful() {
+//         SongResponse songResponse = songService.addSong(SongRequestCreator.createToBeSaved());
 
-        Assertions.assertThat(songResponse)
-                .isNotNull()
-                .isEqualTo(SongResponseCreator.createValid());
-    }
+//         Assertions.assertThat(songResponse)
+//                 .isNotNull()
+//                 .isEqualTo(SongResponseCreator.createValid());
+//     }
 
-    @Test
-    @DisplayName("updateSong updates song when successful")
-    void updateSong_updatesSong_whenSuccessful() {
-        Assertions.assertThatCode(() -> songService.updateSong(
-                SongCreator.createValid().getId(),
-                SongRequestCreator.createToBeSaved()
-        )).doesNotThrowAnyException();
-    }
+//     @Test
+//     @DisplayName("updateSong updates song when successful")
+//     void updateSong_updatesSong_whenSuccessful() {
+//         Assertions.assertThatCode(() -> songService.updateSong(
+//                 SongCreator.createValid().getId(),
+//                 SongRequestCreator.createToBeSaved()
+//         )).doesNotThrowAnyException();
+//     }
 
-    @Test
-    @DisplayName("deleteSong removes song when successful")
-    void deleteSong_removesSong_whenSuccessful() {
-        Assertions.assertThatCode(() -> songService.deleteSong(SongCreator.createValid().getId()))
-                .doesNotThrowAnyException();
-    }
+//     @Test
+//     @DisplayName("deleteSong removes song when successful")
+//     void deleteSong_removesSong_whenSuccessful() {
+//         Assertions.assertThatCode(() -> songService.deleteSong(SongCreator.createValid().getId()))
+//                 .doesNotThrowAnyException();
+//     }
 
     @Test
     @DisplayName("getSongsByTag returns a list of songs inside page object when successful")
