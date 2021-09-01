@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +36,7 @@ public class Setlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min = 3, max = 255)
     @Column(name = "name")
     private String name;
 
@@ -43,7 +45,7 @@ public class Setlist {
     private LocalDate eventDate;
 
     @Column(name = "event", columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL")
-    private boolean isDone;
+    private Boolean isDone;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "setlist_version",
@@ -54,6 +56,6 @@ public class Setlist {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "band_id")
+    @JoinColumn(name = "band_id", nullable = false)
     private Band band;
 }

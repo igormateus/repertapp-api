@@ -31,8 +31,8 @@ public class Music {
     private long id;
 
     @NotNull
-    @Column(name = "known", columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL")
-    private boolean known;
+    @Column(name = "id_known", columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL")
+    private boolean isKnown;
 
     @NotNull
     @Column(name = "score", columnDefinition = "INTEGER DEFAULT 1000 NOT NULL")

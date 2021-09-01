@@ -16,4 +16,7 @@ public class RepertappUserPostRequestBody {
 
     @NotBlank @Size(min = 3)
     private String username;
+
+    @NotBlank @Size(min = 3, max = 255)
+    private String password;
 }
