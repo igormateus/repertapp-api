@@ -30,27 +30,27 @@ public class TagServiceTest {
     @Mock
     private TagRepository tagRepositoryMock;
 
-    @BeforeEach
-    public void setUp() {
-        PageImpl<Tag> tagPage = new PageImpl<>(List.of(TagCreator.createValid()));
+//     @BeforeEach
+//     public void setUp() {
+//         PageImpl<Tag> tagPage = new PageImpl<>(List.of(TagCreator.createValid()));
 
-        BDDMockito.when(tagRepositoryMock.findAll(ArgumentMatchers.any(PageRequest.class)))
-                .thenReturn(tagPage);
+//         BDDMockito.when(tagRepositoryMock.findAll(ArgumentMatchers.any(PageRequest.class)))
+//                 .thenReturn(tagPage);
 
-        BDDMockito.when(tagRepositoryMock.findById(ArgumentMatchers.anyLong()))
-                .thenReturn(Optional.of(TagCreator.createValid()));
+//         BDDMockito.when(tagRepositoryMock.findById(ArgumentMatchers.anyLong()))
+//                 .thenReturn(Optional.of(TagCreator.createValid()));
 
-        BDDMockito.when(tagRepositoryMock.findByName(ArgumentMatchers.anyString()))
-                .thenReturn(TagCreator.createValid());
+//         BDDMockito.when(tagRepositoryMock.findByName(ArgumentMatchers.anyString()))
+//                 .thenReturn(TagCreator.createValid());
 
-        BDDMockito.when(tagRepositoryMock.save(ArgumentMatchers.any(Tag.class)))
-                .thenReturn(TagCreator.createValid());
+//         BDDMockito.when(tagRepositoryMock.save(ArgumentMatchers.any(Tag.class)))
+//                 .thenReturn(TagCreator.createValid());
 
-        BDDMockito.doNothing().when(tagRepositoryMock).delete(ArgumentMatchers.any(Tag.class));
+//         BDDMockito.doNothing().when(tagRepositoryMock).delete(ArgumentMatchers.any(Tag.class));
 
-        BDDMockito.when(tagRepositoryMock.existsByName(ArgumentMatchers.anyString()))
-                .thenReturn(Boolean.TRUE);
-    }
+//         BDDMockito.when(tagRepositoryMock.existsByName(ArgumentMatchers.anyString()))
+//                 .thenReturn(Boolean.TRUE);
+//     }
 
     @Test
     @DisplayName("getAllTags returns a list of tags inside page object when successful")

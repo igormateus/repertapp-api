@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,14 +45,14 @@ public class Setlist {
     @Column(name = "event_date", nullable = false)
     private LocalDate eventDate;
 
-    @Column(name = "event", columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL")
+    @Column(name = "is_done", columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL")
     private Boolean isDone;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "setlist_version",
         joinColumns = @JoinColumn(name = "setlist_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "version_id", referencedColumnName = "id")
-    )
+        inverseJoinColumns = @JoinColumn(name = "version_id", referencedColumnName = "id"),
+        uniqueConstraints = @UniqueConstraint(name = "setlist_version_unique", columnNames = {"version_id", "setlist_id"}))
     private List<Version> versions = new ArrayList<>();
 
     @NotNull

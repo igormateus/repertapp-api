@@ -46,6 +46,7 @@ public class Tag {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "song_tag",
         joinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"))
+        inverseJoinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"), 
+        uniqueConstraints = @UniqueConstraint(name = "song_tag_unique", columnNames = {"song_id", "tag_id"}))
     private List<Song> songs = new ArrayList<>();
 }

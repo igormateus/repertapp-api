@@ -60,8 +60,8 @@ public class Version {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "setlist_version",
         joinColumns = @JoinColumn(name = "version_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "setlist_id", referencedColumnName = "id")
-    )
+        inverseJoinColumns = @JoinColumn(name = "setlist_id", referencedColumnName = "id"),
+        uniqueConstraints = @UniqueConstraint(name = "setlist_version_unique", columnNames = {"version_id", "setlist_id"}))
     private List<Setlist> setlists = new ArrayList<>();
 
 }

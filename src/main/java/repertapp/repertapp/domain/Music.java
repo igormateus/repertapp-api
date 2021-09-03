@@ -38,7 +38,7 @@ public class Music {
     private long id;
 
     @NotNull
-    @Column(name = "id_known", columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL")
+    @Column(name = "is_known", columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL")
     private boolean isKnown;
 
     @NotNull
@@ -47,16 +47,16 @@ public class Music {
 
     @Column(name = "counter_plays", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
     private int counterPlays;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "band_id", nullable = false)
-    private Band band;
     
     @NotNull
     @ManyToOne
     @JoinColumn(name = "song_id", nullable = false)
     private Song song;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "band_id", nullable = false)
+    private Band band;
 
     @JsonIgnore
     @OneToMany(mappedBy = "music", cascade = CascadeType.ALL, orphanRemoval = true)

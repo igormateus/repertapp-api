@@ -51,7 +51,8 @@ public class Band {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "band_repertapp_user",
             joinColumns = @JoinColumn(name = "band_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "repertapp_user_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "repertapp_user_id", referencedColumnName = "id"),
+            uniqueConstraints = @UniqueConstraint(name = "band_repertapp_user_unique", columnNames = {"band_id", "repertapp_user_id"}))
     private List<RepertappUser> members = new ArrayList<>();
 
     @JsonIgnore
