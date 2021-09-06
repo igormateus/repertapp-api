@@ -24,7 +24,7 @@ import repertapp.repertapp.service.SetlistService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/setlist")
+@RequestMapping("/api/setlists")
 public class SetlistController {
     
     private final SetlistService setlistService;

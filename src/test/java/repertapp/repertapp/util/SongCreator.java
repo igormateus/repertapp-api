@@ -17,14 +17,14 @@ public class SongCreator {
         return song;
     }
 
-    public static Song createToBeSaved(String number) {
+    public static Song createToBeSaved(Object n) {
         Song song = new Song();
 
-        song.setArtist("artist_test_" + number);
-        song.setName("name_test_" + number);
-        song.setSpotifyLink("https://www.spotify.com/br/test_" + number);
+        song.setArtist("artist_test_" + n);
+        song.setName("name_test_" + n);
+        song.setSpotifyLink("https://www.spotify.com/br/test_" + n);
         song.setTone(Tone.A);
-        song.setYoutubeLink("https://www.youtube.com/test_" + number);
+        song.setYoutubeLink("https://www.youtube.com/test_" + n);
         
         return song;
     }
@@ -33,6 +33,14 @@ public class SongCreator {
         Song song = createToBeSaved();
         
         song.setId(1L);
+        
+        return song;
+    }
+
+    public static Song createValid(Object n) {
+        Song song = createToBeSaved(n);
+        
+        song.setId((Long) n);
         
         return song;
     }
