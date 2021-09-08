@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Band;
+import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.BandMapper;
 import repertapp.repertapp.repository.BandRepository;
@@ -22,6 +23,7 @@ import repertapp.repertapp.validation.BandRequestValidation;
 public class BandService {
 
     private final BandRepository bandRepository;
+
     private final RepertappUserRepository userRepository;
 
     private Band findByIdOrThrowResourceNotFoundException(Long id) {
@@ -29,14 +31,12 @@ public class BandService {
                 .orElseThrow(() -> new ResourceNotFoundException("Band", "id", id));
     }
 
+    // Ok
     @Transactional
-    public Band addBand(@Valid BandPostRequestBody bandRequest) {
-        bandRequest.getMembers().stream().forEach(user -> userRepository.findById(user.getId()).orElseThrow(
-            () -> new ResourceNotFoundException("User", "id", user.getId())));
-
-        BandRequestValidation.valideAdd(bandRequest, bandRepository);
-
-        Band band = BandMapper.INSTANCE.toBand(bandRequest);
+    public Band addBand(@Valid BandPostRequestBody bandRequest, RepertappUser user) {
+        bandRequest.getMembers().add(user);
+            
+        Band band = BandRequestValidation.valideAdd(bandRequest, bandRepository);
 
         Band bandSaved = bandRepository.save(band);
 
@@ -63,16 +63,24 @@ public class BandService {
         
         bandRepository.delete(band);
     }
-
-    public Page<Band> getAllBands(Pageable pageable) {
-        Page<Band> bands = bandRepository.findAll(pageable);
-
+    
+    // Ok
+    public Page<Band> getBandsByUser(RepertappUser user, Pageable pageable) {
+        Page<Band> bands = bandRepository.findByMembers(user, pageable);
+        
         return bands;
     }
-
+    
+    // Ok
     public Band getBand(Long id) {
         Band band = findByIdOrThrowResourceNotFoundException(id);
         
         return band;
     }
+    
+    // public Page<Band> getAllBands(Pageable pageable) {
+    //     Page<Band> bands = bandRepository.findAll(pageable);
+
+    //     return bands;
+    // }
 }

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Band;
+import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.request.BandPostRequestBody;
 import repertapp.repertapp.request.BandPutRequestBody;
 import repertapp.repertapp.service.BandService;
@@ -29,9 +31,11 @@ public class BandController {
     
     private final BandService bandService;
 
+    // Ok
     @PostMapping
-    public ResponseEntity<Band> addBand(@Valid @RequestBody BandPostRequestBody band) {
-        Band bandSaved = bandService.addBand(band);
+    public ResponseEntity<Band> addBand(@Valid @RequestBody BandPostRequestBody band,
+            @AuthenticationPrincipal RepertappUser user) {
+        Band bandSaved = bandService.addBand(band, user);
 
         return new ResponseEntity<>(bandSaved, HttpStatus.CREATED);
     }
@@ -49,20 +53,34 @@ public class BandController {
 
         return ResponseEntity.noContent().build();
     }
-
+    
+    // Ok
     @GetMapping
-    public ResponseEntity<Page<Band>> getAllBands(Pageable pageable) {
-        Page<Band> response = bandService.getAllBands(pageable);
-
+    public ResponseEntity<Page<Band>> getBandsByUser(
+        @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
+            
+        Page<Band> response = bandService.getBandsByUser(user, pageable);
+        
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Band> getBand(@PathVariable Long id) {
-        Band band = bandService.getBand(id);
-
-        return ResponseEntity.ok(band);
-    }
     
+    // Ok
+    @GetMapping("/{id}")
+    public ResponseEntity<Band> getBand(
+        @AuthenticationPrincipal RepertappUser user, @PathVariable Long id) {
+        Band band = bandService.getBand(id);
+        
+        if (band.getMembers().contains(user)) {
+            return ResponseEntity.ok(band);
+        }
+        
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+        
+    // @GetMapping
+    // public ResponseEntity<Page<Band>> getAllBands(Pageable pageable) {
+    //     Page<Band> response = bandService.getAllBands(pageable);
 
+    //     return ResponseEntity.ok(response);
+    // }
 }

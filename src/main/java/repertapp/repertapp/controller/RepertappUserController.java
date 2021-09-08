@@ -29,6 +29,7 @@ public class RepertappUserController {
     
     private final RepertappUserService userService;
 
+    //Ok
     @PostMapping
     public ResponseEntity<RepertappUser> registerUser(@Valid @RequestBody RepertappUserPostRequestBody userRequest) {
         RepertappUser userSaved = userService.addUser(userRequest);

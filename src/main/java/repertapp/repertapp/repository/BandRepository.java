@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import repertapp.repertapp.domain.Band;
+import repertapp.repertapp.domain.RepertappUser;
 
 @Repository
 public interface BandRepository extends JpaRepository<Band, Long> {
-    Page<Band> findByNameLike(@NotNull String name, Pageable page);
-    
+    Page<Band> findByNameLike(@NotBlank String name, Pageable page);
+    Page<Band> findByMembers(@NotNull RepertappUser member, Pageable page);
+
     Boolean existsByName(@NotBlank String name);
 }
