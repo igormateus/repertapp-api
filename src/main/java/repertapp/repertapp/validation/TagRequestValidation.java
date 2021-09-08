@@ -2,9 +2,9 @@ package repertapp.repertapp.validation;
 
 import repertapp.repertapp.domain.Tag;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
-import repertapp.repertapp.payload.TagPostRequestBody;
-import repertapp.repertapp.payload.TagPutRequestBody;
 import repertapp.repertapp.repository.TagRepository;
+import repertapp.repertapp.request.TagPostRequestBody;
+import repertapp.repertapp.request.TagPutRequestBody;
 
 public class TagRequestValidation {
 

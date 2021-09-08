@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Music;
-import repertapp.repertapp.payload.MusicPostRequestBody;
-import repertapp.repertapp.payload.MusicPutRequestBody;
+import repertapp.repertapp.request.MusicPostRequestBody;
+import repertapp.repertapp.request.MusicPutRequestBody;
 import repertapp.repertapp.service.MusicService;
 
 

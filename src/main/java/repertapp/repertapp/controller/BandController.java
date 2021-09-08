@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Band;
-import repertapp.repertapp.payload.BandPostRequestBody;
-import repertapp.repertapp.payload.BandPutRequestBody;
+import repertapp.repertapp.request.BandPostRequestBody;
+import repertapp.repertapp.request.BandPutRequestBody;
 import repertapp.repertapp.service.BandService;
 
 

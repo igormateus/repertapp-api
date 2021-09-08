@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import repertapp.repertapp.domain.Music;
-import repertapp.repertapp.payload.MusicPostRequestBody;
-import repertapp.repertapp.payload.MusicPutRequestBody;
+import repertapp.repertapp.request.MusicPostRequestBody;
+import repertapp.repertapp.request.MusicPutRequestBody;
 
 @Mapper(componentModel = "spring")
 public abstract class MusicMapper {

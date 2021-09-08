@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Version;
-import repertapp.repertapp.payload.VersionPostRequestBody;
-import repertapp.repertapp.payload.VersionPutRequestBody;
+import repertapp.repertapp.request.VersionPostRequestBody;
+import repertapp.repertapp.request.VersionPutRequestBody;
 import repertapp.repertapp.service.VersionService;
 
 @RequiredArgsConstructor

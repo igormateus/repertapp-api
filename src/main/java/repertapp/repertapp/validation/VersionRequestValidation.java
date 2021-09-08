@@ -7,9 +7,9 @@ import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.domain.Tone;
 import repertapp.repertapp.domain.Version;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
-import repertapp.repertapp.payload.VersionPostRequestBody;
-import repertapp.repertapp.payload.VersionPutRequestBody;
 import repertapp.repertapp.repository.VersionRepository;
+import repertapp.repertapp.request.VersionPostRequestBody;
+import repertapp.repertapp.request.VersionPutRequestBody;
 
 public class VersionRequestValidation {
 

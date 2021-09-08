@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import repertapp.repertapp.domain.Version;
-import repertapp.repertapp.payload.VersionPostRequestBody;
-import repertapp.repertapp.payload.VersionPutRequestBody;
+import repertapp.repertapp.request.VersionPostRequestBody;
+import repertapp.repertapp.request.VersionPutRequestBody;
 
 @Mapper(componentModel = "spring")
 public abstract class VersionMapper {

@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import repertapp.repertapp.domain.Setlist;
-import repertapp.repertapp.payload.SetlistPostRequestBody;
-import repertapp.repertapp.payload.SetlistPutRequestBody;
+import repertapp.repertapp.request.SetlistPostRequestBody;
+import repertapp.repertapp.request.SetlistPutRequestBody;
 
 @Mapper(componentModel = "spring")
 public abstract class SetlistMapper {

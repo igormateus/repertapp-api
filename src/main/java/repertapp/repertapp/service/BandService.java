@@ -11,9 +11,10 @@ import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Band;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.BandMapper;
-import repertapp.repertapp.payload.BandPostRequestBody;
-import repertapp.repertapp.payload.BandPutRequestBody;
 import repertapp.repertapp.repository.BandRepository;
+import repertapp.repertapp.repository.RepertappUserRepository;
+import repertapp.repertapp.request.BandPostRequestBody;
+import repertapp.repertapp.request.BandPutRequestBody;
 import repertapp.repertapp.validation.BandRequestValidation;
 
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ import repertapp.repertapp.validation.BandRequestValidation;
 public class BandService {
 
     private final BandRepository bandRepository;
+    private final RepertappUserRepository userRepository;
 
     private Band findByIdOrThrowResourceNotFoundException(Long id) {
         return bandRepository.findById(id)
@@ -29,6 +31,9 @@ public class BandService {
 
     @Transactional
     public Band addBand(@Valid BandPostRequestBody bandRequest) {
+        bandRequest.getMembers().stream().forEach(user -> userRepository.findById(user.getId()).orElseThrow(
+            () -> new ResourceNotFoundException("User", "id", user.getId())));
+
         BandRequestValidation.valideAdd(bandRequest, bandRepository);
 
         Band band = BandMapper.INSTANCE.toBand(bandRequest);
@@ -40,6 +45,9 @@ public class BandService {
 
     @Transactional
     public void updateBand(@Valid BandPutRequestBody bandRequest) {
+        bandRequest.getMembers().stream().forEach(user -> userRepository.findById(user.getId()).orElseThrow(
+            () -> new ResourceNotFoundException("User", "id", user.getId())));
+            
         Band band = findByIdOrThrowResourceNotFoundException(bandRequest.getId());
 
         BandRequestValidation.valideUpdate(bandRequest, band, bandRepository);

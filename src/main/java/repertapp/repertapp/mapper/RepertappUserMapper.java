@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import repertapp.repertapp.domain.RepertappUser;
-import repertapp.repertapp.payload.RepertappUserPostRequestBody;
-import repertapp.repertapp.payload.RepertappUserPutRequestBody;
+import repertapp.repertapp.request.RepertappUserPostRequestBody;
+import repertapp.repertapp.request.RepertappUserPutRequestBody;
 
 @Mapper(componentModel = "spring")
 public abstract class RepertappUserMapper {

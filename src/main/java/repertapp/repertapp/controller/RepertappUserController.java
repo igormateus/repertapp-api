@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.RepertappUser;
-import repertapp.repertapp.payload.RepertappUserPostRequestBody;
-import repertapp.repertapp.payload.RepertappUserPutRequestBody;
+import repertapp.repertapp.request.RepertappUserPostRequestBody;
+import repertapp.repertapp.request.RepertappUserPutRequestBody;
 import repertapp.repertapp.service.RepertappUserService;
 
 
@@ -30,8 +30,8 @@ public class RepertappUserController {
     private final RepertappUserService userService;
 
     @PostMapping
-    public ResponseEntity<RepertappUser> addUser(@Valid @RequestBody RepertappUserPostRequestBody user) {
-        RepertappUser userSaved = userService.addUser(user);
+    public ResponseEntity<RepertappUser> registerUser(@Valid @RequestBody RepertappUserPostRequestBody userRequest) {
+        RepertappUser userSaved = userService.addUser(userRequest);
 
         return new ResponseEntity<>(userSaved, HttpStatus.CREATED);
     }

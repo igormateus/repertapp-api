@@ -11,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Music;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.MusicMapper;
-import repertapp.repertapp.payload.MusicPostRequestBody;
-import repertapp.repertapp.payload.MusicPutRequestBody;
 import repertapp.repertapp.repository.MusicRepository;
+import repertapp.repertapp.request.MusicPostRequestBody;
+import repertapp.repertapp.request.MusicPutRequestBody;
 import repertapp.repertapp.validation.MusicRequestValidation;
 
 @RequiredArgsConstructor

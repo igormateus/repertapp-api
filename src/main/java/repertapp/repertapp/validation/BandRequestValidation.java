@@ -4,9 +4,9 @@ import javax.validation.Valid;
 
 import repertapp.repertapp.domain.Band;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
-import repertapp.repertapp.payload.BandPostRequestBody;
-import repertapp.repertapp.payload.BandPutRequestBody;
 import repertapp.repertapp.repository.BandRepository;
+import repertapp.repertapp.request.BandPostRequestBody;
+import repertapp.repertapp.request.BandPutRequestBody;
 
 public class BandRequestValidation {
 

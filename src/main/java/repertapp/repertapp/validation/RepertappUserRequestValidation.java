@@ -4,15 +4,16 @@ import javax.validation.Valid;
 
 import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
-import repertapp.repertapp.payload.RepertappUserPostRequestBody;
-import repertapp.repertapp.payload.RepertappUserPutRequestBody;
+import repertapp.repertapp.mapper.RepertappUserMapper;
 import repertapp.repertapp.repository.RepertappUserRepository;
+import repertapp.repertapp.request.RepertappUserPostRequestBody;
+import repertapp.repertapp.request.RepertappUserPutRequestBody;
 
 public class RepertappUserRequestValidation {
 
     private static RepertappUserRepository userRepository;
 
-    public static void valideAdd(@Valid RepertappUserPostRequestBody userRequest, RepertappUserRepository repository) {
+    public static RepertappUser valideAdd(@Valid RepertappUserPostRequestBody userRequest, RepertappUserRepository repository) {
         userRepository = repository;
 
         checkRepertappUserNameUnique(userRequest.getName());
@@ -20,6 +21,8 @@ public class RepertappUserRequestValidation {
         checkRepertappUserEmailUnique(userRequest.getEmail());
 
         checkRepertappUserUsernameUnique(userRequest.getUsername());
+
+        return RepertappUserMapper.INSTANCE.toRepertappUser(userRequest);
     }
 
     public static void valideUpdate(@Valid RepertappUserPutRequestBody userRequest, RepertappUser user,

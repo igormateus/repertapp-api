@@ -6,9 +6,9 @@ import repertapp.repertapp.domain.Band;
 import repertapp.repertapp.domain.Music;
 import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
-import repertapp.repertapp.payload.MusicPostRequestBody;
-import repertapp.repertapp.payload.MusicPutRequestBody;
 import repertapp.repertapp.repository.MusicRepository;
+import repertapp.repertapp.request.MusicPostRequestBody;
+import repertapp.repertapp.request.MusicPutRequestBody;
 
 public class MusicRequestValidation {
 

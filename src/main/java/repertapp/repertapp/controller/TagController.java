@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Tag;
-import repertapp.repertapp.payload.TagPostRequestBody;
-import repertapp.repertapp.payload.TagPutRequestBody;
+import repertapp.repertapp.request.TagPostRequestBody;
+import repertapp.repertapp.request.TagPutRequestBody;
 import repertapp.repertapp.service.TagService;
 
 @RequiredArgsConstructor

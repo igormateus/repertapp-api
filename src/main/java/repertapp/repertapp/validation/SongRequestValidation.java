@@ -2,9 +2,9 @@ package repertapp.repertapp.validation;
 
 import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
-import repertapp.repertapp.payload.SongPostRequestBody;
-import repertapp.repertapp.payload.SongPutRequestBody;
 import repertapp.repertapp.repository.SongRepository;
+import repertapp.repertapp.request.SongPostRequestBody;
+import repertapp.repertapp.request.SongPutRequestBody;
 import repertapp.repertapp.util.Util;
 
 public class SongRequestValidation {

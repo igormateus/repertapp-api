@@ -1,4 +1,4 @@
-package repertapp.repertapp.payload;
+package repertapp.repertapp.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

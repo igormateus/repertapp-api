@@ -11,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Version;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.VersionMapper;
-import repertapp.repertapp.payload.VersionPostRequestBody;
-import repertapp.repertapp.payload.VersionPutRequestBody;
 import repertapp.repertapp.repository.VersionRepository;
+import repertapp.repertapp.request.VersionPostRequestBody;
+import repertapp.repertapp.request.VersionPutRequestBody;
 import repertapp.repertapp.validation.VersionRequestValidation;
 
 @RequiredArgsConstructor

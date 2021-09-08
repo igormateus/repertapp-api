@@ -1,6 +1,7 @@
 package repertapp.repertapp.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,6 +25,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,7 +38,7 @@ import lombok.EqualsAndHashCode;
         @UniqueConstraint(name = "user_name_unique", columnNames = "name"),
         @UniqueConstraint(name = "user_username_unique", columnNames = "username"),
         @UniqueConstraint(name = "user_email_unique", columnNames = "email") })
-public class RepertappUser {
+public class RepertappUser implements UserDetails {
 
     @EqualsAndHashCode.Include
     @Id
@@ -69,4 +73,29 @@ public class RepertappUser {
             inverseJoinColumns = @JoinColumn(name = "band_id", referencedColumnName = "id"),
             uniqueConstraints = @UniqueConstraint(name = "band_repertapp_user_unique", columnNames = {"band_id", "repertapp_user_id"}))
     private List<Band> bands = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

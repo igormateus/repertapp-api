@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Setlist;
-import repertapp.repertapp.payload.SetlistPostRequestBody;
-import repertapp.repertapp.payload.SetlistPutRequestBody;
+import repertapp.repertapp.request.SetlistPostRequestBody;
+import repertapp.repertapp.request.SetlistPutRequestBody;
 import repertapp.repertapp.service.SetlistService;
 
 

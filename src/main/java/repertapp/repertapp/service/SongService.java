@@ -12,10 +12,10 @@ import repertapp.repertapp.domain.Song;
 import repertapp.repertapp.domain.Tag;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.SongMapper;
-import repertapp.repertapp.payload.SongPostRequestBody;
-import repertapp.repertapp.payload.SongPutRequestBody;
 import repertapp.repertapp.repository.SongRepository;
 import repertapp.repertapp.repository.TagRepository;
+import repertapp.repertapp.request.SongPostRequestBody;
+import repertapp.repertapp.request.SongPutRequestBody;
 import repertapp.repertapp.validation.SongRequestValidation;
 
 @RequiredArgsConstructor

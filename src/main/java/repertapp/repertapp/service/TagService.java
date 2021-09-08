@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Tag;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.TagMapper;
-import repertapp.repertapp.payload.TagPostRequestBody;
-import repertapp.repertapp.payload.TagPutRequestBody;
 import repertapp.repertapp.repository.TagRepository;
+import repertapp.repertapp.request.TagPostRequestBody;
+import repertapp.repertapp.request.TagPutRequestBody;
 import repertapp.repertapp.validation.TagRequestValidation;
 
 @RequiredArgsConstructor

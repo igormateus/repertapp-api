@@ -11,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Setlist;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.SetlistMapper;
-import repertapp.repertapp.payload.SetlistPostRequestBody;
-import repertapp.repertapp.payload.SetlistPutRequestBody;
 import repertapp.repertapp.repository.SetlistRepository;
+import repertapp.repertapp.request.SetlistPostRequestBody;
+import repertapp.repertapp.request.SetlistPutRequestBody;
 
 @RequiredArgsConstructor
 @Service
