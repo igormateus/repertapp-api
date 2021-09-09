@@ -31,6 +31,10 @@ public class BandController {
     
     private final BandService bandService;
 
+    private Boolean hasBand(RepertappUser user, Long bandId) {
+        return user.getBands().stream().anyMatch(band -> band.getId().equals(bandId));
+    }
+
     // Ok
     @PostMapping
     public ResponseEntity<Band> addBand(@Valid @RequestBody BandPostRequestBody band,
@@ -41,7 +45,12 @@ public class BandController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateBand(@Valid @RequestBody BandPutRequestBody band) {
+    public ResponseEntity<Void> updateBand(
+        @AuthenticationPrincipal RepertappUser user, @Valid @RequestBody BandPutRequestBody band) {
+        
+        if (!hasBand(user, band.getId())) 
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            
         bandService.updateBand(band);
 
         return ResponseEntity.noContent().build();
@@ -68,19 +77,12 @@ public class BandController {
     @GetMapping("/{id}")
     public ResponseEntity<Band> getBand(
         @AuthenticationPrincipal RepertappUser user, @PathVariable Long id) {
+
+        if (!hasBand(user, id)) 
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        
         Band band = bandService.getBand(id);
         
-        if (band.getMembers().contains(user)) {
-            return ResponseEntity.ok(band);
-        }
-        
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.ok(band);
     }
-        
-    // @GetMapping
-    // public ResponseEntity<Page<Band>> getAllBands(Pageable pageable) {
-    //     Page<Band> response = bandService.getAllBands(pageable);
-
-    //     return ResponseEntity.ok(response);
-    // }
 }
