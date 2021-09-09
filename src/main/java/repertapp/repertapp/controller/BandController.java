@@ -1,5 +1,7 @@
 package repertapp.repertapp.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -31,24 +33,21 @@ public class BandController {
     
     private final BandService bandService;
 
-    private Boolean hasBand(RepertappUser user, Long bandId) {
-        return user.getBands().stream().anyMatch(band -> band.getId().equals(bandId));
+    private Boolean hasBand(List<RepertappUser> members, RepertappUser user) { //
+        return members.stream().anyMatch(u -> u.getId().equals(user.getId()));
     }
 
-    // Ok
-    @PostMapping
-    public ResponseEntity<Band> addBand(@Valid @RequestBody BandPostRequestBody band,
-            @AuthenticationPrincipal RepertappUser user) {
+    @PostMapping //
+    public ResponseEntity<Band> addBand(@Valid @RequestBody BandPostRequestBody band, @AuthenticationPrincipal RepertappUser user) {
         Band bandSaved = bandService.addBand(band, user);
 
         return new ResponseEntity<>(bandSaved, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateBand(
-        @AuthenticationPrincipal RepertappUser user, @Valid @RequestBody BandPutRequestBody band) {
+    public ResponseEntity<Void> updateBand(@Valid @RequestBody BandPutRequestBody band, @AuthenticationPrincipal RepertappUser user) {
         
-        if (!hasBand(user, band.getId())) 
+        if (!hasBand(band.getMembers(), user)) 
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             
         bandService.updateBand(band);
@@ -63,25 +62,21 @@ public class BandController {
         return ResponseEntity.noContent().build();
     }
     
-    // Ok
-    @GetMapping
-    public ResponseEntity<Page<Band>> getBandsByUser(
-        @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
-            
+    
+    @GetMapping //
+    public ResponseEntity<Page<Band>> getBandsByUser(@AuthenticationPrincipal RepertappUser user, Pageable pageable) {
         Page<Band> response = bandService.getBandsByUser(user, pageable);
         
         return ResponseEntity.ok(response);
     }
     
-    // Ok
+    //
     @GetMapping("/{id}")
-    public ResponseEntity<Band> getBand(
-        @AuthenticationPrincipal RepertappUser user, @PathVariable Long id) {
-
-        if (!hasBand(user, id)) 
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        
+    public ResponseEntity<Band> getBandByUser(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user) {
         Band band = bandService.getBand(id);
+
+        if (!hasBand(band.getMembers(), user)) 
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         
         return ResponseEntity.ok(band);
     }

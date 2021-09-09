@@ -102,6 +102,13 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- To use TitleCase -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>

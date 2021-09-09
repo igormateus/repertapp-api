@@ -29,12 +29,18 @@ public class RepertappUserController {
     
     private final RepertappUserService userService;
 
-    //Ok
-    @PostMapping
+    @PostMapping//
     public ResponseEntity<RepertappUser> registerUser(@Valid @RequestBody RepertappUserPostRequestBody userRequest) {
         RepertappUser userSaved = userService.addUser(userRequest);
 
         return new ResponseEntity<>(userSaved, HttpStatus.CREATED);
+    }
+
+    @GetMapping("bands/{id}/users") //
+    public ResponseEntity<Page<RepertappUser>> getUsersByBand(@PathVariable Long id, Pageable pageable) {
+        Page<RepertappUser> response = userService.getAllUsers(pageable);
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping

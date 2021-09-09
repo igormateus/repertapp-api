@@ -74,26 +74,31 @@ public class RepertappUser implements UserDetails {
             uniqueConstraints = @UniqueConstraint(name = "band_repertapp_user_unique", columnNames = {"band_id", "repertapp_user_id"}))
     private List<Band> bands = new ArrayList<>();
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

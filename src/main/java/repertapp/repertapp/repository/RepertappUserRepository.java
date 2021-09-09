@@ -12,7 +12,7 @@ import repertapp.repertapp.domain.RepertappUser;
 
 @Repository
 public interface RepertappUserRepository extends JpaRepository<RepertappUser, Long> {
-    Optional<RepertappUser> findByUsername(@NotBlank String username);
+    Optional<RepertappUser> findByUsername(@NotBlank String username);//
     Optional<RepertappUser> findByEmail(@NotBlank @Email String email);
 
     Boolean existsByName(@NotBlank String name);

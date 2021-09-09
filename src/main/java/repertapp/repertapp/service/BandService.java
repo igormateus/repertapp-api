@@ -2,6 +2,7 @@ package repertapp.repertapp.service;
 
 import javax.validation.Valid;
 
+import org.apache.commons.text.WordUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,12 +32,15 @@ public class BandService {
                 .orElseThrow(() -> new ResourceNotFoundException("Band", "id", id));
     }
 
-    // Ok
-    @Transactional
+    @Transactional//
     public Band addBand(@Valid BandPostRequestBody bandRequest, RepertappUser user) {
-        bandRequest.getMembers().add(user);
-            
-        Band band = BandRequestValidation.valideAdd(bandRequest, bandRepository);
+        bandRequest.setName(WordUtils.capitalizeFully(bandRequest.getName()));
+        
+        BandRequestValidation.valideAdd(bandRequest, bandRepository);
+
+        Band band = BandMapper.INSTANCE.toBand(bandRequest);
+
+        band.getMembers().add(user);
 
         Band bandSaved = bandRepository.save(band);
 
@@ -64,7 +68,7 @@ public class BandService {
         bandRepository.delete(band);
     }
     
-    // Ok
+    //
     public Page<Band> getBandsByUser(RepertappUser user, Pageable pageable) {
         Page<Band> bands = bandRepository.findByMembers(user, pageable);
         

@@ -2,6 +2,7 @@ package repertapp.repertapp.service;
 
 import javax.validation.Valid;
 
+import org.apache.commons.text.WordUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,15 +41,16 @@ public class RepertappUserService implements UserDetailsService{
         return user;
     }
     
-    // Ok
-    @Transactional
+    @Transactional//
     public RepertappUser addUser(@Valid RepertappUserPostRequestBody userRequest) {
         userRequest.setEmail(userRequest.getEmail().toLowerCase());
-        userRequest.setName(userRequest.getName().toLowerCase());
+        userRequest.setName(WordUtils.capitalizeFully(userRequest.getName()));
         userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         userRequest.setUsername(userRequest.getUsername().toLowerCase());
 
-        RepertappUser user = RepertappUserRequestValidation.valideAdd(userRequest, userRepository);
+        RepertappUserRequestValidation.valideAdd(userRequest, userRepository);
+
+        RepertappUser user = RepertappUserMapper.INSTANCE.toRepertappUser(userRequest);
 
         RepertappUser userSaved = userRepository.save(user);
 
