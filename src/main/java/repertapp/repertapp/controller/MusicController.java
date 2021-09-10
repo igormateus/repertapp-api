@@ -51,7 +51,7 @@ public class MusicController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Music>> getAllMusics(Pageable pageable) {
+    public ResponseEntity<Page<Music>> getAllMusicsByBand(Pageable pageable) {
         Page<Music> response = musicService.getAllMusics(pageable);
 
         return ResponseEntity.ok(response);

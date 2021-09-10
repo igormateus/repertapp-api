@@ -1,9 +1,13 @@
 package repertapp.repertapp.validation;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import repertapp.repertapp.domain.Band;
+import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.exception.ResourceAlreadyExists;
+import repertapp.repertapp.exception.ResourceEmptyException;
 import repertapp.repertapp.repository.BandRepository;
 import repertapp.repertapp.request.BandPostRequestBody;
 import repertapp.repertapp.request.BandPutRequestBody;
@@ -21,6 +25,8 @@ public class BandRequestValidation {
     public static void valideUpdate(@Valid BandPutRequestBody bandRequest, Band band, BandRepository bandRepository) {
         repository = bandRepository;
 
+        checkMembersIsEmpty(bandRequest.getMembers());
+
         if (!(band.getName().equals(bandRequest.getName())))
             checkBandNameUnique(bandRequest.getName());
     }
@@ -28,5 +34,10 @@ public class BandRequestValidation {
     private static void checkBandNameUnique(String name) {
         if (repository.existsByName(name))
             throw new ResourceAlreadyExists("Band", "name", name);
+    }
+
+    private static void checkMembersIsEmpty(List<RepertappUser> members) {
+        if (members == null || members.isEmpty())
+            throw new ResourceEmptyException();
     }
 }

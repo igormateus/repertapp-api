@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.Band;
 import repertapp.repertapp.domain.RepertappUser;
+import repertapp.repertapp.exception.NoPermissionException;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.BandMapper;
 import repertapp.repertapp.repository.BandRepository;
-import repertapp.repertapp.repository.RepertappUserRepository;
 import repertapp.repertapp.request.BandPostRequestBody;
 import repertapp.repertapp.request.BandPutRequestBody;
 import repertapp.repertapp.validation.BandRequestValidation;
@@ -25,14 +25,21 @@ public class BandService {
 
     private final BandRepository bandRepository;
 
-    private final RepertappUserRepository userRepository;
-
     private Band findByIdOrThrowResourceNotFoundException(Long id) {
         return bandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Band", "id", id));
     }
 
-    @Transactional//
+    private Band findByIdAndValidAccessOrThrowNoPermissionException(Long id, RepertappUser user) {
+        Band band = findByIdOrThrowResourceNotFoundException(id);
+
+        if (band.getMembers().stream().noneMatch(u -> u.getId().equals(user.getId())))
+            throw new NoPermissionException(user.getUsername(), id);
+        
+        return band;
+    }
+
+    @Transactional
     public Band addBand(@Valid BandPostRequestBody bandRequest, RepertappUser user) {
         bandRequest.setName(WordUtils.capitalizeFully(bandRequest.getName()));
         
@@ -48,12 +55,9 @@ public class BandService {
     }
 
     @Transactional
-    public void updateBand(@Valid BandPutRequestBody bandRequest) {
-        bandRequest.getMembers().stream().forEach(user -> userRepository.findById(user.getId()).orElseThrow(
-            () -> new ResourceNotFoundException("User", "id", user.getId())));
-            
-        Band band = findByIdOrThrowResourceNotFoundException(bandRequest.getId());
-
+    public void updateBand(@Valid BandPutRequestBody bandRequest, RepertappUser user) {
+        Band band = findByIdAndValidAccessOrThrowNoPermissionException(bandRequest.getId(), user);
+        
         BandRequestValidation.valideUpdate(bandRequest, band, bandRepository);
 
         Band bandToBeSaved = BandMapper.INSTANCE.toBand(bandRequest);
@@ -62,29 +66,21 @@ public class BandService {
     }
 
     @Transactional
-    public void deleteBand(Long id) {
-        Band band = findByIdOrThrowResourceNotFoundException(id);
+    public void deleteBand(Long id, RepertappUser user) {
+        Band band = findByIdAndValidAccessOrThrowNoPermissionException(id, user);
         
         bandRepository.delete(band);
     }
     
-    //
     public Page<Band> getBandsByUser(RepertappUser user, Pageable pageable) {
         Page<Band> bands = bandRepository.findByMembers(user, pageable);
         
         return bands;
     }
     
-    // Ok
-    public Band getBand(Long id) {
-        Band band = findByIdOrThrowResourceNotFoundException(id);
+    public Band getBandByUser(Long id, RepertappUser user) {
+        Band band = findByIdAndValidAccessOrThrowNoPermissionException(id, user);
         
         return band;
     }
-    
-    // public Page<Band> getAllBands(Pageable pageable) {
-    //     Page<Band> bands = bandRepository.findAll(pageable);
-
-    //     return bands;
-    // }
 }
