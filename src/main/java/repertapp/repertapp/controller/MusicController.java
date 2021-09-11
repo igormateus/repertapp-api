@@ -31,7 +31,6 @@ public class MusicController {
     
     private final MusicService musicService;
 
-    //
     @PostMapping
     public ResponseEntity<Music> addMusic(@PathVariable(name = "bandId") Long bandId,
             @Valid @RequestBody MusicPostRequestBody music, @AuthenticationPrincipal RepertappUser user) {
@@ -43,19 +42,19 @@ public class MusicController {
     @PutMapping
     public ResponseEntity<Void> updateMusic(@PathVariable(name = "bandId") Long bandId,
             @Valid @RequestBody MusicPutRequestBody music, @AuthenticationPrincipal RepertappUser user) {
-        musicService.updateMusic(music);
+        musicService.updateMusic(music, bandId, user);
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMusic(@PathVariable Long id) {
-        musicService.deleteMusic(id);
+    public ResponseEntity<Void> deleteMusic(@PathVariable(name = "bandId") Long bandId, @PathVariable Long id
+            , @AuthenticationPrincipal RepertappUser user) {
+        musicService.deleteMusic(id, bandId, user);
 
         return ResponseEntity.noContent().build();
     }
 
-    //
     @GetMapping
     public ResponseEntity<Page<Music>> getAllMusicsByBand(@PathVariable(name = "bandId") Long bandId,
     @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
@@ -64,7 +63,6 @@ public class MusicController {
         return ResponseEntity.ok(response);
     }
 
-    //
     @GetMapping("/{id}")
     public ResponseEntity<Music> getMusicByBand(@PathVariable(name = "bandId") Long bandId, @PathVariable Long id,
             @AuthenticationPrincipal RepertappUser user) {

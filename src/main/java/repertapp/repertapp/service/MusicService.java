@@ -57,8 +57,13 @@ public class MusicService {
     }
 
     @Transactional
-    public void updateMusic(@Valid MusicPutRequestBody musicRequest) {
-        Music music = findByIdOrThrowResourceNotFoundException(musicRequest.getId());
+    public void updateMusic(@Valid MusicPutRequestBody musicRequest, Long bandId, RepertappUser user) {
+        Band band = bandService.getBandByUser(bandId, user);
+        
+        Music music = findByIdAndValidAccessOrThrowNoPermissionException(musicRequest.getId(), band);
+
+        if (!(music.getBand().getId() == band.getId()))
+            throw new RuntimeException("You are not allow to change Band in this Music");
 
         MusicRequestValidation.valideUpdate(musicRequest, music, musicRepository);
 
@@ -68,8 +73,10 @@ public class MusicService {
     }
 
     @Transactional
-    public void deleteMusic(Long id) {
-        Music music = findByIdOrThrowResourceNotFoundException(id);
+    public void deleteMusic(Long musicId, Long bandId, RepertappUser user) {
+        Band band = bandService.getBandByUser(bandId, user);
+
+        Music music = findByIdAndValidAccessOrThrowNoPermissionException(musicId, band);
         
         musicRepository.delete(music);
     }
