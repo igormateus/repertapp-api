@@ -9,8 +9,7 @@ import repertapp.repertapp.domain.Song;
 @Data
 public class MusicPostRequestBody {
     private boolean isKnown;
-
-    @NotNull
+    
     private Band band;
 
     @NotNull

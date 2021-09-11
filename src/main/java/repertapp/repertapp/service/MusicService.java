@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import repertapp.repertapp.domain.Band;
 import repertapp.repertapp.domain.Music;
+import repertapp.repertapp.domain.RepertappUser;
+import repertapp.repertapp.exception.NoPermissionException;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.MusicMapper;
 import repertapp.repertapp.repository.MusicRepository;
@@ -22,13 +25,28 @@ public class MusicService {
 
     private final MusicRepository musicRepository;
 
+    private final BandService bandService;
+
     private Music findByIdOrThrowResourceNotFoundException(Long id) {
         return musicRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Music", "id", id));
     }
 
+    private Music findByIdAndValidAccessOrThrowNoPermissionException(Long id, Band band) {
+        Music music = findByIdOrThrowResourceNotFoundException(id);
+
+        if (band.getMusics().stream().noneMatch(m -> m.getId() == music.getId()))
+            throw new NoPermissionException("Band", band.getName(), "Music", music.getId());
+        
+        return music;
+    }
+
     @Transactional
-    public Music addMusic(@Valid MusicPostRequestBody musicRequest) {
+    public Music addMusic(@Valid MusicPostRequestBody musicRequest, Long bandId, RepertappUser user) {
+        Band band = bandService.getBandByUser(bandId, user);
+
+        musicRequest.setBand(band);
+
         MusicRequestValidation.valideAdd(musicRequest, musicRepository);
 
         Music music = MusicMapper.INSTANCE.toMusic(musicRequest);
@@ -56,14 +74,18 @@ public class MusicService {
         musicRepository.delete(music);
     }
 
-    public Page<Music> getAllMusics(Pageable pageable) {
-        Page<Music> musics = musicRepository.findAll(pageable);
+    public Page<Music> getAllMusicsByBand(Long bandId, RepertappUser user, Pageable pageable) {
+        Band band = bandService.getBandByUser(bandId, user);
+
+        Page<Music> musics = musicRepository.findByBand(band, pageable);
 
         return musics;
     }
 
-    public Music getMusic(Long id) {
-        Music music = findByIdOrThrowResourceNotFoundException(id);
+    public Music getMusicByBand(Long id, Long bandId, RepertappUser user) {
+        Band band = bandService.getBandByUser(bandId, user);
+
+        Music music = findByIdAndValidAccessOrThrowNoPermissionException(id, band);
         
         return music;
     }
