@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import repertapp.repertapp.domain.Band;
+import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.domain.Setlist;
+import repertapp.repertapp.exception.NoPermissionException;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.SetlistMapper;
 import repertapp.repertapp.repository.SetlistRepository;
@@ -21,13 +24,30 @@ public class SetlistService {
 
     private final SetlistRepository setlistRepository;
 
+    private final BandService bandService;
+
+    private final MusicService musicService;
+
     private Setlist findByIdOrThrowResourceNotFoundException(Long id) {
         return setlistRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Setlist", "id", id));
     }
 
+    private Setlist findByIdAndValidAccess(Long id, Band band) {
+        Setlist setlist = findByIdOrThrowResourceNotFoundException(id);
+
+        if (band.getSetlists().stream().noneMatch(s -> s.getId() == setlist.getId()))
+            throw new NoPermissionException("Band", band.getName(), "Setlist", setlist.getId());
+        
+        return setlist;
+    }
+
     @Transactional
-    public Setlist addSetlist(@Valid SetlistPostRequestBody setlistRequest) {
+    public Setlist addSetlist(@Valid SetlistPostRequestBody setlistRequest, Long bandId, RepertappUser user) {
+        Band band = bandService.getBandByUser(bandId, user);
+
+        setlistRequest.setBand(band);
+
         Setlist setlist = SetlistMapper.INSTANCE.toSetlist(setlistRequest);
 
         Setlist setlistSaved = setlistRepository.save(setlist);
@@ -36,29 +56,39 @@ public class SetlistService {
     }
 
     @Transactional
-    public void updateSetlist(@Valid SetlistPutRequestBody setlistRequest) {
-        findByIdOrThrowResourceNotFoundException(setlistRequest.getId());
+    public void updateSetlist(@Valid SetlistPutRequestBody setlistRequest, Long bandId, RepertappUser user) {
+        Band band = bandService.getBandByUser(bandId, user);
 
+        Setlist setlist = findByIdAndValidAccess(setlistRequest.getId(), band);
+
+        setlist.getVersions().stream().forEach(v -> musicService.getMusicByBand(v.getMusic().getId(), band.getId(), user));
+        
         Setlist setlistToBeSaved = SetlistMapper.INSTANCE.toSetlist(setlistRequest);
 
         setlistRepository.save(setlistToBeSaved);
     }
 
     @Transactional
-    public void deleteSetlist(Long id) {
-        Setlist setlist = findByIdOrThrowResourceNotFoundException(id);
+    public void deleteSetlist(Long id, Long bandId, RepertappUser user) {
+        Band band = bandService.getBandByUser(bandId, user);
+
+        Setlist setlist = findByIdAndValidAccess(id, band);
         
         setlistRepository.delete(setlist);
     }
 
-    public Page<Setlist> getAllSetlists(Pageable pageable) {
-        Page<Setlist> setlist = setlistRepository.findAll(pageable);
+    public Page<Setlist> getAllSetlistsByBand(Long bandId, RepertappUser user, Pageable pageable) {
+        Band band = bandService.getBandByUser(bandId, user);
 
-        return setlist;
+        Page<Setlist> setlists = setlistRepository.findByBand(band, pageable);
+
+        return setlists;
     }
 
-    public Setlist getSetlist(Long id) {
-        Setlist setlist = findByIdOrThrowResourceNotFoundException(id);
+    public Setlist getSetlistByBand(Long id, Long bandId, RepertappUser user) {
+        Band band = bandService.getBandByUser(bandId, user);
+
+        Setlist setlist = findByIdAndValidAccess(id, band);
         
         return setlist;
     }

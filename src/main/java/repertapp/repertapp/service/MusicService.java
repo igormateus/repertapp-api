@@ -32,7 +32,7 @@ public class MusicService {
                 .orElseThrow(() -> new ResourceNotFoundException("Music", "id", id));
     }
 
-    private Music findByIdAndValidAccessOrThrowNoPermissionException(Long id, Band band) {
+    private Music findByIdAndValidAccess(Long id, Band band) {
         Music music = findByIdOrThrowResourceNotFoundException(id);
 
         if (band.getMusics().stream().noneMatch(m -> m.getId() == music.getId()))
@@ -60,7 +60,7 @@ public class MusicService {
     public void updateMusic(@Valid MusicPutRequestBody musicRequest, Long bandId, RepertappUser user) {
         Band band = bandService.getBandByUser(bandId, user);
         
-        Music music = findByIdAndValidAccessOrThrowNoPermissionException(musicRequest.getId(), band);
+        Music music = findByIdAndValidAccess(musicRequest.getId(), band);
 
         if (!(music.getBand().getId() == band.getId()))
             throw new RuntimeException("You are not allow to change Band in this Music");
@@ -76,7 +76,7 @@ public class MusicService {
     public void deleteMusic(Long musicId, Long bandId, RepertappUser user) {
         Band band = bandService.getBandByUser(bandId, user);
 
-        Music music = findByIdAndValidAccessOrThrowNoPermissionException(musicId, band);
+        Music music = findByIdAndValidAccess(musicId, band);
         
         musicRepository.delete(music);
     }
@@ -92,7 +92,7 @@ public class MusicService {
     public Music getMusicByBand(Long id, Long bandId, RepertappUser user) {
         Band band = bandService.getBandByUser(bandId, user);
 
-        Music music = findByIdAndValidAccessOrThrowNoPermissionException(id, band);
+        Music music = findByIdAndValidAccess(id, band);
         
         return music;
     }

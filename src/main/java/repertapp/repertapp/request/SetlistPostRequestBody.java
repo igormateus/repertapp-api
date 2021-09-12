@@ -21,7 +21,6 @@ public class SetlistPostRequestBody {
 
     private Boolean isDone;
 
-    @NotNull
     private Band band;
     
     private List<Version> versions;

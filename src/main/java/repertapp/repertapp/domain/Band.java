@@ -20,11 +20,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import repertapp.repertapp.response.View;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,11 +37,13 @@ import lombok.NoArgsConstructor;
         @UniqueConstraint(name = "band_name_unique", columnNames = "name") })
 public class Band {
     
+    @JsonView(View.Resume.class)
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonView(View.Resume.class)
     @NotBlank @Size(min = 3, max = 255)
     @Column(name = "name", nullable = false)
     private String name;
@@ -48,6 +52,7 @@ public class Band {
     @OneToMany(mappedBy = "band", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Music> musics = new ArrayList<>(); 
     
+    @JsonView(View.Complete.class)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "band_repertapp_user",
             joinColumns = @JoinColumn(name = "band_id", referencedColumnName = "id"),

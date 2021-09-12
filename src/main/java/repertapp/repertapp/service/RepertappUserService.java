@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import repertapp.repertapp.domain.Band;
 import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.exception.ResourceNotFoundException;
 import repertapp.repertapp.mapper.RepertappUserMapper;
@@ -85,6 +86,12 @@ public class RepertappUserService implements UserDetailsService{
         RepertappUser user = findByIdOrThrowResourceNotFoundException(id);
         
         return user;
+    }
+
+    public Page<RepertappUser> getUsersByBand(Band band, Pageable pageable) {
+        Page<RepertappUser> users = userRepository.findByBands(band, pageable);
+
+        return users;
     }
 
 }
