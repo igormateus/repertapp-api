@@ -2,8 +2,6 @@ package repertapp.repertapp.controller;
 
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,7 +21,6 @@ import repertapp.repertapp.domain.Band;
 import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.request.BandPostRequestBody;
 import repertapp.repertapp.request.BandPutRequestBody;
-import repertapp.repertapp.response.View;
 import repertapp.repertapp.service.BandService;
 import repertapp.repertapp.service.RepertappUserService;
 
@@ -37,7 +34,6 @@ public class BandController {
 
     private final RepertappUserService userService;
 
-    @JsonView(View.Resume.class)
     @PostMapping
     public ResponseEntity<Band> addBand(@Valid @RequestBody BandPostRequestBody band, @AuthenticationPrincipal RepertappUser user) {
         Band bandSaved = bandService.addBand(band, user);
@@ -59,7 +55,6 @@ public class BandController {
         return ResponseEntity.noContent().build();
     }
     
-    @JsonView(View.Resume.class)
     @GetMapping
     public ResponseEntity<Page<Band>> getBandsByUser(@AuthenticationPrincipal RepertappUser user, Pageable pageable) {
         Page<Band> response = bandService.getBandsByUser(user, pageable);
@@ -67,7 +62,6 @@ public class BandController {
         return ResponseEntity.ok(response);
     }
     
-    @JsonView(View.Complete.class)
     @GetMapping("/{id}")
     public ResponseEntity<Band> getBandByUser(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user) {
         Band band = bandService.getBandByUser(id, user);
@@ -75,7 +69,6 @@ public class BandController {
         return ResponseEntity.ok(band);
     }
 
-    @JsonView(View.Complete.class)
     @GetMapping("/{id}/users")
     public ResponseEntity<Page<RepertappUser>> getUsersByBand(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
         Band band = bandService.getBandByUser(id, user);

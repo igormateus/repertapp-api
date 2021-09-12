@@ -2,8 +2,6 @@ package repertapp.repertapp.controller;
 
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,7 +21,6 @@ import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.domain.Setlist;
 import repertapp.repertapp.request.SetlistPostRequestBody;
 import repertapp.repertapp.request.SetlistPutRequestBody;
-import repertapp.repertapp.response.View;
 import repertapp.repertapp.service.SetlistService;
 
 
@@ -34,7 +31,6 @@ public class SetlistController {
     
     private final SetlistService setlistService;
 
-    @JsonView(View.Resume.class)
     @PostMapping
     public ResponseEntity<Setlist> addSetlist(@PathVariable(name = "bandId") Long bandId,
         @Valid @RequestBody SetlistPostRequestBody setlist, @AuthenticationPrincipal RepertappUser user) {
@@ -43,7 +39,6 @@ public class SetlistController {
         return new ResponseEntity<>(setlistSaved, HttpStatus.CREATED);
     }
 
-    @JsonView(View.Resume.class)
     @PutMapping
     public ResponseEntity<Void> updateSetlist(@PathVariable(name = "bandId") Long bandId,
         @Valid @RequestBody SetlistPutRequestBody setlist, @AuthenticationPrincipal RepertappUser user) {
@@ -60,7 +55,6 @@ public class SetlistController {
         return ResponseEntity.noContent().build();
     }
 
-    @JsonView(View.Resume.class)
     @GetMapping
     public ResponseEntity<Page<Setlist>> getAllSetlistsByBand(@PathVariable(name = "bandId") Long bandId,
         @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
@@ -69,7 +63,6 @@ public class SetlistController {
         return ResponseEntity.ok(response);
     }
 
-    @JsonView(View.Complete.class)
     @GetMapping("/{id}")
     public ResponseEntity<Setlist> getSetlistByBand(@PathVariable(name = "bandId") Long bandId,
         @PathVariable Long id, @AuthenticationPrincipal RepertappUser user) {

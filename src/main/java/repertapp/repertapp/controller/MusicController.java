@@ -2,8 +2,6 @@ package repertapp.repertapp.controller;
 
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,7 +21,6 @@ import repertapp.repertapp.domain.Music;
 import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.request.MusicPostRequestBody;
 import repertapp.repertapp.request.MusicPutRequestBody;
-import repertapp.repertapp.response.View;
 import repertapp.repertapp.service.MusicService;
 
 
@@ -34,7 +31,6 @@ public class MusicController {
     
     private final MusicService musicService;
 
-    @JsonView(View.Resume.class)
     @PostMapping
     public ResponseEntity<Music> addMusic(@PathVariable(name = "bandId") Long bandId,
             @Valid @RequestBody MusicPostRequestBody music, @AuthenticationPrincipal RepertappUser user) {
@@ -43,7 +39,6 @@ public class MusicController {
         return new ResponseEntity<>(musicSaved, HttpStatus.CREATED);
     }
 
-    @JsonView(View.Resume.class)
     @PutMapping
     public ResponseEntity<Void> updateMusic(@PathVariable(name = "bandId") Long bandId,
             @Valid @RequestBody MusicPutRequestBody music, @AuthenticationPrincipal RepertappUser user) {
@@ -60,7 +55,6 @@ public class MusicController {
         return ResponseEntity.noContent().build();
     }
 
-    @JsonView(View.Resume.class)
     @GetMapping
     public ResponseEntity<Page<Music>> getAllMusicsByBand(@PathVariable(name = "bandId") Long bandId,
     @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
@@ -69,7 +63,6 @@ public class MusicController {
         return ResponseEntity.ok(response);
     }
 
-    @JsonView(View.Complete.class)
     @GetMapping("/{id}")
     public ResponseEntity<Music> getMusicByBand(@PathVariable(name = "bandId") Long bandId, 
         @PathVariable Long id, @AuthenticationPrincipal RepertappUser user) {

@@ -32,7 +32,6 @@ public class RepertappUserController {
 
     private final RepertappUserService userService;
 
-    @JsonView(View.Resume.class)
     @PostMapping
     public ResponseEntity<RepertappUser> registerUser(@Valid @RequestBody RepertappUserPostRequestBody userRequest) {
         RepertappUser userSaved = userService.addUser(userRequest);
