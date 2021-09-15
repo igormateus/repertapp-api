@@ -1,10 +1,10 @@
 package repertapp.repertapp.util;
 
-import repertapp.repertapp.domain.Band;
-import repertapp.repertapp.domain.Music;
-import repertapp.repertapp.domain.RepertappUser;
-import repertapp.repertapp.domain.Tone;
-import repertapp.repertapp.domain.Version;
+import repertapp.repertapp.domain.band.Band;
+import repertapp.repertapp.domain.user.RepertappUser;
+import repertapp.repertapp.domain.enums.Tone;
+import repertapp.repertapp.domain.music.Music;
+import repertapp.repertapp.domain.version.Version;
 
 public class VersionCreator {
 

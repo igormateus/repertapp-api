@@ -1,6 +1,6 @@
 package repertapp.repertapp.util;
 
-import repertapp.repertapp.domain.RepertappUser;
+import repertapp.repertapp.domain.user.RepertappUser;
 
 public class RepertappUserCreator {
 

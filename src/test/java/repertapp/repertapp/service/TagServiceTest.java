@@ -17,8 +17,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import repertapp.repertapp.domain.Tag;
-import repertapp.repertapp.repository.TagRepository;
+import repertapp.repertapp.domain.tag.Tag;
+import repertapp.repertapp.domain.tag.TagRepository;
+import repertapp.repertapp.domain.tag.TagService;
 import repertapp.repertapp.util.TagCreator;
 
 @ExtendWith(SpringExtension.class)

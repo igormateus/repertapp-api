@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 
-import repertapp.repertapp.domain.Tag;
+import repertapp.repertapp.domain.tag.Tag;
+import repertapp.repertapp.domain.tag.TagRepository;
 import repertapp.repertapp.util.TagCreator;
 
 @DataJpaTest

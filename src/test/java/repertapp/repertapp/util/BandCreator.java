@@ -3,8 +3,8 @@ package repertapp.repertapp.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import repertapp.repertapp.domain.Band;
-import repertapp.repertapp.domain.RepertappUser;
+import repertapp.repertapp.domain.band.Band;
+import repertapp.repertapp.domain.user.RepertappUser;
 
 public class BandCreator {
 

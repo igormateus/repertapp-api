@@ -17,9 +17,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import repertapp.repertapp.domain.Song;
-import repertapp.repertapp.repository.SongRepository;
-import repertapp.repertapp.repository.TagRepository;
+import repertapp.repertapp.domain.song.Song;
+import repertapp.repertapp.domain.song.SongRepository;
+import repertapp.repertapp.domain.song.SongService;
+import repertapp.repertapp.domain.tag.TagRepository;
 import repertapp.repertapp.util.SongCreator;
 import repertapp.repertapp.util.TagCreator;
 

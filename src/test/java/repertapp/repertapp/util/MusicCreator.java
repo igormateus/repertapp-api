@@ -1,8 +1,8 @@
 package repertapp.repertapp.util;
 
-import repertapp.repertapp.domain.Band;
-import repertapp.repertapp.domain.Music;
-import repertapp.repertapp.domain.Song;
+import repertapp.repertapp.domain.band.Band;
+import repertapp.repertapp.domain.music.Music;
+import repertapp.repertapp.domain.song.Song;
 
 public class MusicCreator {
     

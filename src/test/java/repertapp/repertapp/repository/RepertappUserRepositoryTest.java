@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import repertapp.repertapp.domain.RepertappUser;
+import repertapp.repertapp.domain.user.RepertappUser;
+import repertapp.repertapp.domain.user.RepertappUserRepository;
 import repertapp.repertapp.util.RepertappUserCreator;
 
 @DataJpaTest

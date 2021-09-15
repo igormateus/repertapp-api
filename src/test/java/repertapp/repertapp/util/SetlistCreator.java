@@ -3,9 +3,9 @@ package repertapp.repertapp.util;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import repertapp.repertapp.domain.Band;
-import repertapp.repertapp.domain.Setlist;
-import repertapp.repertapp.domain.Version;
+import repertapp.repertapp.domain.band.Band;
+import repertapp.repertapp.domain.setlist.Setlist;
+import repertapp.repertapp.domain.version.Version;
 
 public class SetlistCreator {
 

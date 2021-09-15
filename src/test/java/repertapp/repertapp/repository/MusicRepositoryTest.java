@@ -8,9 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import repertapp.repertapp.domain.Band;
-import repertapp.repertapp.domain.Music;
-import repertapp.repertapp.domain.Song;
+import repertapp.repertapp.domain.band.Band;
+import repertapp.repertapp.domain.band.BandRepository;
+import repertapp.repertapp.domain.music.Music;
+import repertapp.repertapp.domain.music.MusicRepository;
+import repertapp.repertapp.domain.song.Song;
+import repertapp.repertapp.domain.song.SongRepository;
+import repertapp.repertapp.domain.user.RepertappUserRepository;
 import repertapp.repertapp.util.MusicCreator;
 
 @DataJpaTest

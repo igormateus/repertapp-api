@@ -1,6 +1,6 @@
 package repertapp.repertapp.util;
 
-import repertapp.repertapp.domain.Tag;
+import repertapp.repertapp.domain.tag.Tag;
 
 public class TagCreator {
 

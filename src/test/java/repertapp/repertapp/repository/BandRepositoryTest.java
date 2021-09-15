@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 
-import repertapp.repertapp.domain.Band;
-import repertapp.repertapp.domain.RepertappUser;
+import repertapp.repertapp.domain.band.Band;
+import repertapp.repertapp.domain.user.RepertappUser;
+import repertapp.repertapp.domain.band.BandRepository;
+import repertapp.repertapp.domain.user.RepertappUserRepository;
 import repertapp.repertapp.util.BandCreator;
 
 @DataJpaTest

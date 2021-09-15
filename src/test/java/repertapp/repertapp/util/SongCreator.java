@@ -1,7 +1,7 @@
 package repertapp.repertapp.util;
 
-import repertapp.repertapp.domain.Song;
-import repertapp.repertapp.domain.Tone;
+import repertapp.repertapp.domain.enums.Tone;
+import repertapp.repertapp.domain.song.Song;
 
 public class SongCreator {
     
