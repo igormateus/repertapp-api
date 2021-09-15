@@ -58,4 +58,8 @@ public class Band {
     @JsonIgnore
     @OneToMany(mappedBy = "band", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Setlist> setlists = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "band", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Version> versions = new ArrayList<>();
 }

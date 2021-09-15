@@ -18,8 +18,11 @@ public class VersionRequestValidation {
     public static void valideAdd(@Valid VersionPostRequestBody versionRequest, VersionRepository repository) {
         versionRepository = repository;
 
-        checkVersionToneAndRepertappUserAndMusicUnique(versionRequest.getTone(), versionRequest.getRepertappUser(),
-                versionRequest.getMusic());
+        checkVersionToneAndRepertappUserAndMusicUnique(
+            versionRequest.getTone(), 
+            versionRequest.getRepertappUser(),
+            versionRequest.getMusic()
+        );
     }
 
     public static void valideUpdate(@Valid VersionPutRequestBody versionRequest, Version version,

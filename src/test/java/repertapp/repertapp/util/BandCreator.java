@@ -31,6 +31,7 @@ public class BandCreator {
         // band.setSetlists(null);
         // band.setMusics(null);
         band.setMembers(getUser());
+        // band.setVersions(null);
         
         return band;
     }
@@ -42,6 +43,7 @@ public class BandCreator {
         // band.setSetlists(null);
         // band.setMusics(null);
         band.setMembers(getUser(n));
+        // band.setVersions(null);
         
         return band;
     }

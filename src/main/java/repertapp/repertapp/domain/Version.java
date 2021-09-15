@@ -56,6 +56,11 @@ public class Version {
     @JoinColumn(name = "music_id")
     private Music music;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "band_id")
+    private Band band;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "setlist_version",

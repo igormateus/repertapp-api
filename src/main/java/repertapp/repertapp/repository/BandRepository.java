@@ -14,7 +14,7 @@ import repertapp.repertapp.domain.RepertappUser;
 @Repository
 public interface BandRepository extends JpaRepository<Band, Long> {
     Page<Band> findByNameLike(@NotBlank String name, Pageable page);
-    Page<Band> findByMembers(@NotNull RepertappUser member, Pageable page); //
+    Page<Band> findByMembers(@NotNull RepertappUser member, Pageable page);
 
     Boolean existsByName(@NotBlank String name);
 }

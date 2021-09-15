@@ -1,5 +1,6 @@
 package repertapp.repertapp.util;
 
+import repertapp.repertapp.domain.Band;
 import repertapp.repertapp.domain.Music;
 import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.domain.Tone;
@@ -31,6 +32,18 @@ public class VersionCreator {
         return music;
     }
 
+    private static Band getBand() {
+        Band band = BandCreator.createToBeSaved();
+
+        return band;
+    }
+
+    private static Band getBand(Object n) {
+        Band band = BandCreator.createToBeSaved(n);
+
+        return band;
+    }
+
     public static Version createToBeSaved() {
         Version version = new Version();
 
@@ -38,6 +51,7 @@ public class VersionCreator {
         version.setRepertappUser(getUser());
         // version.setSetlists(setlists);
         version.setTone(Tone.A);
+        version.setBand(getBand());
         
         return version;
     }
@@ -49,6 +63,7 @@ public class VersionCreator {
         version.setRepertappUser(getUser(n));
         // version.setSetlists(setlists);
         version.setTone(Tone.A);
+        version.setBand(getBand(n));
         
         return version;
     }
