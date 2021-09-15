@@ -2,8 +2,6 @@ package repertapp.repertapp.controller;
 
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.RepertappUser;
 import repertapp.repertapp.request.RepertappUserPostRequestBody;
 import repertapp.repertapp.request.RepertappUserPutRequestBody;
-import repertapp.repertapp.response.View;
 import repertapp.repertapp.service.RepertappUserService;
 
 @RequiredArgsConstructor
@@ -50,13 +47,12 @@ public class RepertappUserController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user) {
+    public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal RepertappUser user) {
         userService.deleteUser(user.getId());
 
         return ResponseEntity.noContent().build();
     }
 
-    @JsonView(View.Resume.class)
     @GetMapping
     public ResponseEntity<Page<RepertappUser>> getAllUsers(Pageable pageable) {
         Page<RepertappUser> response = userService.getAllUsers(pageable);
@@ -64,7 +60,6 @@ public class RepertappUserController {
         return ResponseEntity.ok(response);
     }
 
-    @JsonView(View.Complete.class)
     @GetMapping("/{id}")
     public ResponseEntity<RepertappUser> getUser(@PathVariable Long id) {
         RepertappUser user = userService.getUser(id);
