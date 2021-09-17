@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import repertapp.repertapp.core.exception.NoPermissionException;
+import repertapp.repertapp.core.exception.ResourceNotFoundException;
 import repertapp.repertapp.core.mapper.VersionMapper;
 import repertapp.repertapp.domain.band.Band;
 import repertapp.repertapp.domain.user.RepertappUser;
 import repertapp.repertapp.domain.band.BandService;
-import repertapp.repertapp.domain.exception.NoPermissionException;
-import repertapp.repertapp.domain.exception.ResourceNotFoundException;
 
 @RequiredArgsConstructor
 @Service

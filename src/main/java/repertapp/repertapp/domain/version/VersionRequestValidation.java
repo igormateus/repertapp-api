@@ -3,8 +3,8 @@ package repertapp.repertapp.domain.version;
 import javax.validation.Valid;
 
 import repertapp.repertapp.domain.user.RepertappUser;
+import repertapp.repertapp.core.exception.ResourceAlreadyExists;
 import repertapp.repertapp.domain.enums.Tone;
-import repertapp.repertapp.domain.exception.ResourceAlreadyExists;
 import repertapp.repertapp.domain.music.Music;
 
 public class VersionRequestValidation {

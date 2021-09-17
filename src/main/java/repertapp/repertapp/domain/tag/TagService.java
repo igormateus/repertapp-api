@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import repertapp.repertapp.core.exception.ResourceNotFoundException;
 import repertapp.repertapp.core.mapper.TagMapper;
-import repertapp.repertapp.domain.exception.ResourceNotFoundException;
 
 @RequiredArgsConstructor
 @Service

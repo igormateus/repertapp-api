@@ -48,8 +48,8 @@ public class Music {
     @Column(name = "score", columnDefinition = "INTEGER DEFAULT 1000 NOT NULL")
     private int score;
 
-    @Column(name = "counter_plays", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
-    private int counterPlays;
+    @Column(name = "counter_play", columnDefinition = "INTEGER DEFAULT 0 NOT NULL")
+    private int counterPlay;
     
     @NotNull
     @ManyToOne

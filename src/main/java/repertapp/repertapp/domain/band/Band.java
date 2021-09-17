@@ -47,6 +47,10 @@ public class Band {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotBlank @Size(min = 3, max = 255)
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "band_repertapp_user",
             joinColumns = @JoinColumn(name = "band_id", referencedColumnName = "id"),

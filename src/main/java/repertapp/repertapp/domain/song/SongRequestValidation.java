@@ -1,7 +1,7 @@
 package repertapp.repertapp.domain.song;
 
+import repertapp.repertapp.core.exception.ResourceAlreadyExists;
 import repertapp.repertapp.core.util.Util;
-import repertapp.repertapp.domain.exception.ResourceAlreadyExists;
 
 public class SongRequestValidation {
 

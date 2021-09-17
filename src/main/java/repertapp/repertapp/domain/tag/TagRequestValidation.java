@@ -1,6 +1,6 @@
 package repertapp.repertapp.domain.tag;
 
-import repertapp.repertapp.domain.exception.ResourceAlreadyExists;
+import repertapp.repertapp.core.exception.ResourceAlreadyExists;
 
 public class TagRequestValidation {
 

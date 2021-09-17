@@ -15,7 +15,7 @@ import repertapp.repertapp.domain.band.Band;
 
 @Repository
 public interface RepertappUserRepository extends JpaRepository<RepertappUser, Long> {
-    Optional<RepertappUser> findByUsername(@NotBlank String username);
+    <T> Optional<T> findByUsername(@NotBlank String username, Class<T> type);
     Optional<RepertappUser> findByEmail(@NotBlank @Email String email);
 
     Boolean existsByName(@NotBlank String name);

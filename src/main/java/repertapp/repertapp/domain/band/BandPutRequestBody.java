@@ -19,6 +19,9 @@ public class BandPutRequestBody {
     @NotBlank @Size(min = 3, max = 255)
     private String name;
 
+    @NotBlank @Size(min = 3, max = 255)
+    private String description;
+
     private List<Music> musics;
     
     private List<RepertappUser> members;

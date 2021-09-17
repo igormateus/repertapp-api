@@ -2,8 +2,8 @@ package repertapp.repertapp.domain.music;
 
 import javax.validation.Valid;
 
+import repertapp.repertapp.core.exception.ResourceAlreadyExists;
 import repertapp.repertapp.domain.band.Band;
-import repertapp.repertapp.domain.exception.ResourceAlreadyExists;
 import repertapp.repertapp.domain.song.Song;
 
 public class MusicRequestValidation {

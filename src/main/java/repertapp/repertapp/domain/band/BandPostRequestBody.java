@@ -9,4 +9,7 @@ import lombok.Data;
 public class BandPostRequestBody {
     @NotBlank @Size(min = 3, max = 255)
     private String name;
+
+    @NotBlank @Size(min = 3, max = 255)
+    private String description;
 }

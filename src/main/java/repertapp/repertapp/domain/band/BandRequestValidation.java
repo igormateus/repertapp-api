@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import repertapp.repertapp.domain.exception.ResourceAlreadyExists;
-import repertapp.repertapp.domain.exception.ResourceEmptyException;
+import repertapp.repertapp.core.exception.ResourceAlreadyExists;
+import repertapp.repertapp.core.exception.ResourceEmptyException;
 import repertapp.repertapp.domain.user.RepertappUser;
 
 public class BandRequestValidation {

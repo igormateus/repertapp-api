@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import repertapp.repertapp.domain.exception.ExceptionDetails;
-import repertapp.repertapp.domain.exception.ValidationExceptionDetails;
+import repertapp.repertapp.core.exception.ExceptionDetails;
+import repertapp.repertapp.core.exception.ValidationExceptionDetails;
 
 @ControllerAdvice
 public class RepertappExceptionHandler extends ResponseEntityExceptionHandler {

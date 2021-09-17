@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import repertapp.repertapp.core.exception.ResourceNotFoundException;
 import repertapp.repertapp.core.mapper.SongMapper;
 import repertapp.repertapp.domain.tag.Tag;
-import repertapp.repertapp.domain.exception.ResourceNotFoundException;
 import repertapp.repertapp.domain.tag.TagRepository;
 
 @RequiredArgsConstructor

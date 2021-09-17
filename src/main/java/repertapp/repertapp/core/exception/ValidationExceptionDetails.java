@@ -1,4 +1,4 @@
-package repertapp.repertapp.domain.exception;
+package repertapp.repertapp.core.exception;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;

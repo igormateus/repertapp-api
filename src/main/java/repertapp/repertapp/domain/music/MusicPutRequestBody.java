@@ -18,7 +18,7 @@ public class MusicPutRequestBody {
     private int score;
 
     @NotNull
-    private int counterPlays;
+    private int counterPlay;
 
     @NotNull
     private Band band;
