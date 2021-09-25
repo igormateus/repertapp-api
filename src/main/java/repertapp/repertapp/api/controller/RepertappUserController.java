@@ -4,6 +4,8 @@ import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -45,7 +47,7 @@ public class RepertappUserController {
     }
 
     /**
-     * Returns the user by ID
+     * Returns a user by ID
      * @param id
      * @param user
      * @return
@@ -77,10 +79,23 @@ public class RepertappUserController {
      * @param user
      * @return
      */
-    @DeleteMapping()
+    @DeleteMapping
     public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal RepertappUser user) {
         userService.deleteUser(user.getId());
 
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Returns all users
+     * @param pageable
+     * @return
+     */
+    @JsonView(View.Resume.class)
+    @GetMapping
+    public ResponseEntity<Page<RepertappUserResponseBody>> getAllUsers(Pageable pageable) {
+        Page<RepertappUserResponseBody> response = userService.getAllUsers(pageable);
+
+        return ResponseEntity.ok(response);
     }
 }

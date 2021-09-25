@@ -121,10 +121,29 @@ public class RepertappUserService implements UserDetailsService{
         userRepository.delete(user);
     }
 
-    public Page<RepertappUser> getUsersByBand(Band band, Pageable pageable) {
+    /**
+     * Returns all users in a page object
+     * @param pageable
+     * @return
+     */
+    public Page<RepertappUserResponseBody> getAllUsers(Pageable pageable) {
+        Page<RepertappUser> users = userRepository.findAll(pageable);
+
+        Page<RepertappUserResponseBody> usersResponse = users.map(user ->
+            RepertappUserMapper.INSTANCE.toRepertappUserResponseBody(user)
+        );
+
+        return usersResponse;
+    }
+
+    public Page<RepertappUserResponseBody> getUsersByBand(Band band, Pageable pageable) {
         Page<RepertappUser> users = userRepository.findByBands(band, pageable);
 
-        return users;
+        Page<RepertappUserResponseBody> usersResponse = users.map(user -> 
+            RepertappUserMapper.INSTANCE.toRepertappUserResponseBody(user)
+        );
+
+        return usersResponse;
     }
 
 }

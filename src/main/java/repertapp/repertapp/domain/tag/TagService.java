@@ -20,29 +20,41 @@ public class TagService {
                 .orElseThrow(() -> new ResourceNotFoundException("Tag", "id", id));
     }
     
-    public Page<Tag> getAllTags(Pageable pageable) {
-        Page<Tag> tags = tagRepository.findAll(pageable);
-
-        return tags;
+    /**
+     * Creates a new tag and respond his body
+     * @param tagRequest
+     * @return
+     */
+    @Transactional
+    public TagResponseBody addTag(TagPostRequestBody tagRequest) {
+        TagRequestValidation.valideAdd(tagRequest, tagRepository);
+        
+        Tag tag = TagMapper.INSTANCE.toTag(tagRequest);
+        
+        Tag tagSaved = tagRepository.save(tag);
+        
+        TagResponseBody tagResponse = TagMapper.INSTANCE.toTagResponseBody(tagSaved);
+        
+        return tagResponse;
     }
-
-    public Tag getTag(Long id) {
+    
+    /**
+     * Return the tag by ID
+     * @param id
+     * @return
+     */
+    public TagResponseBody getTag(Long id) {
         Tag tag = findByIdOrThrowResourceNotFoundException(id);
 
-        return tag;
+        TagResponseBody tagResponse = TagMapper.INSTANCE.toTagResponseBody(tag);
+
+        return tagResponse;
     }
 
-    @Transactional
-    public Tag addTag(TagPostRequestBody tagRequest) {
-        TagRequestValidation.valideAdd(tagRequest, tagRepository);
-
-        Tag tag = TagMapper.INSTANCE.toTag(tagRequest);
-
-        Tag tagSaved = tagRepository.save(tag);
-
-        return tagSaved;
-    }
-
+    /**
+     * Updates the tag attributes
+     * @param tagRequest
+     */
     @Transactional
     public void updateTag(TagPutRequestBody tagRequest) {
         Tag tag = findByIdOrThrowResourceNotFoundException(tagRequest.getId());
@@ -54,10 +66,29 @@ public class TagService {
         tagRepository.save(tagToBeSaved);
     }
 
+    /**
+     * Delete a tag
+     * @param id
+     */
     @Transactional
     public void deleteTag(Long id) {
         Tag tag = findByIdOrThrowResourceNotFoundException(id);
 
         tagRepository.delete(tag);
+    }
+    
+    /**
+     * Return a page object with all tags
+     * @param pageable
+     * @return
+     */
+    public Page<TagResponseBody> getAllTags(Pageable pageable) {
+        Page<Tag> tags = tagRepository.findAll(pageable);
+
+        Page<TagResponseBody> tagsResponse = tags.map(
+            tag -> TagMapper.INSTANCE.toTagResponseBody(tag)
+        );
+
+        return tagsResponse;
     }
 }

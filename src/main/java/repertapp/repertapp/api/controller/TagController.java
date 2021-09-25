@@ -2,6 +2,8 @@ package repertapp.repertapp.api.controller;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,9 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import repertapp.repertapp.domain.tag.Tag;
+import repertapp.repertapp.api.view.View;
 import repertapp.repertapp.domain.tag.TagPostRequestBody;
 import repertapp.repertapp.domain.tag.TagPutRequestBody;
+import repertapp.repertapp.domain.tag.TagResponseBody;
 import repertapp.repertapp.domain.tag.TagService;
 
 @RequiredArgsConstructor
@@ -28,27 +31,37 @@ public class TagController {
     
     private final TagService tagService;
 
-    @GetMapping
-    public ResponseEntity<Page<Tag>> getAllTags(Pageable pageable) {
-        Page<Tag> response = tagService.getAllTags(pageable);
+    /**
+     * Creates a new Tag and respond his body
+     * @param tag
+     * @return
+     */
+    @JsonView(View.Resume.class)
+    @PostMapping
+    public ResponseEntity<TagResponseBody> addTag(@Valid @RequestBody TagPostRequestBody tagRequest) {
+        TagResponseBody tag = tagService.addTag(tagRequest);
 
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(tag, HttpStatus.CREATED);
     }
 
+    /**
+     * Returns a tag by ID
+     * @param id
+     * @return
+     */
+    @JsonView(View.Complete.class)
     @GetMapping("/{id}")
-    public ResponseEntity<Tag> getTag(@PathVariable Long id) {
-        Tag tag = tagService.getTag(id);
+    public ResponseEntity<TagResponseBody> getTag(@PathVariable Long id) {
+        TagResponseBody tag = tagService.getTag(id);
 
         return ResponseEntity.ok(tag);
     }
 
-    @PostMapping
-    public ResponseEntity<Tag> addTag(@Valid @RequestBody TagPostRequestBody tag) {
-        Tag newTag = tagService.addTag(tag);
-
-        return new ResponseEntity<>(newTag, HttpStatus.CREATED);
-    }
-
+    /**
+     * Updates a tag
+     * @param tag
+     * @return
+     */
     @PutMapping
     public ResponseEntity<Void> updateTag(@Valid @RequestBody TagPutRequestBody tag) {
         tagService.updateTag(tag);
@@ -56,10 +69,28 @@ public class TagController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Delete a tag
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         tagService.deleteTag(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Returns a page object with tags
+     * @param pageable
+     * @return
+     */
+    @JsonView(View.Resume.class)
+    @GetMapping
+    public ResponseEntity<Page<TagResponseBody>> getAllTags(Pageable pageable) {
+        Page<TagResponseBody> response = tagService.getAllTags(pageable);
+
+        return ResponseEntity.ok(response);
     }
 }

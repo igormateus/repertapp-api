@@ -6,6 +6,7 @@ import org.mapstruct.factory.Mappers;
 import repertapp.repertapp.domain.tag.Tag;
 import repertapp.repertapp.domain.tag.TagPostRequestBody;
 import repertapp.repertapp.domain.tag.TagPutRequestBody;
+import repertapp.repertapp.domain.tag.TagResponseBody;
 
 @Mapper(componentModel = "spring")
 public abstract class TagMapper {
@@ -14,4 +15,6 @@ public abstract class TagMapper {
 
     public abstract Tag toTag(TagPostRequestBody tag);
     public abstract Tag toTag(TagPutRequestBody tag);
+    
+    public abstract TagResponseBody toTagResponseBody(Tag tag);
 }

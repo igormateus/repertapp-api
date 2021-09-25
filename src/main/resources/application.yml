@@ -18,6 +18,8 @@ spring:
         date-format: yyyy-MM-dd
         deserialization:
             fail-on-unknown-properties: true
+        mapper:
+            DEFAULT_VIEW_INCLUSION: true
 
 server:
     port: 8080
