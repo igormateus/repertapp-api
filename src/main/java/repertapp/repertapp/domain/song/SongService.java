@@ -2,10 +2,10 @@ package repertapp.repertapp.domain.song;
 
 import java.util.List;
 
+import org.apache.commons.text.WordUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.core.exception.ResourceNotFoundException;
@@ -24,30 +24,48 @@ public class SongService {
         return songRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
     }
+    
+    /**
+     * Creates a new song and respond its body
+     * @param songRequest
+     * @return
+     */
+    public SongResponseBody addSong(SongPostRequestBody songRequest) {
+        songRequest.setArtist(WordUtils.capitalizeFully(songRequest.getArtist()));
+        songRequest.setName(WordUtils.capitalizeFully(songRequest.getName()));
 
-    public Page<Song> getAllSongs(Pageable pageable) {
-        Page<Song> songs = songRepository.findAll(pageable);
-        
-        return songs;
-    }
-    
-    public Song getSong(Long id) {
-        return songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
-    }
-    
-    @Transactional
-    public Song addSong(SongPostRequestBody songRequest) {
         SongRequestValidation.valideAdd(songRequest, songRepository);
 
         Song song = SongMapper.INSTANCE.toSong(songRequest);
             
-        Song newSong = songRepository.save(song);
+        Song songSaved = songRepository.save(song);
+
+        SongResponseBody songResponse = SongMapper.INSTANCE.toSongResponseBody(songSaved);
         
-        return newSong;
+        return songResponse;
+    }
+    
+    /**
+     * Returns a song by ID
+     * @param id
+     * @return
+     */
+    public SongResponseBody getSong(Long id) {
+        Song song = findByIdOrThrowResourceNotFoundException(id);
+
+        SongResponseBody songResponse = SongMapper.INSTANCE.toSongResponseBody(song);
+
+        return songResponse;
     }
         
-    @Transactional
+    /**
+     * Updates a song
+     * @param songRequest
+     */
     public void updateSong(SongPutRequestBody songRequest) {
+        songRequest.setArtist(WordUtils.capitalizeFully(songRequest.getArtist()));
+        songRequest.setName(WordUtils.capitalizeFully(songRequest.getName()));
+
         Song song = findByIdOrThrowResourceNotFoundException(songRequest.getId());
 
         SongRequestValidation.valideUpdate(songRequest, song, songRepository);
@@ -57,19 +75,47 @@ public class SongService {
         songRepository.save(songSaved);
     }
     
-    @Transactional
+    /**
+     * Delete a song
+     * @param id
+     */
     public void deleteSong(Long id) {
         Song song = findByIdOrThrowResourceNotFoundException(id);
         
         songRepository.delete(song);
     }
+
+    /**
+     * Returns a page object with songs
+     * @param pageable
+     * @return
+     */
+    public Page<SongResponseBody> getAllSongs(Pageable pageable) {
+        Page<Song> songs = songRepository.findAll(pageable);
+
+        Page<SongResponseBody> songsResponse = songs.map(song -> 
+            SongMapper.INSTANCE.toSongResponseBody(song)
+        );
+        
+        return songsResponse;
+    }
     
-    public Page<Song> getSongsByTags(List<Tag> tags, Pageable pageable) {
+    /**
+     * Returns a page object with songs by list of tags
+     * @param tags
+     * @param pageable
+     * @return
+     */
+    public Page<SongResponseBody> getSongsByTags(List<Tag> tags, Pageable pageable) {
         tags.stream().forEach(tag -> tagRepository.findById(tag.getId()).orElseThrow(
             () -> new ResourceNotFoundException("Tag", "id", tag.getId())));
     
         Page<Song> songs = songRepository.findDistinctSongsByTagsIn(tags, pageable);
+
+        Page<SongResponseBody> songsResponse = songs.map(song ->
+            SongMapper.INSTANCE.toSongResponseBody(song)
+        );
     
-        return songs;
+        return songsResponse;
     }
 }

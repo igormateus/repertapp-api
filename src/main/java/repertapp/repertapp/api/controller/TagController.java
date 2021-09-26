@@ -36,7 +36,7 @@ public class TagController {
      * @param tag
      * @return
      */
-    @JsonView(View.Resume.class)
+    @JsonView(View.Summary.class)
     @PostMapping
     public ResponseEntity<TagResponseBody> addTag(@Valid @RequestBody TagPostRequestBody tagRequest) {
         TagResponseBody tag = tagService.addTag(tagRequest);
@@ -86,7 +86,7 @@ public class TagController {
      * @param pageable
      * @return
      */
-    @JsonView(View.Resume.class)
+    @JsonView(View.Summary.class)
     @GetMapping
     public ResponseEntity<Page<TagResponseBody>> getAllTags(Pageable pageable) {
         Page<TagResponseBody> response = tagService.getAllTags(pageable);

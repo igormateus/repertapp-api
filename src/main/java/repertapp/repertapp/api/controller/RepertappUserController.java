@@ -38,7 +38,7 @@ public class RepertappUserController {
      * @param userRequest
      * @return
      */
-    @JsonView(View.Resume.class)
+    @JsonView(View.Summary.class)
     @PostMapping
     public ResponseEntity<RepertappUserResponseBody> registerUser(@Valid @RequestBody RepertappUserPostRequestBody userRequest) {
         RepertappUserResponseBody userResponse = userService.addUser(userRequest);
@@ -91,7 +91,7 @@ public class RepertappUserController {
      * @param pageable
      * @return
      */
-    @JsonView(View.Resume.class)
+    @JsonView(View.Summary.class)
     @GetMapping
     public ResponseEntity<Page<RepertappUserResponseBody>> getAllUsers(Pageable pageable) {
         Page<RepertappUserResponseBody> response = userService.getAllUsers(pageable);

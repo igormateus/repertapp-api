@@ -7,9 +7,9 @@ import repertapp.repertapp.api.view.View;
 
 @Value
 public class TagResponseBody {
-    @JsonView(View.Resume.class)
+    @JsonView(View.Summary.class)
     private Long id;
 
-    @JsonView(View.Resume.class)
+    @JsonView(View.Summary.class)
     private String name;
 }

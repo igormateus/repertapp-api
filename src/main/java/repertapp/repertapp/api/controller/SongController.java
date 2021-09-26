@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import repertapp.repertapp.domain.tag.Tag;
-import repertapp.repertapp.domain.song.Song;
+import repertapp.repertapp.api.view.View;
 import repertapp.repertapp.domain.song.SongPostRequestBody;
 import repertapp.repertapp.domain.song.SongPutRequestBody;
+import repertapp.repertapp.domain.song.SongResponseBody;
 import repertapp.repertapp.domain.song.SongService;
+import repertapp.repertapp.domain.tag.Tag;
 
 
 @RequiredArgsConstructor
@@ -31,28 +34,38 @@ import repertapp.repertapp.domain.song.SongService;
 public class SongController {
 
     private final SongService songService;
+    
+    /**
+     * Creates a new song and respond its body 
+     * @param songRequest
+     * @return
+     */
+    @JsonView(View.Summary.class)
+    @PostMapping
+    public ResponseEntity<SongResponseBody> addSong(@Valid @RequestBody SongPostRequestBody songRequest) {
+        SongResponseBody songResponse = songService.addSong(songRequest);
 
-    @GetMapping
-    public ResponseEntity<Page<Song>> getAllSongs(Pageable pageable) {
-        Page<Song> response = songService.getAllSongs(pageable);
-
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(songResponse, HttpStatus.CREATED);
     }
 
+    /**
+     * Returns a song by ID
+     * @param id
+     * @return
+     */
+    @JsonView(View.Complete.class)
     @GetMapping("/{id}")
-    public ResponseEntity<Song> getSong(@PathVariable Long id) {
-        Song song = songService.getSong(id);
+    public ResponseEntity<SongResponseBody> getSong(@PathVariable Long id) {
+        SongResponseBody song = songService.getSong(id);
 
         return ResponseEntity.ok(song);
     }
 
-    @PostMapping
-    public ResponseEntity<Song> addSong(@Valid @RequestBody SongPostRequestBody songRequest) {
-        Song songResponse = songService.addSong(songRequest);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(songResponse);
-    }
-
+    /**
+     * Updates a song
+     * @param songRequest
+     * @return
+     */
     @PutMapping
     public ResponseEntity<Void> updateSong(@Valid @RequestBody SongPutRequestBody songRequest) {
         songService.updateSong(songRequest);
@@ -60,6 +73,11 @@ public class SongController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Delete a song
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletSong(@PathVariable Long id) {
         songService.deleteSong(id);
@@ -67,9 +85,29 @@ public class SongController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Returns a page object with songs
+     * @param pageable
+     * @return
+     */
+    @JsonView(View.Summary.class)
+    @GetMapping
+    public ResponseEntity<Page<SongResponseBody>> getAllSongs(Pageable pageable) {
+        Page<SongResponseBody> response = songService.getAllSongs(pageable);
+
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Returns a page object with songs by a list of tags
+     * @param tags
+     * @param pageable
+     * @return
+     */
+    @JsonView(View.Summary.class)
     @GetMapping("/tags")
-    public ResponseEntity<Page<Song>> getSongsByTags(@Valid @RequestBody List<Tag> tags, Pageable pageable) {
-        Page<Song> response = songService.getSongsByTags(tags, pageable);
+    public ResponseEntity<Page<SongResponseBody>> getSongsByTags(@Valid @RequestBody List<Tag> tags, Pageable pageable) {
+        Page<SongResponseBody> response = songService.getSongsByTags(tags, pageable);
 
         return ResponseEntity.ok(response);
     }

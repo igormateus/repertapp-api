@@ -6,6 +6,7 @@ import org.mapstruct.factory.Mappers;
 import repertapp.repertapp.domain.song.Song;
 import repertapp.repertapp.domain.song.SongPostRequestBody;
 import repertapp.repertapp.domain.song.SongPutRequestBody;
+import repertapp.repertapp.domain.song.SongResponseBody;
 
 @Mapper(componentModel = "spring")
 public abstract class SongMapper {
@@ -14,4 +15,6 @@ public abstract class SongMapper {
 
     public abstract Song toSong(SongPostRequestBody song);
     public abstract Song toSong(SongPutRequestBody song);
+
+    public abstract SongResponseBody toSongResponseBody(Song song);
 }
