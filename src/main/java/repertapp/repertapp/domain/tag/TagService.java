@@ -27,6 +27,8 @@ public class TagService {
      */
     @Transactional
     public TagResponseBody addTag(TagPostRequestBody tagRequest) {
+        tagRequest.setName(tagRequest.getName().toLowerCase());
+
         TagRequestValidation.valideAdd(tagRequest, tagRepository);
         
         Tag tag = TagMapper.INSTANCE.toTag(tagRequest);
@@ -57,6 +59,8 @@ public class TagService {
      */
     @Transactional
     public void updateTag(TagPutRequestBody tagRequest) {
+        tagRequest.setName(tagRequest.getName().toLowerCase());
+
         Tag tag = findByIdOrThrowResourceNotFoundException(tagRequest.getId());
 
         TagRequestValidation.valideUpdate(tagRequest, tag, tagRepository);

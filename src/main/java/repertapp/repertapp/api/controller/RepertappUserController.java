@@ -40,7 +40,9 @@ public class RepertappUserController {
      */
     @JsonView(View.Summary.class)
     @PostMapping
-    public ResponseEntity<RepertappUserResponseBody> registerUser(@Valid @RequestBody RepertappUserPostRequestBody userRequest) {
+    public ResponseEntity<RepertappUserResponseBody> registerUser(
+        @Valid @RequestBody RepertappUserPostRequestBody userRequest
+    ) {
         RepertappUserResponseBody userResponse = userService.addUser(userRequest);
 
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
@@ -54,7 +56,9 @@ public class RepertappUserController {
      */
     @JsonView(View.Complete.class)
     @GetMapping("/{id}")
-    public ResponseEntity<RepertappUserResponseBody> getUser(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user) {
+    public ResponseEntity<RepertappUserResponseBody> getUser(
+        @PathVariable Long id, @AuthenticationPrincipal RepertappUser user
+    ) {
         RepertappUserResponseBody userResponse = userService.getUser(id, user);
 
         return ResponseEntity.ok(userResponse);
@@ -67,8 +71,10 @@ public class RepertappUserController {
      * @return
      */
     @PutMapping
-    public ResponseEntity<Void> updateUser(@Valid @RequestBody RepertappUserPutRequestBody userRequest,
-            @AuthenticationPrincipal RepertappUser user) {
+    public ResponseEntity<Void> updateUser(
+        @Valid @RequestBody RepertappUserPutRequestBody userRequest,
+        @AuthenticationPrincipal RepertappUser user
+    ) {
         userService.updateUser(userRequest, user);
 
         return ResponseEntity.noContent().build();
@@ -80,7 +86,9 @@ public class RepertappUserController {
      * @return
      */
     @DeleteMapping
-    public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal RepertappUser user) {
+    public ResponseEntity<Void> deleteUser(
+        @AuthenticationPrincipal RepertappUser user
+    ) {
         userService.deleteUser(user.getId());
 
         return ResponseEntity.noContent().build();

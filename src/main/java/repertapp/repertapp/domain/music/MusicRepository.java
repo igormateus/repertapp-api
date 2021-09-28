@@ -19,8 +19,8 @@ import repertapp.repertapp.domain.tag.Tag;
 @Repository
 public interface MusicRepository extends JpaRepository<Music, Long> {
     Page<Music> findByName(@NotBlank String name, Pageable pageable);
-    Page<Music> findByArtist(@NotBlank String artist);
-    Page<Music> findByBand(@NotNull Band band, Pageable page);
+    Page<Music> findByArtist(@NotBlank String artist, Pageable pageable);
+    Page<Music> findByBand(@NotNull Band band, Pageable pageable);
     
     Optional<Music> findByNameAndArtist(@NotBlank String name, @NotBlank String artist);
     Optional<Music> findByYoutubeLink(@NotBlank @URL String youtubeLink);

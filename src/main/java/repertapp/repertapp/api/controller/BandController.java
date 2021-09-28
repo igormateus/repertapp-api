@@ -2,6 +2,8 @@ package repertapp.repertapp.api.controller;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import repertapp.repertapp.api.view.View;
 import repertapp.repertapp.domain.band.Band;
 import repertapp.repertapp.domain.user.RepertappUser;
 import repertapp.repertapp.domain.user.RepertappUserResponseBody;
 import repertapp.repertapp.domain.band.BandPostRequestBody;
 import repertapp.repertapp.domain.band.BandPutRequestBody;
+import repertapp.repertapp.domain.band.BandResponseBody;
 import repertapp.repertapp.domain.band.BandService;
 import repertapp.repertapp.domain.user.RepertappUserService;
 
@@ -35,9 +39,19 @@ public class BandController {
 
     private final RepertappUserService userService;
 
+    /**
+     * Creates a new Band with auth user
+     * @param band
+     * @param userAuth
+     * @return
+     */
+    @JsonView(View.Summary.class)
     @PostMapping
-    public ResponseEntity<Band> addBand(@Valid @RequestBody BandPostRequestBody band, @AuthenticationPrincipal RepertappUser user) {
-        Band bandSaved = bandService.addBand(band, user);
+    public ResponseEntity<BandResponseBody> addBand(
+        @Valid @RequestBody BandPostRequestBody band,
+        @AuthenticationPrincipal RepertappUser userAuth
+    ) {
+        BandResponseBody bandSaved = bandService.addBand(band, userAuth);
 
         return new ResponseEntity<>(bandSaved, HttpStatus.CREATED);
     }

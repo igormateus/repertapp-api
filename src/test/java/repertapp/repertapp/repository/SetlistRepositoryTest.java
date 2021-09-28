@@ -17,8 +17,8 @@ import repertapp.repertapp.domain.music.Music;
 import repertapp.repertapp.domain.music.MusicRepository;
 import repertapp.repertapp.domain.setlist.Setlist;
 import repertapp.repertapp.domain.setlist.SetlistRepository;
-import repertapp.repertapp.domain.song.Song;
-import repertapp.repertapp.domain.song.SongRepository;
+// import repertapp.repertapp.domain.song.Song;
+// import repertapp.repertapp.domain.song.SongRepository;
 import repertapp.repertapp.domain.user.RepertappUserRepository;
 import repertapp.repertapp.domain.version.Version;
 import repertapp.repertapp.domain.version.VersionRepository;
@@ -26,7 +26,7 @@ import repertapp.repertapp.util.BandCreator;
 import repertapp.repertapp.util.MusicCreator;
 import repertapp.repertapp.util.RepertappUserCreator;
 import repertapp.repertapp.util.SetlistCreator;
-import repertapp.repertapp.util.SongCreator;
+// import repertapp.repertapp.util.SongCreator;
 import repertapp.repertapp.util.VersionCreator;
 
 @DataJpaTest
@@ -49,7 +49,7 @@ public class SetlistRepositoryTest {
     private BandRepository bandRepository;
 
     @Autowired
-    private SongRepository songRepository;
+    // private SongRepository songRepository;
 
     private Setlist setUp() {
         RepertappUser user = RepertappUserCreator.createToBeSaved();
@@ -57,8 +57,8 @@ public class SetlistRepositoryTest {
         ArrayList<RepertappUser> users = new ArrayList<>();
         users.add(userSaved);
         
-        Song song = SongCreator.createToBeSaved();
-        Song songSaved = songRepository.save(song);
+        // Song song = SongCreator.createToBeSaved();
+        // Song songSaved = songRepository.save(song);
 
         Band band = BandCreator.createToBeSaved();
         band.setMembers(users);
@@ -66,7 +66,7 @@ public class SetlistRepositoryTest {
 
         Music music = MusicCreator.createToBeSaved();
         music.setBand(bandSaved);
-        music.setSong(songSaved);
+        // music.setSong(songSaved);
         Music musicSaved = musicRepository.save(music);
 
         Version version = VersionCreator.createToBeSaved();

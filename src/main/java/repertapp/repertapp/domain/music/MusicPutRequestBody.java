@@ -42,7 +42,6 @@ public class MusicPutRequestBody {
     @NotNull
     private int counterPlay;
 
-    @NotNull
     private Band band; 
 
     private List<Tag> tags;

@@ -2,7 +2,7 @@ package repertapp.repertapp.util;
 
 import repertapp.repertapp.domain.band.Band;
 import repertapp.repertapp.domain.music.Music;
-import repertapp.repertapp.domain.song.Song;
+// import repertapp.repertapp.domain.song.Song;
 
 public class MusicCreator {
     
@@ -18,17 +18,17 @@ public class MusicCreator {
         return band;
     }
 
-    private static Song getSong() {
-        Song song = SongCreator.createToBeSaved();
+    // private static Song getSong() {
+    //     Song song = SongCreator.createToBeSaved();
         
-        return song;
-    }
+    //     return song;
+    // }
 
-    private static Song getSong(Object n) {
-        Song song = SongCreator.createToBeSaved(n);
+    // private static Song getSong(Object n) {
+    //     Song song = SongCreator.createToBeSaved(n);
 
-        return song;
-    }
+    //     return song;
+    // }
 
     public static Music createToBeSaved() {
         Music music = new Music();
@@ -36,7 +36,7 @@ public class MusicCreator {
         music.setKnown(true);
         music.setScore(1000);
         // music.setCounterPlays(counterPlays);
-        music.setSong(getSong());
+        // music.setSong(getSong());
         music.setBand(getBand());
         // music.setVersions(versions);
 
@@ -49,7 +49,7 @@ public class MusicCreator {
         music.setKnown(true);
         music.setScore(1000);
         // music.setCounterPlays(counterPlays);
-        music.setSong(getSong(n));
+        // music.setSong(getSong(n));
         music.setBand(getBand(n));
         // music.setVersions(versions);
 

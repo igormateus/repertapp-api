@@ -25,6 +25,31 @@ public class BandService {
                 .orElseThrow(() -> new ResourceNotFoundException("Band", "id", id));
     }
 
+    /**
+     * Creates band and add user auth in the members array
+     * @param bandRequest
+     * @param user
+     * @return
+     */
+    @Transactional
+    public BandResponseBody addBand(
+        @Valid BandPostRequestBody bandRequest,
+        RepertappUser user
+    ) {
+        bandRequest.setName(WordUtils.capitalizeFully(bandRequest.getName()));
+        
+        BandRequestValidation.valideAdd(bandRequest, bandRepository);
+
+        Band band = BandMapper.INSTANCE.toBand(bandRequest);
+        band.getMembers().add(user);
+
+        Band bandSaved = bandRepository.save(band);
+
+        BandResponseBody bandResponse = BandMapper.INSTANCE.toBandResponseBody(bandSaved);
+
+        return bandResponse;
+    }
+    
     private Band findByIdAndValidAccessOrThrowNoPermissionException(Long id, RepertappUser user) {
         Band band = findByIdOrThrowResourceNotFoundException(id);
 
@@ -34,20 +59,6 @@ public class BandService {
         return band;
     }
 
-    @Transactional
-    public Band addBand(@Valid BandPostRequestBody bandRequest, RepertappUser user) {
-        bandRequest.setName(WordUtils.capitalizeFully(bandRequest.getName()));
-        
-        BandRequestValidation.valideAdd(bandRequest, bandRepository);
-
-        Band band = BandMapper.INSTANCE.toBand(bandRequest);
-
-        band.getMembers().add(user);
-
-        Band bandSaved = bandRepository.save(band);
-
-        return bandSaved;
-    }
 
     @Transactional
     public void updateBand(@Valid BandPutRequestBody bandRequest, RepertappUser user) {

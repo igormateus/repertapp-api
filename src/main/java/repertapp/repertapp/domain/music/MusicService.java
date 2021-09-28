@@ -28,17 +28,11 @@ public class MusicService {
                 .orElseThrow(() -> new ResourceNotFoundException("Music", "id", id));
     }
 
-    private Music findByIdAndValidAccess(Long id, Band band) {
-        Music music = findByIdOrThrowResourceNotFoundException(id);
-
-        if (band.getMusics().stream().noneMatch(m -> m.getId() == music.getId()))
-            throw new NoPermissionException("Band", band.getName(), "Music", music.getId());
-        
-        return music;
-    }
-
     @Transactional
-    public Music addMusic(@Valid MusicPostRequestBody musicRequest, Long bandId, RepertappUser user) {
+    public MusicResponseBody addMusic(
+        @Valid MusicPostRequestBody musicRequest,
+        Long bandId, RepertappUser user
+    ) {
         Band band = bandService.getBandByUser(bandId, user);
 
         musicRequest.setBand(band);
@@ -49,8 +43,20 @@ public class MusicService {
 
         Music musicSaved = musicRepository.save(music);
 
-        return musicSaved;
+        MusicResponseBody musicResponse = MusicMapper.INSTANCE.toMusicResponseBody(musicSaved);
+
+        return musicResponse;
     }
+
+    private Music findByIdAndValidAccess(Long id, Band band) {
+        Music music = findByIdOrThrowResourceNotFoundException(id);
+
+        if (band.getMusics().stream().noneMatch(m -> m.getId() == music.getId()))
+            throw new NoPermissionException("Band", band.getName(), "Music", music.getId());
+        
+        return music;
+    }
+
 
     @Transactional
     public void updateMusic(@Valid MusicPutRequestBody musicRequest, Long bandId, RepertappUser user) {

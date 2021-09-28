@@ -15,15 +15,15 @@ import repertapp.repertapp.domain.enums.Tone;
 import repertapp.repertapp.domain.band.BandRepository;
 import repertapp.repertapp.domain.music.Music;
 import repertapp.repertapp.domain.music.MusicRepository;
-import repertapp.repertapp.domain.song.Song;
-import repertapp.repertapp.domain.song.SongRepository;
+// import repertapp.repertapp.domain.song.Song;
+// import repertapp.repertapp.domain.song.SongRepository;
 import repertapp.repertapp.domain.user.RepertappUserRepository;
 import repertapp.repertapp.domain.version.Version;
 import repertapp.repertapp.domain.version.VersionRepository;
 import repertapp.repertapp.util.BandCreator;
 import repertapp.repertapp.util.MusicCreator;
 import repertapp.repertapp.util.RepertappUserCreator;
-import repertapp.repertapp.util.SongCreator;
+// import repertapp.repertapp.util.SongCreator;
 import repertapp.repertapp.util.VersionCreator;
 
 @DataJpaTest
@@ -42,8 +42,8 @@ public class VersionRepositoryTest {
     @Autowired
     private BandRepository bandRepository;
 
-    @Autowired
-    private SongRepository songRepository;
+    // @Autowired
+    // private SongRepository songRepository;
 
     private Version setUp() {
         RepertappUser user = RepertappUserCreator.createToBeSaved();
@@ -51,8 +51,8 @@ public class VersionRepositoryTest {
         ArrayList<RepertappUser> users = new ArrayList<>();
         users.add(userSaved);
         
-        Song song = SongCreator.createToBeSaved();
-        Song songSaved = songRepository.save(song);
+        // Song song = SongCreator.createToBeSaved();
+        // Song songSaved = songRepository.save(song);
 
         Band band = BandCreator.createToBeSaved();
         band.setMembers(users);
@@ -60,7 +60,7 @@ public class VersionRepositoryTest {
 
         Music music = MusicCreator.createToBeSaved();
         music.setBand(bandSaved);
-        music.setSong(songSaved);
+        // music.setSong(songSaved);
         Music musicSaved = musicRepository.save(music);
 
         Version version = VersionCreator.createToBeSaved();
@@ -81,7 +81,7 @@ public class VersionRepositoryTest {
         Assertions.assertThat(versionSaved).isNotNull();
         Assertions.assertThat(versionSaved.getId()).isNotNull();
         Assertions.assertThat(versionSaved.getRepertappUser()).isEqualTo(version.getRepertappUser());
-        Assertions.assertThat(versionSaved.getMusic().getSong()).isEqualTo(version.getMusic().getSong());
+        // Assertions.assertThat(versionSaved.getMusic().getSong()).isEqualTo(version.getMusic().getSong());
         Assertions.assertThat(versionSaved.getMusic().getBand()).isEqualTo(version.getMusic().getBand());
         Assertions.assertThat(versionSaved.getMusic()).isEqualTo(version.getMusic());
     }
@@ -106,20 +106,20 @@ public class VersionRepositoryTest {
         Version version = setUp();
         Version versionSaved = versionRepository.save(version);
         RepertappUser user = version.getRepertappUser();
-        Song song =  version.getMusic().getSong();
+        // Song song =  version.getMusic().getSong();
         Band band = version.getMusic().getBand();
         Music music =  version.getMusic();
 
         versionRepository.delete(versionSaved);
         Optional<Version> versionOptional = versionRepository.findById(versionSaved.getId());
         Optional<RepertappUser> userOptional = userRepository.findById(versionSaved.getRepertappUser().getId());
-        Optional<Song> songOptional = songRepository.findById(versionSaved.getMusic().getSong().getId());
+        // Optional<Song> songOptional = songRepository.findById(versionSaved.getMusic().getSong().getId());
         Optional<Band> bandOptional = bandRepository.findById(versionSaved.getMusic().getBand().getId());
         Optional<Music> musicOptional = musicRepository.findById(versionSaved.getMusic().getId());
 
         Assertions.assertThat(versionOptional).isEmpty();
         Assertions.assertThat(userOptional.get()).isEqualTo(user);
-        Assertions.assertThat(songOptional.get()).isEqualTo(song);
+        // Assertions.assertThat(songOptional.get()).isEqualTo(song);
         Assertions.assertThat(bandOptional.get()).isEqualTo(band);
         Assertions.assertThat(musicOptional.get()).isEqualTo(music);
     }

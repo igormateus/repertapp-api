@@ -2,6 +2,8 @@ package repertapp.repertapp.api.controller;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.user.RepertappUser;
+import repertapp.repertapp.api.view.View;
 import repertapp.repertapp.domain.music.Music;
 import repertapp.repertapp.domain.music.MusicPostRequestBody;
 import repertapp.repertapp.domain.music.MusicPutRequestBody;
+import repertapp.repertapp.domain.music.MusicResponseBody;
 import repertapp.repertapp.domain.music.MusicService;
 
 
@@ -31,12 +35,16 @@ public class MusicController {
     
     private final MusicService musicService;
 
+    @JsonView(View.Summary.class)
     @PostMapping
-    public ResponseEntity<Music> addMusic(@PathVariable(name = "bandId") Long bandId,
-            @Valid @RequestBody MusicPostRequestBody music, @AuthenticationPrincipal RepertappUser user) {
-        Music musicSaved = musicService.addMusic(music, bandId, user);
+    public ResponseEntity<MusicResponseBody> addMusic(
+        @PathVariable(name = "bandId") Long bandId,
+        @Valid @RequestBody MusicPostRequestBody music, 
+        @AuthenticationPrincipal RepertappUser userAuth
+    ) {
+        MusicResponseBody response = musicService.addMusic(music, bandId, userAuth);
 
-        return new ResponseEntity<>(musicSaved, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping
