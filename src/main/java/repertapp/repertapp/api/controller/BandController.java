@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.domain.band.Band;
 import repertapp.repertapp.domain.user.RepertappUser;
+import repertapp.repertapp.domain.user.RepertappUserResponseBody;
 import repertapp.repertapp.domain.band.BandPostRequestBody;
 import repertapp.repertapp.domain.band.BandPutRequestBody;
 import repertapp.repertapp.domain.band.BandService;
@@ -70,10 +71,10 @@ public class BandController {
     }
 
     @GetMapping("/{id}/users")
-    public ResponseEntity<Page<RepertappUser>> getUsersByBand(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
+    public ResponseEntity<Page<RepertappUserResponseBody>> getUsersByBand(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
         Band band = bandService.getBandByUser(id, user);
 
-        Page<RepertappUser> users = userService.getUsersByBand(band, pageable);
+        Page<RepertappUserResponseBody> users = userService.getUsersByBand(band, pageable);
 
         return ResponseEntity.ok(users);
     }
