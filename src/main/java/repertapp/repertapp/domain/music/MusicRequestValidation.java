@@ -3,8 +3,7 @@ package repertapp.repertapp.domain.music;
 import javax.validation.Valid;
 
 import repertapp.repertapp.core.exception.ResourceAlreadyExists;
-import repertapp.repertapp.domain.band.Band;
-import repertapp.repertapp.domain.song.Song;
+import repertapp.repertapp.core.util.Util;
 
 public class MusicRequestValidation {
 
@@ -13,19 +12,41 @@ public class MusicRequestValidation {
     public static void valideAdd(@Valid MusicPostRequestBody musicRequest, MusicRepository musicRepository) {
         repository = musicRepository;
 
-        checkMusicBandSongUnique(musicRequest.getBand(), musicRequest.getSong());
+        checkSongArtistNameUnique(musicRequest.getName(), musicRequest.getArtist());
+        
+        if (!Util.isNullOrEmpty(musicRequest.getYoutubeLink()))
+            checkYoutubeLinkUnique(musicRequest.getYoutubeLink());
+
+        if (!Util.isNullOrEmpty(musicRequest.getSpotifyLink()))
+            checkSpotifyLinkUnique(musicRequest.getSpotifyLink());
     }
 
     public static void valideUpdate(@Valid MusicPutRequestBody musicRequest, Music music,
             MusicRepository musicRepository) {
         repository = musicRepository;
 
-        if (!(music.getBand().equals(musicRequest.getBand()) && music.getSong().equals(musicRequest.getSong())))
-            checkMusicBandSongUnique(musicRequest.getBand(), musicRequest.getSong());
+        if (!(music.getArtist().equals(musicRequest.getArtist()) && music.getName().equals(musicRequest.getName())))
+            checkSongArtistNameUnique(musicRequest.getName(), musicRequest.getArtist());
+
+        if (!Util.isNullOrEmpty(musicRequest.getYoutubeLink()) && !music.getYoutubeLink().equals(musicRequest.getYoutubeLink()))
+            checkYoutubeLinkUnique(musicRequest.getYoutubeLink());
+        
+        if (!Util.isNullOrEmpty(musicRequest.getSpotifyLink()) && music.getSpotifyLink().equals(musicRequest.getSpotifyLink()))
+            checkSpotifyLinkUnique(musicRequest.getSpotifyLink());
     }
 
-    private static void checkMusicBandSongUnique(Band band, Song song) {
-        if (repository.existsByBandAndSong(band, song))
-            throw new ResourceAlreadyExists("Music", "band_id", band.getId(), "song_id", song.getId());
+    private static void checkSongArtistNameUnique(String name, String artist) {
+        if (repository.existsByNameAndArtist(name, artist))
+            throw new ResourceAlreadyExists("Song", "name", name, "artist", artist);
+    }
+
+    private static void checkYoutubeLinkUnique(String youtubeLink) {
+        if (repository.existsByYoutubeLink(youtubeLink))
+            throw new ResourceAlreadyExists("Song", "Youtube Link", youtubeLink);
+    }
+
+    private static void checkSpotifyLinkUnique(String spotifyLink) {
+        if (repository.existsBySpotifyLink(spotifyLink)) 
+            throw new ResourceAlreadyExists("Song", "Spotify Link", spotifyLink);
     }
 }
