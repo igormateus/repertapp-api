@@ -20,14 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import repertapp.repertapp.api.view.View;
-import repertapp.repertapp.domain.band.Band;
-import repertapp.repertapp.domain.user.RepertappUser;
-import repertapp.repertapp.domain.user.RepertappUserResponseBody;
 import repertapp.repertapp.domain.band.BandPostRequestBody;
 import repertapp.repertapp.domain.band.BandPutRequestBody;
 import repertapp.repertapp.domain.band.BandResponseBody;
 import repertapp.repertapp.domain.band.BandService;
-import repertapp.repertapp.domain.user.RepertappUserService;
+import repertapp.repertapp.domain.user.RepertappUser;
 
 
 @RequiredArgsConstructor
@@ -36,8 +33,6 @@ import repertapp.repertapp.domain.user.RepertappUserService;
 public class BandController {
     
     private final BandService bandService;
-
-    private final RepertappUserService userService;
 
     /**
      * Creates a new Band with auth user
@@ -73,6 +68,12 @@ public class BandController {
         return ResponseEntity.ok(band);
     }
 
+    /**
+     * Update a band
+     * @param bandRequest
+     * @param userAuth
+     * @return
+     */
     @PutMapping
     public ResponseEntity<Void> updateBand(
         @Valid @RequestBody BandPutRequestBody bandRequest,
@@ -83,27 +84,36 @@ public class BandController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Delete a band by ID
+     * @param id
+     * @param user
+     * @return
+     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBand(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user) {
-        bandService.deleteBand(id, user);
+    public ResponseEntity<Void> deleteBand(
+        @PathVariable Long id,
+        @AuthenticationPrincipal RepertappUser userAuth
+    ) {
+        bandService.deleteBand(id, userAuth);
 
         return ResponseEntity.noContent().build();
     }
     
+    /**
+     * Return a page object with list of bands by user
+     * @param user
+     * @param pageable
+     * @return
+     */
+    @JsonView(View.Summary.class)
     @GetMapping
-    public ResponseEntity<Page<Band>> getBandsByUser(@AuthenticationPrincipal RepertappUser user, Pageable pageable) {
-        Page<Band> response = bandService.getBandsByUser(user, pageable);
+    public ResponseEntity<Page<BandResponseBody>> getBandsByUser(
+        @AuthenticationPrincipal RepertappUser user,
+        Pageable pageable
+    ) {
+        Page<BandResponseBody> response = bandService.getBandsByUser(user, pageable);
         
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{id}/users")
-    public ResponseEntity<Page<RepertappUserResponseBody>> getUsersByBand(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
-        // Band band = bandService.getBandByUser(id, user);
-
-        // Page<RepertappUserResponseBody> users = userService.getUsersByBand(band, pageable);
-
-        // return ResponseEntity.ok(users);
-        return null;
     }
 }

@@ -31,9 +31,10 @@ public class MusicService {
     @Transactional
     public MusicResponseBody addMusic(
         @Valid MusicPostRequestBody musicRequest,
-        Long bandId, RepertappUser user
+        Long bandId,
+        RepertappUser user
     ) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         musicRequest.setBand(band);
 
@@ -60,7 +61,7 @@ public class MusicService {
 
     @Transactional
     public void updateMusic(@Valid MusicPutRequestBody musicRequest, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
         
         Music music = findByIdAndValidAccess(musicRequest.getId(), band);
 
@@ -76,7 +77,7 @@ public class MusicService {
 
     @Transactional
     public void deleteMusic(Long musicId, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Music music = findByIdAndValidAccess(musicId, band);
         
@@ -84,7 +85,7 @@ public class MusicService {
     }
 
     public Page<Music> getAllMusicsByBand(Long bandId, RepertappUser user, Pageable pageable) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Page<Music> musics = musicRepository.findByBand(band, pageable);
 
@@ -92,7 +93,7 @@ public class MusicService {
     }
 
     public Music getMusicByBand(Long id, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Music music = findByIdAndValidAccess(id, band);
         

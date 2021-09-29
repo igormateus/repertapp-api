@@ -39,7 +39,7 @@ public class VersionService {
 
     @Transactional
     public Version addVersion(@Valid VersionPostRequestBody versionRequest, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         versionRequest.setBand(band);
         
@@ -54,7 +54,7 @@ public class VersionService {
 
     @Transactional
     public void updateVersion(@Valid VersionPutRequestBody versionRequest, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Version version = findByIdAndValidAccess(versionRequest.getId(), band);
 
@@ -67,7 +67,7 @@ public class VersionService {
 
     @Transactional
     public void deleteVersion(Long id, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Version version = findByIdAndValidAccess(id, band);
         
@@ -75,7 +75,7 @@ public class VersionService {
     }
 
     public Page<Version> getAllVersions(Long bandId, RepertappUser user, Pageable pageable) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Page<Version> versions = versionRepository.findByBand(band, pageable);
 
@@ -83,7 +83,7 @@ public class VersionService {
     }
 
     public Version getVersion(Long id, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Version version = findByIdAndValidAccess(id, band);
         

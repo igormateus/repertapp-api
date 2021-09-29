@@ -42,7 +42,7 @@ public class SetlistService {
 
     @Transactional
     public Setlist addSetlist(@Valid SetlistPostRequestBody setlistRequest, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         setlistRequest.setBand(band);
 
@@ -55,7 +55,7 @@ public class SetlistService {
 
     @Transactional
     public void updateSetlist(@Valid SetlistPutRequestBody setlistRequest, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Setlist setlist = findByIdAndValidAccess(setlistRequest.getId(), band);
 
@@ -68,7 +68,7 @@ public class SetlistService {
 
     @Transactional
     public void deleteSetlist(Long id, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Setlist setlist = findByIdAndValidAccess(id, band);
         
@@ -76,7 +76,7 @@ public class SetlistService {
     }
 
     public Page<Setlist> getAllSetlistsByBand(Long bandId, RepertappUser user, Pageable pageable) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Page<Setlist> setlists = setlistRepository.findByBand(band, pageable);
 
@@ -84,7 +84,7 @@ public class SetlistService {
     }
 
     public Setlist getSetlistByBand(Long id, Long bandId, RepertappUser user) {
-        Band band = bandService.getBandByUser(bandId, user);
+        Band band = bandService.findByIdAndValidAccess(bandId, user);
 
         Setlist setlist = findByIdAndValidAccess(id, band);
         
