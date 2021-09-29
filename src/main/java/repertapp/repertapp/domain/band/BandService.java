@@ -31,7 +31,6 @@ public class BandService {
      * @param user
      * @return
      */
-    @Transactional
     public BandResponseBody addBand(
         @Valid BandPostRequestBody bandRequest,
         RepertappUser user
@@ -50,6 +49,30 @@ public class BandService {
         return bandResponse;
     }
     
+    /**
+     * Valid user has band and return a Band by ID
+     * @param id
+     * @param user
+     * @return
+     */
+    public BandResponseBody getBandByUser(Long id, RepertappUser user) {
+        Band band = findByIdAndValidAccessOrThrowNoPermissionException(id, user);
+
+        BandResponseBody bandResponse = BandMapper.INSTANCE.toBandResponseBody(band);
+        
+        return bandResponse;
+    }
+    
+    public void updateBand(@Valid BandPutRequestBody bandRequest, RepertappUser user) {
+        Band band = findByIdAndValidAccessOrThrowNoPermissionException(bandRequest.getId(), user);
+        
+        BandRequestValidation.valideUpdate(bandRequest, band, bandRepository);
+
+        Band bandToBeSaved = BandMapper.INSTANCE.toBand(bandRequest);
+
+        bandRepository.save(bandToBeSaved);
+    }
+
     private Band findByIdAndValidAccessOrThrowNoPermissionException(Long id, RepertappUser user) {
         Band band = findByIdOrThrowResourceNotFoundException(id);
 
@@ -60,16 +83,6 @@ public class BandService {
     }
 
 
-    @Transactional
-    public void updateBand(@Valid BandPutRequestBody bandRequest, RepertappUser user) {
-        Band band = findByIdAndValidAccessOrThrowNoPermissionException(bandRequest.getId(), user);
-        
-        BandRequestValidation.valideUpdate(bandRequest, band, bandRepository);
-
-        Band bandToBeSaved = BandMapper.INSTANCE.toBand(bandRequest);
-
-        bandRepository.save(bandToBeSaved);
-    }
 
     @Transactional
     public void deleteBand(Long id, RepertappUser user) {
@@ -82,11 +95,5 @@ public class BandService {
         Page<Band> bands = bandRepository.findByMembers(user, pageable);
         
         return bands;
-    }
-    
-    public Band getBandByUser(Long id, RepertappUser user) {
-        Band band = findByIdAndValidAccessOrThrowNoPermissionException(id, user);
-        
-        return band;
     }
 }

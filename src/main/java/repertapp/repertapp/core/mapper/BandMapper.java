@@ -16,5 +16,5 @@ public abstract class BandMapper {
     public abstract Band toBand(BandPostRequestBody band);
     public abstract Band toBand(BandPutRequestBody band);
 
-    public abstract BandResponseBody toBandResponseBody(Band bandSaved);
+    public abstract BandResponseBody toBandResponseBody(Band band);
 }

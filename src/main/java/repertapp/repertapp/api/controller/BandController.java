@@ -55,10 +55,30 @@ public class BandController {
 
         return new ResponseEntity<>(bandSaved, HttpStatus.CREATED);
     }
+    
+    /**
+     * Return a band by ID
+     * @param id
+     * @param userAuth
+     * @return
+     */
+    @JsonView(View.Complete.class)
+    @GetMapping("/{id}")
+    public ResponseEntity<BandResponseBody> getBandByUser(
+        @PathVariable Long id,
+        @AuthenticationPrincipal RepertappUser userAuth
+    ) {
+        BandResponseBody band = bandService.getBandByUser(id, userAuth);
+
+        return ResponseEntity.ok(band);
+    }
 
     @PutMapping
-    public ResponseEntity<Void> updateBand(@Valid @RequestBody BandPutRequestBody bandRequest, @AuthenticationPrincipal RepertappUser user) {
-        bandService.updateBand(bandRequest, user);
+    public ResponseEntity<Void> updateBand(
+        @Valid @RequestBody BandPutRequestBody bandRequest,
+        @AuthenticationPrincipal RepertappUser userAuth
+    ) {
+        bandService.updateBand(bandRequest, userAuth);
 
         return ResponseEntity.noContent().build();
     }
@@ -76,20 +96,14 @@ public class BandController {
         
         return ResponseEntity.ok(response);
     }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<Band> getBandByUser(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user) {
-        Band band = bandService.getBandByUser(id, user);
-
-        return ResponseEntity.ok(band);
-    }
 
     @GetMapping("/{id}/users")
     public ResponseEntity<Page<RepertappUserResponseBody>> getUsersByBand(@PathVariable Long id, @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
-        Band band = bandService.getBandByUser(id, user);
+        // Band band = bandService.getBandByUser(id, user);
 
-        Page<RepertappUserResponseBody> users = userService.getUsersByBand(band, pageable);
+        // Page<RepertappUserResponseBody> users = userService.getUsersByBand(band, pageable);
 
-        return ResponseEntity.ok(users);
+        // return ResponseEntity.ok(users);
+        return null;
     }
 }
