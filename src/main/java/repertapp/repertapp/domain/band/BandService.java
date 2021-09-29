@@ -19,20 +19,20 @@ public class BandService {
 
     private final BandRepository bandRepository;
 
+    public Band findByIdAndValidAccess(Long id, RepertappUser user) {
+        Band band = findByIdOrThrowResourceNotFoundException(id);
+        
+        if (band.getMembers().stream().noneMatch(u -> u.getId().equals(user.getId())))
+        throw new NoPermissionException("User", user.getUsername(), "Band", id);
+        
+        return band;
+    }
+    
     private Band findByIdOrThrowResourceNotFoundException(Long id) {
         return bandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Band", "id", id));
     }
     
-    public Band findByIdAndValidAccess(Long id, RepertappUser user) {
-        Band band = findByIdOrThrowResourceNotFoundException(id);
-
-        if (band.getMembers().stream().noneMatch(u -> u.getId().equals(user.getId())))
-            throw new NoPermissionException("User", user.getUsername(), "Band", id);
-
-        return band;
-    }
-
     /**
      * Creates band and add user auth in the members array
      * @param bandRequest

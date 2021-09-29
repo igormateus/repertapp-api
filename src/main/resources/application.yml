@@ -31,5 +31,5 @@ logging:
         org:
             springframework: ERROR
             hibernate:
-                SQL: DEBUG
+                # SQL: DEBUG
                 # type: trace
