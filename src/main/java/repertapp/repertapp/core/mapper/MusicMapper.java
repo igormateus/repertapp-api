@@ -16,5 +16,5 @@ public abstract class MusicMapper {
     public abstract Music toMusic(MusicPostRequestBody music);
     public abstract Music toMusic(MusicPutRequestBody music);
     
-    public abstract MusicResponseBody toMusicResponseBody(Music musicSaved);
+    public abstract MusicResponseBody toMusicResponseBody(Music music);
 }

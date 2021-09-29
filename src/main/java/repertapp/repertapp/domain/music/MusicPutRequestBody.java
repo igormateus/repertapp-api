@@ -34,7 +34,7 @@ public class MusicPutRequestBody {
     private Tone tone;
 
     @NotNull
-    private boolean isKnown;
+    private Boolean known;
 
     @NotNull
     private int score;

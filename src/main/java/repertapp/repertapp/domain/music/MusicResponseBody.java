@@ -31,7 +31,7 @@ public class MusicResponseBody {
     private Tone tone;
 
     @JsonView(View.Summary.class)
-    private boolean isKnown;
+    private boolean known;
 
     @JsonView(View.Summary.class)
     private int score;
@@ -39,7 +39,7 @@ public class MusicResponseBody {
     @JsonView(View.Summary.class)
     private int counterPlay;
 
-    @JsonView(View.Summary.class)
+    @JsonView(View.Complete.class)
     private BandResponseBody band;
 
     @JsonView(View.Complete.class)

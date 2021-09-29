@@ -30,7 +30,7 @@ public class MusicPostRequestBody {
     @NotNull
     private Tone tone;
 
-    private boolean isKnown;
+    private Boolean known;
 
     private Band band;
 

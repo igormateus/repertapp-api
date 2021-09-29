@@ -59,9 +59,9 @@ public class RepertappUserController {
     public ResponseEntity<RepertappUserResponseBody> getUser(
         @PathVariable Long id, @AuthenticationPrincipal RepertappUser user
     ) {
-        RepertappUserResponseBody userResponse = userService.getUser(id, user);
+        RepertappUserResponseBody response = userService.getUser(id, user);
 
-        return ResponseEntity.ok(userResponse);
+        return ResponseEntity.ok(response);
     }
 
     /**
