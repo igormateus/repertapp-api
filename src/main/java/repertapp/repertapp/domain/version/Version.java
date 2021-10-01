@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -67,7 +66,7 @@ public class Version {
     private Band band;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "setlist_version",
         joinColumns = @JoinColumn(name = "version_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "setlist_id", referencedColumnName = "id"),

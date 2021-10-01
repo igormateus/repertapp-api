@@ -35,7 +35,7 @@ public class MusicController {
     private final MusicService musicService;
 
     /**
-     * Creates a new Music and respond his body
+     * Creates a new Music and respond its body
      * @param bandId
      * @param music
      * @param userAuth
@@ -98,8 +98,11 @@ public class MusicController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMusic(@PathVariable(name = "bandId") Long bandId, @PathVariable Long id,
-            @AuthenticationPrincipal RepertappUser user) {
+    public ResponseEntity<Void> deleteMusic(
+        @PathVariable(name = "bandId") Long bandId, 
+        @PathVariable Long id,
+        @AuthenticationPrincipal RepertappUser user
+    ) {
         musicService.deleteMusic(id, bandId, user);
 
         return ResponseEntity.noContent().build();

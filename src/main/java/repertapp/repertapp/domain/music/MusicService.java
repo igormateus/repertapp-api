@@ -27,7 +27,7 @@ public class MusicService {
                 .orElseThrow(() -> new ResourceNotFoundException("Music", "id", id));
     }
 
-    private Music findByIdAndValidAccess(Long id, Band band) {
+    public Music findByIdAndValidAccess(Long id, Band band) {
         Music music = findByIdOrThrowResourceNotFoundException(id);
 
         if (music.getBand().getId() != band.getId())

@@ -2,6 +2,8 @@ package repertapp.repertapp.api.controller;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,56 +19,110 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import repertapp.repertapp.api.view.View;
 import repertapp.repertapp.domain.user.RepertappUser;
-import repertapp.repertapp.domain.version.Version;
 import repertapp.repertapp.domain.version.VersionPostRequestBody;
 import repertapp.repertapp.domain.version.VersionPutRequestBody;
+import repertapp.repertapp.domain.version.VersionResponseBody;
 import repertapp.repertapp.domain.version.VersionService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/bands/{bandId}/versions/")
+@RequestMapping("/api/bands/{bandId}/versions")
 public class VersionController {
     
     private final VersionService versionService;
 
+    /**
+     * Creates a new Version and respond its body
+     * @param bandId
+     * @param version
+     * @param userAuth
+     * @return
+     */
+    @JsonView(View.Summary.class)
     @PostMapping
-    public ResponseEntity<Version> addVersion(@PathVariable(name = "bandId") Long bandId,
-            @Valid @RequestBody VersionPostRequestBody version, @AuthenticationPrincipal RepertappUser user) {
-        Version versionSaved = versionService.addVersion(version, bandId, user);
+    public ResponseEntity<VersionResponseBody> addVersion(
+        @PathVariable(name = "bandId") Long bandId,
+        @Valid @RequestBody VersionPostRequestBody version,
+        @AuthenticationPrincipal RepertappUser userAuth
+    ) {
+        VersionResponseBody response = versionService.addVersion(version, bandId, userAuth);
 
-        return new ResponseEntity<>(versionSaved, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Void> updateVersion(@PathVariable(name = "bandId") Long bandId,
-            @Valid @RequestBody VersionPutRequestBody version, @AuthenticationPrincipal RepertappUser user) {
-        versionService.updateVersion(version, bandId, user);
-
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVersion(@PathVariable(name = "bandId") Long bandId, @PathVariable Long id, 
-            @AuthenticationPrincipal RepertappUser user) {
-        versionService.deleteVersion(id, bandId, user);
-
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping
-    public ResponseEntity<Page<Version>> getAllVersions(@PathVariable(name = "bandId") Long bandId,
-            @AuthenticationPrincipal RepertappUser user, Pageable pageable) {
-        Page<Version> response = versionService.getAllVersions(bandId, user, pageable);
-
-        return ResponseEntity.ok(response);
-    }
-
+    /**
+     * Returns a Version by ID
+     * @param bandId
+     * @param id
+     * @param userAuth
+     * @return
+     */
+    @JsonView(View.Complete.class)
     @GetMapping("/{id}")
-    public ResponseEntity<Version> getVersion(@PathVariable(name = "bandId") Long bandId, @PathVariable Long id, 
-            @AuthenticationPrincipal RepertappUser user) {
-        Version version = versionService.getVersion(id, bandId, user);
+    public ResponseEntity<VersionResponseBody> getVersion(
+        @PathVariable(name = "bandId") Long bandId,
+        @PathVariable Long id, 
+        @AuthenticationPrincipal RepertappUser userAuth
+    ) {
+        VersionResponseBody version = versionService.getVersion(id, bandId, userAuth);
 
         return ResponseEntity.ok(version);
+    }
+
+    /**
+     * update a version
+     * @param bandId
+     * @param version
+     * @param userAuth
+     * @return
+     */
+    @PutMapping
+    public ResponseEntity<Void> updateVersion(
+        @PathVariable(name = "bandId") Long bandId,
+        @Valid @RequestBody VersionPutRequestBody version,
+        @AuthenticationPrincipal RepertappUser userAuth
+    ) {
+        versionService.updateVersion(version, bandId, userAuth);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Delete a version
+     * @param bandId
+     * @param id
+     * @param userAuth
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVersion(
+        @PathVariable(name = "bandId") Long bandId,
+        @PathVariable Long id, 
+        @AuthenticationPrincipal RepertappUser userAuth
+    ) {
+        versionService.deleteVersion(id, bandId, userAuth);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Return all versions by band
+     * @param bandId
+     * @param user
+     * @param pageable
+     * @return
+     */
+    @JsonView(View.Summary.class)
+    @GetMapping
+    public ResponseEntity<Page<VersionResponseBody>> getAllVersions(
+        @PathVariable(name = "bandId") Long bandId,
+        @AuthenticationPrincipal RepertappUser user, 
+        Pageable pageable
+    ) {
+        Page<VersionResponseBody> versions = versionService.getAllVersions(bandId, user, pageable);
+
+        return ResponseEntity.ok(versions);
     }
 }

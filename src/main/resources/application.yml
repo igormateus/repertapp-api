@@ -5,7 +5,7 @@ spring:
         password: teste_repertapp
     jpa:
         # database-platform: org.hibernate.dialect.PostgreSQL94Dialect
-        show-sql: true
+        # show-sql: true
         hibernate:
             ddl-auto: update # create-drop / update
         
@@ -31,5 +31,5 @@ logging:
         org:
             springframework: ERROR
             hibernate:
-                # SQL: DEBUG
+                SQL: DEBUG
                 # type: trace

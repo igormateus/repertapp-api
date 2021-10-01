@@ -10,7 +10,6 @@ import repertapp.repertapp.domain.music.Music;
 
 @Data
 public class VersionPostRequestBody {
-    @NotNull
     private Tone tone;
 
     @NotNull

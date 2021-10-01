@@ -23,7 +23,7 @@ public class BandService {
         Band band = findByIdOrThrowResourceNotFoundException(id);
         
         if (band.getMembers().stream().noneMatch(u -> u.getId().equals(user.getId())))
-        throw new NoPermissionException("User", user.getUsername(), "Band", id);
+            throw new NoPermissionException("User", user.getId(), "Band", id);
         
         return band;
     }
